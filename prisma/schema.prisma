@@ -1,0 +1,108 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(USER)
+
+  reviews   Review[]
+  likes     ReviewLike[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Brand {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  logo      String?
+
+  gadgets   Gadget[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  name      String   @unique
+
+  gadgets   Gadget[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Gadget {
+  id          String   @id @default(cuid())
+  name        String
+  model       String
+  description String
+  image       String?
+  releaseYear Int?
+
+  brandId     String
+  categoryId  String
+
+  brand        Brand      @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  category     Category   @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  reviews      Review[]
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Review {
+  id       String @id @default(cuid())
+
+  title    String
+  review   String @db.Text
+  rating   Int
+
+  userId   String
+  gadgetId String
+
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  gadget    Gadget  @relation(fields: [gadgetId], references: [id], onDelete: Cascade)
+
+  likes     ReviewLike[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, gadgetId])
+}
+
+model ReviewLike {
+  id        String   @id @default(cuid())
+
+  userId    String
+  reviewId  String
+
+  user       User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  review     Review  @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, reviewId])
+}
