@@ -59,23 +59,30 @@ model Category {
 }
 
 model Gadget {
-  id          String   @id @default(cuid())
-  name        String
-  model       String
-  description String
-  image       String?
-  releaseYear Int?
+  id            String   @id @default(cuid())
 
-  brandId     String
-  categoryId  String
+  name          String
+  slug          String   @unique
+  model         String
+  description   String
 
-  brand        Brand      @relation(fields: [brandId], references: [id], onDelete: Cascade)
-  category     Category   @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  image         String?
+  releaseYear   Int?
 
-  reviews      Review[]
+  avgRating     Float    @default(0)
 
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  brandId       String
+  categoryId    String
+
+  brand         Brand      @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  category      Category   @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  reviews       Review[]
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([name, model])
 }
 
 model Review {

@@ -164,14 +164,12 @@ export async function PUT(
                     ],
                 },
             });
-
         if (duplicate) {
             return errorResponse(
                 "Category already exists",
                 409
             );
         }
-
         const updatedCategory =
             await prisma.category.update({
                 where: {
@@ -184,20 +182,16 @@ export async function PUT(
                         description || null,
                 },
             });
-
         return successResponse(
             "Category updated successfully",
             updatedCategory,
             200
         );
-
     } catch (error) {
-
         console.error(
             "Update Category Error:",
             error
         );
-
         return errorResponse(
             "Internal Server Error",
             500
@@ -216,48 +210,38 @@ export async function DELETE(
     { params }
 ) {
     try {
-
         const user =
             await authenticate(request);
-
         requireAdmin(user);
-
         const { slug } =
             await params;
-
         const category =
             await prisma.category.findUnique({
                 where: {
                     slug,
                 },
             });
-
         if (!category) {
             return errorResponse(
                 "Category not found",
                 404
             );
         }
-
         await prisma.category.delete({
             where: {
                 slug,
             },
         });
-
         return successResponse(
             "Category deleted successfully",
             null,
             200
         );
-
     } catch (error) {
-
         console.error(
             "Delete Category Error:",
             error
         );
-
         return errorResponse(
             "Internal Server Error",
             500
