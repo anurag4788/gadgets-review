@@ -26,6 +26,7 @@ model User {
 
   reviews   Review[]
   likes     ReviewLike[]
+  wishlists Wishlist[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -78,6 +79,7 @@ model Gadget {
   category      Category   @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
   reviews       Review[]
+  wishlists Wishlist[]
 
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
@@ -120,4 +122,23 @@ model ReviewLike {
   createdAt DateTime @default(now())
 
   @@unique([userId, reviewId])
+}
+
+model Wishlist {
+
+  id        String   @id @default(cuid())
+
+  userId    String
+  gadgetId  String
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  gadget    Gadget   @relation(fields: [gadgetId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, gadgetId])
+
+  @@index([userId])
+  @@index([gadgetId])
+
 }

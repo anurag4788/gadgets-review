@@ -13,6 +13,9 @@ import {
     successResponse,
     errorResponse,
 } from "@/utils/apiResponse";
+import cloudinary, {
+    getPublicIdFromUrl,
+} from "@/lib/cloudinary";
 
 // GET SINGLE BRAND
 export async function GET(
@@ -119,6 +122,30 @@ export async function PUT(
                 404
             );
         }
+
+        // Delete old logo if replaced
+
+if (
+    logo &&
+    brand.logo &&
+    logo !== brand.logo
+) {
+
+    const oldPublicId =
+        getPublicIdFromUrl(
+            brand.logo
+        );
+
+
+    if (oldPublicId) {
+
+        await cloudinary.uploader.destroy(
+            oldPublicId
+        );
+
+    }
+
+}
         const updatedBrand =
             await prisma.brand.update({
                 where:{
@@ -165,35 +192,75 @@ export async function DELETE(
         const { slug } =
             await params;
         const brand =
-            await prisma.brand.findUnique({
-                where:{
-                    slug,
-                },
-            });
+    await prisma.brand.findUnique({
+        where: {
+            slug,
+        },
+
+        select: {
+            id: true,
+            name: true,
+            slug: true,
+            logo: true,
+        },
+    });
         if(!brand){
             return errorResponse(
                 "Brand not found",
                 404
             );
         }
+        if (brand.logo) {
+
+    const publicId =
+        getPublicIdFromUrl(
+            brand.logo
+        );
+
+    if (publicId) {
+
+        await cloudinary.uploader.destroy(
+            publicId
+        );
+
+    }
+
+}
         await prisma.brand.delete({
-            where:{
-                slug,
-            },
-        });
+    where: {
+        id: brand.id,
+    },
+});
         return successResponse(
             "Brand deleted successfully",
             null,
             200
         );
-    } catch(error) {
-        console.error(
-            "Delete Brand Error",
-            error
-        );
+    } catch (error) {
+
+    if (error.message === "Unauthorized") {
         return errorResponse(
-            "Internal Server Error",
-            500
+            "Unauthorized",
+            401
         );
     }
+
+    if (error.message === "Forbidden") {
+        return errorResponse(
+            "Forbidden",
+            403
+        );
+    }
+
+    console.error(
+        "Delete Brand Error:",
+        error
+    );
+
+    return errorResponse(
+        "Internal Server Error",
+        500
+    );
+
+}
 }

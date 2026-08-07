@@ -1,7 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { authenticate, requireAdmin } from "@/lib/auth";
 import { createSlug } from "@/lib/slug";
-import { gadgetSchema } from "@/validations/gadgetValidations";
+import cloudinary, { getPublicIdFromUrl } from "@/lib/cloudinary";
+import { createGadgetSchema } from "@/validations/gadgetValidations";
 import {
     successResponse,
     errorResponse,
@@ -99,7 +100,7 @@ export async function PUT(request, { params }) {
             await request.json();
 
         const parsedData =
-            gadgetSchema.safeParse(body);
+            createGadgetSchema.safeParse(body);
 
         if (!parsedData.success) {
             return errorResponse(
@@ -221,7 +222,31 @@ export async function PUT(request, { params }) {
                 409
             );
         }
-                // Update Gadget
+
+        // Delete old image if replaced
+
+        if (
+            image &&
+            gadget.image &&
+            image !== gadget.image
+        ) {
+
+            const oldPublicId =
+                getPublicIdFromUrl(
+                    gadget.image
+                );
+
+
+            if (oldPublicId) {
+
+                await cloudinary.uploader.destroy(
+                    oldPublicId
+                );
+
+            }
+
+        }
+        // Update Gadget
 
         const updatedGadget =
             await prisma.gadget.update({
@@ -332,6 +357,8 @@ export async function DELETE(
                     id: true,
                     name: true,
                     slug: true,
+                    image: true,
+
                 },
             });
 
@@ -342,6 +369,25 @@ export async function DELETE(
             );
         }
 
+        // Delete Cloudinary image
+
+        if (gadget.image) {
+
+            const publicId =
+                getPublicIdFromUrl(
+                    gadget.image
+                );
+
+
+            if (publicId) {
+
+                await cloudinary.uploader.destroy(
+                    publicId
+                );
+
+            }
+
+        }
         await prisma.gadget.delete({
             where: {
                 id: gadget.id,

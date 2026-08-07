@@ -14,16 +14,12 @@ import {
     errorResponse,
 } from "@/utils/apiResponse";
 
-
-
 // =========================================
 // CREATE GADGET
 // =========================================
 
 export async function POST(request) {
-
     try {
-
         // Authenticate Admin
 
         const user =
@@ -101,7 +97,6 @@ export async function POST(request) {
                 404
             );
         }
-
         // Check Category
 
         const category =
@@ -173,7 +168,6 @@ export async function POST(request) {
 
 export async function GET(request) {
     try {
-
         const { searchParams } =
             new URL(request.url);
 
@@ -193,7 +187,6 @@ export async function GET(request) {
             ),
             50
         );
-
         const search =
             searchParams.get("search")?.trim() || "";
 
@@ -217,50 +210,35 @@ export async function GET(request) {
         // -------------------------
 
         const where = {};
-
         if (search) {
-
             where.OR = [
-
                 {
                     name: {
                         contains: search,
                         mode: "insensitive",
                     },
                 },
-
                 {
                     model: {
                         contains: search,
                         mode: "insensitive",
                     },
                 },
-
             ];
-
         }
-
         if (brand) {
-
             where.brand = {
                 slug: brand,
             };
-
         }
-
         if (category) {
-
             where.category = {
                 slug: category,
             };
-
         }
-
         if (year) {
-
             where.releaseYear =
                 Number(year);
-
         }
 
         // -------------------------
@@ -270,55 +248,36 @@ export async function GET(request) {
         let orderBy = {
             createdAt: "desc",
         };
-
         switch (sort) {
-
             case "highest":
-
                 orderBy = {
                     avgRating: "desc",
                 };
-
                 break;
-
             case "lowest":
-
                 orderBy = {
                     avgRating: "asc",
                 };
-
                 break;
-
             case "oldest":
-
                 orderBy = {
                     createdAt: "asc",
                 };
-
                 break;
-
             case "az":
-
                 orderBy = {
                     name: "asc",
                 };
-
                 break;
-
             case "za":
-
                 orderBy = {
                     name: "desc",
                 };
-
                 break;
-
             default:
-
                 orderBy = {
                     createdAt: "desc",
                 };
-
         }
 
         // -------------------------
@@ -327,122 +286,71 @@ export async function GET(request) {
 
         const [total, gadgets] =
             await Promise.all([
-
                 prisma.gadget.count({
                     where,
                 }),
-
                 prisma.gadget.findMany({
-
                     where,
-
                     select: {
-
                         id: true,
-
                         name: true,
-
                         slug: true,
-
                         model: true,
-
                         image: true,
-
                         avgRating: true,
-
                         releaseYear: true,
-
                         createdAt: true,
-
                         brand: {
-
                             select: {
-
                                 id: true,
-
                                 name: true,
-
                                 slug: true,
-
                             },
-
                         },
-
                         category: {
-
                             select: {
-
                                 id: true,
-
                                 name: true,
-
                                 slug: true,
-
                             },
-
                         },
-
                     },
-
                     orderBy,
-
                     skip,
-
                     take: limit,
-
                 }),
-
             ]);
-
         // -------------------------
         // Response
         // -------------------------
 
         return successResponse(
-
             "Gadgets fetched successfully",
-
             {
-
                 gadgets,
-
                 pagination: {
-
                     totalItems: total,
-
                     currentPage: page,
-
                     totalPages:
                         Math.ceil(total / limit),
-
                     limit,
-
                     hasNextPage:
                         page <
                         Math.ceil(total / limit),
-
                     hasPreviousPage:
                         page > 1,
-
                 },
-
             },
-
             200
-
         );
-
     } catch (error) {
-
         console.error(
             "Get Gadgets Error:",
             error
         );
-
         return errorResponse(
             "Internal Server Error",
             500
         );
-
     }
 }
