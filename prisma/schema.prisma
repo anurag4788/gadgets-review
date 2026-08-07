@@ -104,8 +104,10 @@ model Review {
   updatedAt DateTime @updatedAt
 
   @@unique([userId, gadgetId])
-}
 
+  @@index([gadgetId])
+  @@index([userId])
+}
 model ReviewLike {
   id        String   @id @default(cuid())
 

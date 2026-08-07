@@ -1,6 +1,7 @@
 import { z } from "zod";
 
-export const gadgetSchema = z.object({
+const gadgetFields = {
+
     name: z
         .string()
         .trim()
@@ -41,4 +42,11 @@ export const gadgetSchema = z.object({
     categoryId: z
         .string()
         .min(1, "Category is required"),
-});
+
+};
+
+export const createGadgetSchema =
+    z.object(gadgetFields);
+
+export const updateGadgetSchema =
+    z.object(gadgetFields);
