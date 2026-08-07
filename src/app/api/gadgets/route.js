@@ -7,7 +7,7 @@ import {
 
 import { createSlug } from "@/lib/slug";
 
-import { gadgetSchema } from "@/validations/gadgetValidations";
+import { createGadgetSchema } from "@/validations/gadgetValidations";
 
 import {
     successResponse,
@@ -36,7 +36,7 @@ export async function POST(request) {
             await request.json();
         // Validation
         const result =
-            gadgetSchema.safeParse(body);
+            createGadgetSchema.safeParse(body);
         if (!result.success) {
             return errorResponse(
                 result.error.issues[0].message,
@@ -172,7 +172,6 @@ export async function POST(request) {
 // =========================================
 
 export async function GET(request) {
-
     try {
 
         const { searchParams } =
@@ -182,17 +181,30 @@ export async function GET(request) {
         // Query Parameters
         // -------------------------
 
-        const page = Number(searchParams.get("page")) || 1;
+        const page = Math.max(
+            Number(searchParams.get("page")) || 1,
+            1
+        );
 
-        const limit =  Number(searchParams.get("limit")) || 10;
+        const limit = Math.min(
+            Math.max(
+                Number(searchParams.get("limit")) || 10,
+                1
+            ),
+            50
+        );
 
-        const search =  searchParams.get("search") || "";
+        const search =
+            searchParams.get("search")?.trim() || "";
 
         const brand =
-            searchParams.get("brand") || "";
+            searchParams.get("brand")?.trim() || "";
 
         const category =
-            searchParams.get("category") || "";
+            searchParams.get("category")?.trim() || "";
+
+        const year =
+            searchParams.get("year");
 
         const sort =
             searchParams.get("sort") || "newest";
@@ -203,9 +215,13 @@ export async function GET(request) {
         // -------------------------
         // Filters
         // -------------------------
+
         const where = {};
+
         if (search) {
+
             where.OR = [
+
                 {
                     name: {
                         contains: search,
@@ -219,18 +235,34 @@ export async function GET(request) {
                         mode: "insensitive",
                     },
                 },
+
             ];
+
         }
+
         if (brand) {
+
             where.brand = {
                 slug: brand,
             };
+
         }
+
         if (category) {
+
             where.category = {
                 slug: category,
             };
+
         }
+
+        if (year) {
+
+            where.releaseYear =
+                Number(year);
+
+        }
+
         // -------------------------
         // Sorting
         // -------------------------
@@ -238,97 +270,179 @@ export async function GET(request) {
         let orderBy = {
             createdAt: "desc",
         };
+
         switch (sort) {
-            case "oldest":
-                orderBy = {
-                    createdAt: "asc",
-                };
-                break;
-            case "name":
-                orderBy = {
-                    name: "asc",
-                };
-                break;
-            case "rating":
+
+            case "highest":
+
                 orderBy = {
                     avgRating: "desc",
                 };
+
                 break;
+
+            case "lowest":
+
+                orderBy = {
+                    avgRating: "asc",
+                };
+
+                break;
+
+            case "oldest":
+
+                orderBy = {
+                    createdAt: "asc",
+                };
+
+                break;
+
+            case "az":
+
+                orderBy = {
+                    name: "asc",
+                };
+
+                break;
+
+            case "za":
+
+                orderBy = {
+                    name: "desc",
+                };
+
+                break;
+
             default:
+
                 orderBy = {
                     createdAt: "desc",
                 };
+
         }
+
         // -------------------------
-        // Total Count
-        // -------------------------
-        const total =
-            await prisma.gadget.count({
-                where,
-            });
-        // -------------------------
-        // Fetch Gadgets
+        // Fetch Data
         // -------------------------
 
-        const gadgets = await prisma.gadget.findMany({
-    where,
+        const [total, gadgets] =
+            await Promise.all([
 
-    select: {
-        id: true,
-        name: true,
-        slug: true,
-        model: true,
-        image: true,
-        avgRating: true,
-        releaseYear: true,
-        createdAt: true,
+                prisma.gadget.count({
+                    where,
+                }),
 
-        brand: {
-            select: {
-                id: true,
-                name: true,
-                slug: true,
-            },
-        },
+                prisma.gadget.findMany({
 
-        category: {
-            select: {
-                id: true,
-                name: true,
-                slug: true,
-            },
-        },
-    },
-    orderBy,
-    skip,
-    take: limit,
-});
+                    where,
+
+                    select: {
+
+                        id: true,
+
+                        name: true,
+
+                        slug: true,
+
+                        model: true,
+
+                        image: true,
+
+                        avgRating: true,
+
+                        releaseYear: true,
+
+                        createdAt: true,
+
+                        brand: {
+
+                            select: {
+
+                                id: true,
+
+                                name: true,
+
+                                slug: true,
+
+                            },
+
+                        },
+
+                        category: {
+
+                            select: {
+
+                                id: true,
+
+                                name: true,
+
+                                slug: true,
+
+                            },
+
+                        },
+
+                    },
+
+                    orderBy,
+
+                    skip,
+
+                    take: limit,
+
+                }),
+
+            ]);
+
         // -------------------------
         // Response
         // -------------------------
+
         return successResponse(
+
             "Gadgets fetched successfully",
+
             {
+
                 gadgets,
+
                 pagination: {
-                    total,
-                    page,
-                    limit,
+
+                    totalItems: total,
+
+                    currentPage: page,
+
                     totalPages:
                         Math.ceil(total / limit),
+
+                    limit,
+
+                    hasNextPage:
+                        page <
+                        Math.ceil(total / limit),
+
+                    hasPreviousPage:
+                        page > 1,
+
                 },
+
             },
+
             200
+
         );
-    }
-    catch (error) {
+
+    } catch (error) {
+
         console.error(
             "Get Gadgets Error:",
             error
         );
+
         return errorResponse(
             "Internal Server Error",
             500
         );
+
     }
 }
