@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.7.1",
     "@prisma/client": "^6.19.3",
     "axios": "^1.19.0",
     "bcryptjs": "^3.0.3",
@@ -16,6 +17,7 @@
     "cookie": "^2.0.1",
     "dotenv": "^17.4.2",
     "jsonwebtoken": "^9.0.3",
+    "lucide-react": "^1.30.0",
     "multer": "^2.2.0",
     "next": "16.3.0",
     "next-connect": "^1.0.0",
@@ -23,6 +25,9 @@
     "prisma": "^6.19.3",
     "react": "19.2.8",
     "react-dom": "19.2.8",
+    "react-hook-form": "^7.84.0",
+    "react-hot-toast": "^2.6.0",
+    "swiper": "^14.1.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {

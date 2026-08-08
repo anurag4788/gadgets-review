@@ -1,0 +1,92 @@
+.container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.card {
+    width: 100%;
+    max-width: 420px;
+    padding: 32px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background: #fff;
+}
+
+.card h1 {
+    margin: 0;
+    text-align: center;
+}
+
+.subtitle {
+    margin: 8px 0 28px;
+    text-align: center;
+    color: #666;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.field label {
+    font-weight: 600;
+}
+
+.field input {
+    padding: 11px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+}
+
+.field input:focus {
+    outline: none;
+    border-color: #333;
+}
+
+.form button {
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background: #111;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.form button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.error {
+    margin: 0;
+    color: #d32f2f;
+    font-size: 14px;
+}
+
+.registerText {
+    margin: 24px 0 0;
+    text-align: center;
+    color: #666;
+}
+
+.registerText a {
+    color: #111;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.registerText a:hover {
+    text-decoration: underline;
+}
