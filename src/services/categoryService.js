@@ -1,11 +1,11 @@
 import api from "@/lib/api";
 
-const brandService = {
+const categoryService = {
 
     getAll() {
 
         return api.get(
-            "/brands"
+            "/categories"
         );
 
     },
@@ -13,7 +13,7 @@ const brandService = {
     getBySlug(slug) {
 
         return api.get(
-            `/brands/${slug}`
+            `/categories/${slug}`
         );
 
     },
@@ -21,7 +21,7 @@ const brandService = {
     create(data) {
 
         return api.post(
-            "/brands",
+            "/categories",
             data
         );
 
@@ -30,7 +30,7 @@ const brandService = {
     update(slug, data) {
 
         return api.put(
-            `/brands/${slug}`,
+            `/categories/${slug}`,
             data
         );
 
@@ -39,11 +39,11 @@ const brandService = {
     delete(slug) {
 
         return api.delete(
-            `/brands/${slug}`
+            `/categories/${slug}`
         );
 
     },
 
 };
 
-export default brandService;
+export default categoryService;

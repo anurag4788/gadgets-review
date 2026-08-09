@@ -3,6 +3,9 @@
 import { useEffect, useState } from "react";
 
 import gadgetService from "@/services/gadgetService";
+import brandService from "@/services/brandService";
+import categoryService from "@/services/categoryService";
+
 import GadgetCard from "@/components/gadgets/GadgetCard";
 
 import styles from "./page.module.css";
@@ -10,6 +13,9 @@ import styles from "./page.module.css";
 export default function GadgetsPage() {
 
     const [gadgets, setGadgets] = useState([]);
+
+    const [brands, setBrands] = useState([]);
+    const [categories, setCategories] = useState([]);
 
     const [pagination, setPagination] = useState({
         total: 0,
@@ -24,7 +30,67 @@ export default function GadgetsPage() {
     const [sort, setSort] = useState("newest");
 
     const [loading, setLoading] = useState(true);
+    const [filtersLoading, setFiltersLoading] =
+        useState(true);
+
     const [error, setError] = useState("");
+
+    /*
+    ==========================================
+    LOAD BRANDS + CATEGORIES
+    ==========================================
+    */
+
+    useEffect(() => {
+
+        async function loadFilters() {
+
+            try {
+
+                setFiltersLoading(true);
+
+                const [
+                    brandsResponse,
+                    categoriesResponse,
+                ] = await Promise.all([
+
+                    brandService.getAll(),
+
+                    categoryService.getAll(),
+
+                ]);
+
+                setBrands(
+                    brandsResponse.data.data.brands
+                );
+
+                setCategories(
+                    categoriesResponse.data.data
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Load Filters Error:",
+                    error
+                );
+
+            } finally {
+
+                setFiltersLoading(false);
+
+            }
+        }
+
+        loadFilters();
+
+    }, []);
+
+    /*
+    ==========================================
+    LOAD GADGETS
+    ==========================================
+    */
 
     async function loadGadgets(page = 1) {
 
@@ -35,19 +101,31 @@ export default function GadgetsPage() {
 
             const response =
                 await gadgetService.getAll({
+
                     page,
+
                     limit: 10,
+
                     search,
+
                     brand,
+
                     category,
+
                     sort,
+
                 });
 
             const data =
                 response.data.data;
 
-            setGadgets(data.gadgets);
-            setPagination(data.pagination);
+            setGadgets(
+                data.gadgets
+            );
+
+            setPagination(
+                data.pagination
+            );
 
         } catch (error) {
 
@@ -63,21 +141,46 @@ export default function GadgetsPage() {
         } finally {
 
             setLoading(false);
+
         }
+
     }
+
+    /*
+    ==========================================
+    FILTER / SORT CHANGE
+    ==========================================
+    */
 
     useEffect(() => {
 
         loadGadgets(1);
 
-    }, [brand, category, sort]);
+    }, [
+        brand,
+        category,
+        sort,
+    ]);
+
+    /*
+    ==========================================
+    SEARCH
+    ==========================================
+    */
 
     function handleSearch(event) {
 
         event.preventDefault();
 
         loadGadgets(1);
+
     }
+
+    /*
+    ==========================================
+    CLEAR FILTERS
+    ==========================================
+    */
 
     function clearFilters() {
 
@@ -89,13 +192,16 @@ export default function GadgetsPage() {
     }
 
     return (
+
         <main className={styles.main}>
 
             <h1 className={styles.title}>
                 All Gadgets
             </h1>
 
-            {/* Search and Filters */}
+            {/* =================================
+                SEARCH
+            ================================= */}
 
             <section className={styles.filters}>
 
@@ -110,7 +216,9 @@ export default function GadgetsPage() {
                         placeholder="Search gadgets..."
                         value={search}
                         onChange={(event) =>
-                            setSearch(event.target.value)
+                            setSearch(
+                                event.target.value
+                            )
                         }
                     />
 
@@ -123,65 +231,88 @@ export default function GadgetsPage() {
 
                 </form>
 
+                {/* =================================
+                    FILTERS
+                ================================= */}
+
                 <div className={styles.filterRow}>
+
+                    {/* BRAND */}
 
                     <select
                         className={styles.select}
                         value={brand}
+                        disabled={filtersLoading}
                         onChange={(event) =>
-                            setBrand(event.target.value)
+                            setBrand(
+                                event.target.value
+                            )
                         }
                     >
+
                         <option value="">
                             All Brands
                         </option>
 
-                        <option value="apple">
-                            Apple
-                        </option>
+                        {brands.map(
+                            (brandItem) => (
 
-                        <option value="dell">
-                            Dell
-                        </option>
+                                <option
+                                    key={brandItem.id}
+                                    value={brandItem.slug}
+                                >
+                                    {brandItem.name}
+                                </option>
 
-                        <option value="lenovo">
-                            Lenovo
-                        </option>
-
-                        <option value="oneplus">
-                            OnePlus
-                        </option>
+                            )
+                        )}
 
                     </select>
+
+                    {/* CATEGORY */}
 
                     <select
                         className={styles.select}
                         value={category}
+                        disabled={filtersLoading}
                         onChange={(event) =>
-                            setCategory(event.target.value)
+                            setCategory(
+                                event.target.value
+                            )
                         }
                     >
+
                         <option value="">
                             All Categories
                         </option>
 
-                        <option value="smartphones">
-                            Smartphones
-                        </option>
+                        {categories.map(
+                            (categoryItem) => (
 
-                        <option value="laptops">
-                            Laptops
-                        </option>
+                                <option
+                                    key={categoryItem.id}
+                                    value={categoryItem.slug}
+                                >
+                                    {categoryItem.name}
+                                </option>
+
+                            )
+                        )}
 
                     </select>
+
+                    {/* SORT */}
 
                     <select
                         className={styles.select}
                         value={sort}
                         onChange={(event) =>
-                            setSort(event.target.value)
+                            setSort(
+                                event.target.value
+                            )
                         }
                     >
+
                         <option value="newest">
                             Newest
                         </option>
@@ -212,19 +343,29 @@ export default function GadgetsPage() {
 
             </section>
 
+            {/* RESULT COUNT */}
+
             <p className={styles.resultCount}>
                 {pagination.total} gadgets found
             </p>
 
+            {/* LOADING */}
+
             {loading && (
-                <p>Loading gadgets...</p>
+                <p>
+                    Loading gadgets...
+                </p>
             )}
+
+            {/* ERROR */}
 
             {!loading && error && (
                 <p className={styles.error}>
                     {error}
                 </p>
             )}
+
+            {/* GADGETS */}
 
             {!loading && !error && (
 
@@ -240,10 +381,12 @@ export default function GadgetsPage() {
 
                         gadgets.map(
                             (gadget) => (
+
                                 <GadgetCard
                                     key={gadget.id}
                                     gadget={gadget}
                                 />
+
                             )
                         )
 
@@ -253,10 +396,14 @@ export default function GadgetsPage() {
 
             )}
 
+            {/* PAGINATION */}
+
             {!loading &&
                 pagination.totalPages > 1 && (
 
-                <div className={styles.pagination}>
+                <div
+                    className={styles.pagination}
+                >
 
                     <button
                         disabled={
@@ -291,8 +438,11 @@ export default function GadgetsPage() {
                     </button>
 
                 </div>
+
             )}
 
         </main>
+
     );
+
 }
