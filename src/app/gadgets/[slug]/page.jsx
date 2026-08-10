@@ -5,7 +5,9 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 
 import gadgetService from "@/services/gadgetService";
-import reviewService from "@/services/revielwService";
+import reviewService from "@/services/reviewService";
+import ReviewForm from "@/components/reviews/ReviewForm";
+import ReviewItem from "@/components/reviews/ReviewItem";
 
 import styles from "./page.module.css";
 
@@ -30,59 +32,111 @@ export default function GadgetDetailPage() {
     const [error, setError] =
         useState("");
 
+
     // ==========================================
     // LOAD GADGET
     // ==========================================
 
-    useEffect(() => {
+    async function loadGadget() {
 
-        async function loadGadget() {
+        try {
 
-            try {
+            setLoading(true);
 
-                setLoading(true);
+            setError("");
 
-                setError("");
-
-                const response =
-                    await gadgetService.getBySlug(
-                        slug
-                    );
-
-                setGadget(
-                    response.data.data
+            const response =
+                await gadgetService.getBySlug(
+                    slug
                 );
 
-            } catch (error) {
+            setGadget(
+                response.data.data
+            );
 
-                console.error(
-                    "Get Gadget Error:",
-                    error
+        } catch (error) {
+
+            console.error(
+                "Get Gadget Error:",
+                error
+            );
+
+            if (
+                error.response?.status === 404
+            ) {
+
+                setError(
+                    "Gadget not found."
                 );
 
-                if (
-                    error.response?.status === 404
-                ) {
+            } else {
 
-                    setError(
-                        "Gadget not found."
-                    );
-
-                } else {
-
-                    setError(
-                        "Failed to load gadget."
-                    );
-
-                }
-
-            } finally {
-
-                setLoading(false);
+                setError(
+                    "Failed to load gadget."
+                );
 
             }
 
+        } finally {
+
+            setLoading(false);
+
         }
+
+    }
+
+
+    // ==========================================
+    // LOAD REVIEWS
+    // ==========================================
+
+    async function loadReviews() {
+
+        if (!gadget?.id) {
+            return;
+        }
+
+        try {
+
+            setReviewsLoading(true);
+
+            const response =
+                await reviewService.getAll({
+
+                    gadgetId:
+                        gadget.id,
+
+                    page: 1,
+
+                    limit: 10,
+
+                });
+
+            setReviews(
+                response.data.data.reviews
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Get Reviews Error:",
+                error
+            );
+
+        } finally {
+
+            setReviewsLoading(false);
+
+        }
+
+    }
+
+
+    // ==========================================
+    // LOAD GADGET WHEN PAGE OPENS
+    // ==========================================
+
+    useEffect(() => {
 
         if (slug) {
 
@@ -94,47 +148,10 @@ export default function GadgetDetailPage() {
 
 
     // ==========================================
-    // LOAD REVIEWS
+    // LOAD REVIEWS AFTER GADGET LOADS
     // ==========================================
 
     useEffect(() => {
-
-        async function loadReviews() {
-
-            try {
-
-                setReviewsLoading(true);
-
-                const response =
-                    await reviewService.getAll({
-
-                        gadgetId:
-                            gadget.id,
-
-                        page: 1,
-
-                        limit: 10,
-
-                    });
-
-                setReviews(
-                    response.data.data.reviews
-                );
-
-            } catch (error) {
-
-                console.error(
-                    "Get Reviews Error:",
-                    error
-                );
-
-            } finally {
-
-                setReviewsLoading(false);
-
-            }
-
-        }
 
         if (gadget?.id) {
 
@@ -146,7 +163,7 @@ export default function GadgetDetailPage() {
 
 
     // ==========================================
-    // LOADING GADGET
+    // LOADING
     // ==========================================
 
     if (loading) {
@@ -192,7 +209,7 @@ export default function GadgetDetailPage() {
 
 
     // ==========================================
-    // GADGET NOT FOUND
+    // NOT FOUND
     // ==========================================
 
     if (!gadget) {
@@ -224,7 +241,7 @@ export default function GadgetDetailPage() {
 
         <main className={styles.main}>
 
-            {/* Back Button */}
+            {/* BACK */}
 
             <Link
                 href="/gadgets"
@@ -241,8 +258,6 @@ export default function GadgetDetailPage() {
             <section
                 className={styles.product}
             >
-
-                {/* IMAGE */}
 
                 <div
                     className={
@@ -270,8 +285,6 @@ export default function GadgetDetailPage() {
 
                 </div>
 
-
-                {/* INFORMATION */}
 
                 <div
                     className={styles.info}
@@ -420,8 +433,6 @@ export default function GadgetDetailPage() {
                 </h2>
 
 
-                {/* Loading */}
-
                 {reviewsLoading && (
 
                     <p>
@@ -430,8 +441,6 @@ export default function GadgetDetailPage() {
 
                 )}
 
-
-                {/* No Reviews */}
 
                 {!reviewsLoading &&
                     reviews.length === 0 && (
@@ -443,8 +452,6 @@ export default function GadgetDetailPage() {
                     )}
 
 
-                {/* Reviews */}
-
                 {!reviewsLoading &&
                     reviews.length > 0 && (
 
@@ -453,53 +460,32 @@ export default function GadgetDetailPage() {
                             {reviews.map(
                                 (review) => (
 
-                                    <article
+                                    <ReviewItem
                                         key={
                                             review.id
                                         }
-                                    >
+                                        review={
+                                            review
+                                        }
+                                        onReviewUpdated={
+                                            async () => {
 
-                                        <h3>
-                                            {
-                                                review.title
+                                                await loadReviews();
+
+                                                await loadGadget();
+
                                             }
-                                        </h3>
+                                        }
+                                        onReviewDeleted={
+                                            async () => {
 
+                                                await loadReviews();
 
-                                        <p>
-                                            ⭐{" "}
-                                            {
-                                                review.rating
+                                                await loadGadget();
+
                                             }
-                                        </p>
-
-
-                                        <p>
-                                            {
-                                                review.review
-                                            }
-                                        </p>
-
-
-                                        <p>
-                                            By{" "}
-                                            {
-                                                review.user
-                                                    .name
-                                            }
-                                        </p>
-
-
-                                        <p>
-                                            👍{" "}
-                                            {
-                                                review
-                                                    ._count
-                                                    .likes
-                                            }
-                                        </p>
-
-                                    </article>
+                                        }
+                                    />
 
                                 )
                             )}
@@ -510,9 +496,28 @@ export default function GadgetDetailPage() {
 
             </section>
 
+
+            {/* ==================================
+                WRITE REVIEW
+            ================================== */}
+
+            <ReviewForm
+                gadgetId={
+                    gadget.id
+                }
+                onReviewCreated={
+                    async () => {
+
+                        await loadReviews();
+
+                        await loadGadget();
+
+                    }
+                }
+            />
+
         </main>
 
     );
 
 }
-

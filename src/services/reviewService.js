@@ -13,6 +13,7 @@ const reviewService = {
 
     },
 
+
     create(data) {
 
         return api.post(
@@ -21,6 +22,7 @@ const reviewService = {
         );
 
     },
+
 
     update(id, data) {
 
@@ -31,6 +33,7 @@ const reviewService = {
 
     },
 
+
     delete(id) {
 
         return api.delete(
@@ -39,9 +42,18 @@ const reviewService = {
 
     },
 
+
     like(id) {
 
         return api.post(
+            `/reviews/${id}/like`
+        );
+
+    },
+
+    unlike(id) {
+
+        return api.delete(
             `/reviews/${id}/like`
         );
 

@@ -13,6 +13,10 @@ import {
 // GET REVIEWS
 // ==========================================
 
+// ==========================================
+// GET REVIEWS
+// ==========================================
+
 export async function GET(request) {
 
     try {
@@ -42,9 +46,43 @@ export async function GET(request) {
             (page - 1) * limit;
 
 
-        // -------------------------------
-        // Build filter
-        // -------------------------------
+        // ==========================================
+        // OPTIONAL AUTHENTICATION
+        // ==========================================
+
+        let currentUser = null;
+
+        try {
+
+            const authHeader =
+                request.headers.get(
+                    "Authorization"
+                );
+
+            if (
+                authHeader &&
+                authHeader.startsWith("Bearer ")
+            ) {
+
+                currentUser =
+                    await authenticate(request);
+
+            }
+
+        } catch (error) {
+
+            // GET reviews is public.
+            // Invalid/missing authentication
+            // should NOT prevent viewing reviews.
+
+            currentUser = null;
+
+        }
+
+
+        // ==========================================
+        // BUILD FILTER
+        // ==========================================
 
         const where = {};
 
@@ -56,9 +94,9 @@ export async function GET(request) {
         }
 
 
-        // -------------------------------
-        // Fetch reviews + total
-        // -------------------------------
+        // ==========================================
+        // FETCH REVIEWS + TOTAL
+        // ==========================================
 
         const [
             reviews,
@@ -74,7 +112,9 @@ export async function GET(request) {
                 take: limit,
 
                 orderBy: {
+
                     createdAt: "desc",
+
                 },
 
                 select: {
@@ -130,11 +170,96 @@ export async function GET(request) {
             }),
 
             prisma.review.count({
+
                 where,
+
             }),
 
         ]);
 
+
+        // ==========================================
+        // ADD isLiked
+        // ==========================================
+
+        let reviewsWithLikeStatus =
+            reviews;
+
+
+        if (currentUser) {
+
+            const reviewIds =
+                reviews.map(
+                    (review) => review.id
+                );
+
+            const userLikes =
+                await prisma.reviewLike.findMany({
+
+                    where: {
+
+                        userId:
+                            currentUser.id,
+
+                        reviewId: {
+
+                            in: reviewIds,
+
+                        },
+
+                    },
+
+                    select: {
+
+                        reviewId: true,
+
+                    },
+
+                });
+
+
+            const likedReviewIds =
+                new Set(
+                    userLikes.map(
+                        (like) =>
+                            like.reviewId
+                    )
+                );
+
+
+            reviewsWithLikeStatus =
+                reviews.map(
+                    (review) => ({
+
+                        ...review,
+
+                        isLiked:
+                            likedReviewIds.has(
+                                review.id
+                            ),
+
+                    })
+                );
+
+        } else {
+
+            reviewsWithLikeStatus =
+                reviews.map(
+                    (review) => ({
+
+                        ...review,
+
+                        isLiked: false,
+
+                    })
+                );
+
+        }
+
+
+        // ==========================================
+        // PAGINATION
+        // ==========================================
 
         const totalPages =
             Math.ceil(
@@ -148,7 +273,8 @@ export async function GET(request) {
 
             {
 
-                reviews,
+                reviews:
+                    reviewsWithLikeStatus,
 
                 pagination: {
 

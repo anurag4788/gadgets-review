@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { authenticate } from "@/lib/auth";
-import { reviewSchema } from "@/validations/reviewValidations";
+import { updateReviewSchema } from "@/validations/reviewValidations";
 import { updateAverageRating } from "@/lib/review";
 
 import {
@@ -91,7 +91,7 @@ export async function PUT(
             await request.json();
 
         const parsed =
-            reviewSchema.safeParse(body);
+            updateReviewSchema.safeParse(body);
 
         if (!parsed.success) {
             return errorResponse(
