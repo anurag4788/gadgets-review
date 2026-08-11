@@ -185,27 +185,35 @@ export async function GET(request) {
         );
 
 
-    } catch(error) {
+    } catch (error) {
 
-
-        console.error(
-
-            "Admin Dashboard Error:",
-
-            error
-
-        );
-
+    if (error.message === "Unauthorized") {
 
         return errorResponse(
-
-            "Internal Server Error",
-
-            500
-
+            "Unauthorized",
+            401
         );
-
 
     }
 
+    if (error.message === "Forbidden") {
+
+        return errorResponse(
+            "Admin access required",
+            403
+        );
+
+    }
+
+    console.error(
+        "Admin Dashboard Error:",
+        error
+    );
+
+    return errorResponse(
+        "Internal Server Error",
+        500
+    );
+
+}
 }

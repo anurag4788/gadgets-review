@@ -53,7 +53,7 @@ export function AuthProvider({
                 response.data.data
             );
 
-        } catch {
+        } catch (error){
             console.error(error);
 
 
