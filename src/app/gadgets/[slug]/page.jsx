@@ -3,12 +3,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-
 import gadgetService from "@/services/gadgetService";
 import reviewService from "@/services/reviewService";
 import ReviewForm from "@/components/reviews/ReviewForm";
 import ReviewItem from "@/components/reviews/ReviewItem";
-
 import styles from "./page.module.css";
 
 export default function GadgetDetailPage() {
@@ -31,6 +29,23 @@ export default function GadgetDetailPage() {
 
     const [error, setError] =
         useState("");
+
+    // ==========================================
+    // REVIEW PAGINATION
+    // ==========================================
+
+    const [reviewPage, setReviewPage] =
+        useState(1);
+
+    const [reviewPagination, setReviewPagination] =
+        useState({
+            total: 0,
+            page: 1,
+            limit: 10,
+            totalPages: 0,
+            hasNextPage: false,
+            hasPreviousPage: false,
+        });
 
 
     // ==========================================
@@ -90,7 +105,9 @@ export default function GadgetDetailPage() {
     // LOAD REVIEWS
     // ==========================================
 
-    async function loadReviews() {
+    async function loadReviews(
+        page = reviewPage
+    ) {
 
         if (!gadget?.id) {
             return;
@@ -106,15 +123,22 @@ export default function GadgetDetailPage() {
                     gadgetId:
                         gadget.id,
 
-                    page: 1,
+                    page,
 
                     limit: 10,
 
                 });
 
+
             setReviews(
                 response.data.data.reviews
             );
+
+
+            setReviewPagination(
+                response.data.data.pagination
+            );
+
 
         } catch (error) {
 
@@ -128,6 +152,19 @@ export default function GadgetDetailPage() {
             setReviewsLoading(false);
 
         }
+
+    }
+
+
+    // ==========================================
+    // CHANGE REVIEW PAGE
+    // ==========================================
+
+    function handleReviewPageChange(
+        page
+    ) {
+
+        setReviewPage(page);
 
     }
 
@@ -155,9 +192,25 @@ export default function GadgetDetailPage() {
 
         if (gadget?.id) {
 
-            loadReviews();
+            loadReviews(
+                reviewPage
+            );
 
         }
+
+    }, [
+        gadget?.id,
+        reviewPage
+    ]);
+
+
+    // ==========================================
+    // RESET REVIEW PAGE WHEN GADGET CHANGES
+    // ==========================================
+
+    useEffect(() => {
+
+        setReviewPage(1);
 
     }, [gadget?.id]);
 
@@ -433,6 +486,8 @@ export default function GadgetDetailPage() {
                 </h2>
 
 
+                {/* Loading */}
+
                 {reviewsLoading && (
 
                     <p>
@@ -441,6 +496,8 @@ export default function GadgetDetailPage() {
 
                 )}
 
+
+                {/* No Reviews */}
 
                 {!reviewsLoading &&
                     reviews.length === 0 && (
@@ -451,6 +508,8 @@ export default function GadgetDetailPage() {
 
                     )}
 
+
+                {/* Reviews */}
 
                 {!reviewsLoading &&
                     reviews.length > 0 && (
@@ -464,22 +523,49 @@ export default function GadgetDetailPage() {
                                         key={
                                             review.id
                                         }
+
                                         review={
                                             review
                                         }
+
                                         onReviewUpdated={
                                             async () => {
 
-                                                await loadReviews();
+                                                await loadReviews(
+                                                    reviewPage
+                                                );
 
                                                 await loadGadget();
 
                                             }
                                         }
+
                                         onReviewDeleted={
                                             async () => {
 
-                                                await loadReviews();
+                                                /*
+                                                 * If the last review
+                                                 * on the current page
+                                                 * was deleted, go back
+                                                 * to the previous page.
+                                                 */
+
+                                                if (
+                                                    reviews.length === 1 &&
+                                                    reviewPagination.hasPreviousPage
+                                                ) {
+
+                                                    setReviewPage(
+                                                        reviewPage - 1
+                                                    );
+
+                                                } else {
+
+                                                    await loadReviews(
+                                                        reviewPage
+                                                    );
+
+                                                }
 
                                                 await loadGadget();
 
@@ -489,6 +575,60 @@ export default function GadgetDetailPage() {
 
                                 )
                             )}
+
+                        </div>
+
+                    )}
+
+
+                {/* ==================================
+                    REVIEW PAGINATION
+                ================================== */}
+
+                {!reviewsLoading &&
+                    reviewPagination.totalPages > 1 && (
+
+                        <div>
+
+                            <button
+                                type="button"
+                                disabled={
+                                    !reviewPagination.hasPreviousPage
+                                }
+                                onClick={() =>
+                                    handleReviewPageChange(
+                                        reviewPage - 1
+                                    )
+                                }
+                            >
+                                Previous
+                            </button>
+
+
+                            <span>
+                                {" "}
+                                Page{" "}
+                                {reviewPagination.page}
+                                {" "}
+                                of{" "}
+                                {reviewPagination.totalPages}
+                                {" "}
+                            </span>
+
+
+                            <button
+                                type="button"
+                                disabled={
+                                    !reviewPagination.hasNextPage
+                                }
+                                onClick={() =>
+                                    handleReviewPageChange(
+                                        reviewPage + 1
+                                    )
+                                }
+                            >
+                                Next
+                            </button>
 
                         </div>
 
@@ -505,10 +645,19 @@ export default function GadgetDetailPage() {
                 gadgetId={
                     gadget.id
                 }
+
                 onReviewCreated={
                     async () => {
 
-                        await loadReviews();
+                        /*
+                         * After creating a review,
+                         * return to the first page
+                         * so the newest review is visible.
+                         */
+
+                        setReviewPage(1);
+
+                        await loadReviews(1);
 
                         await loadGadget();
 

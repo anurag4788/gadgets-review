@@ -3,11 +3,14 @@
 import { useState } from "react";
 
 import reviewService from "@/services/reviewService";
+import { useAuth } from "@/context/AuthContext";
 
 export default function ReviewForm({
     gadgetId,
     onReviewCreated,
 }) {
+
+    const { user } = useAuth();
 
     const [title, setTitle] =
         useState("");
@@ -27,6 +30,11 @@ export default function ReviewForm({
     const [success, setSuccess] =
         useState("");
 
+
+    // ==========================================
+    // SUBMIT REVIEW
+    // ==========================================
+
     async function handleSubmit(event) {
 
         event.preventDefault();
@@ -34,7 +42,25 @@ export default function ReviewForm({
         setError("");
         setSuccess("");
 
-        // Frontend validation
+
+        // ==========================================
+        // AUTHENTICATION CHECK
+        // ==========================================
+
+        if (!user) {
+
+            setError(
+                "Please login to write a review."
+            );
+
+            return;
+
+        }
+
+
+        // ==========================================
+        // FRONTEND VALIDATION
+        // ==========================================
 
         if (title.trim().length < 3) {
 
@@ -43,7 +69,20 @@ export default function ReviewForm({
             );
 
             return;
+
         }
+
+
+        if (title.trim().length > 100) {
+
+            setError(
+                "Title cannot exceed 100 characters"
+            );
+
+            return;
+
+        }
+
 
         if (review.trim().length < 20) {
 
@@ -52,7 +91,20 @@ export default function ReviewForm({
             );
 
             return;
+
         }
+
+
+        if (review.trim().length > 5000) {
+
+            setError(
+                "Review cannot exceed 5000 characters"
+            );
+
+            return;
+
+        }
+
 
         if (
             rating < 1 ||
@@ -64,7 +116,13 @@ export default function ReviewForm({
             );
 
             return;
+
         }
+
+
+        // ==========================================
+        // CREATE REVIEW
+        // ==========================================
 
         try {
 
@@ -73,22 +131,29 @@ export default function ReviewForm({
             const response =
                 await reviewService.create({
 
-                    title: title.trim(),
+                    title:
+                        title.trim(),
 
-                    review: review.trim(),
+                    review:
+                        review.trim(),
 
-                    rating: Number(rating),
+                    rating:
+                        Number(rating),
 
                     gadgetId,
 
                 });
+
 
             setSuccess(
                 response.data.message ||
                 "Review created successfully"
             );
 
-            // Clear form
+
+            // ==========================================
+            // CLEAR FORM
+            // ==========================================
 
             setTitle("");
 
@@ -96,7 +161,10 @@ export default function ReviewForm({
 
             setRating(5);
 
-            // Tell parent to reload reviews
+
+            // ==========================================
+            // RELOAD REVIEWS
+            // ==========================================
 
             if (onReviewCreated) {
 
@@ -111,11 +179,65 @@ export default function ReviewForm({
                 error
             );
 
-            const message =
-                error.response?.data?.message;
+
+            // ==========================================
+            // DUPLICATE REVIEW
+            // ==========================================
+
+            if (
+                error.response?.status === 409
+            ) {
+
+                setError(
+                    "You have already reviewed this gadget."
+                );
+
+                return;
+
+            }
+
+
+            // ==========================================
+            // UNAUTHORIZED
+            // ==========================================
+
+            if (
+                error.response?.status === 401
+            ) {
+
+                setError(
+                    "Please login to write a review."
+                );
+
+                return;
+
+            }
+
+
+            // ==========================================
+            // VALIDATION ERROR
+            // ==========================================
+
+            if (
+                error.response?.status === 400
+            ) {
+
+                setError(
+                    error.response?.data?.message ||
+                    "Please check your review details."
+                );
+
+                return;
+
+            }
+
+
+            // ==========================================
+            // GENERAL ERROR
+            // ==========================================
 
             setError(
-                message ||
+                error.response?.data?.message ||
                 "Failed to create review"
             );
 
@@ -127,6 +249,11 @@ export default function ReviewForm({
 
     }
 
+
+    // ==========================================
+    // UI
+    // ==========================================
+
     return (
 
         <section>
@@ -134,6 +261,7 @@ export default function ReviewForm({
             <h2>
                 Write a Review
             </h2>
+
 
             {error && (
 
@@ -143,6 +271,7 @@ export default function ReviewForm({
 
             )}
 
+
             {success && (
 
                 <p>
@@ -151,11 +280,23 @@ export default function ReviewForm({
 
             )}
 
+
+            {!user && (
+
+                <p>
+                    Please login to write a review.
+                </p>
+
+            )}
+
+
             <form
                 onSubmit={handleSubmit}
             >
 
-                {/* Title */}
+                {/* ==================================
+                    TITLE
+                ================================== */}
 
                 <div>
 
@@ -172,13 +313,18 @@ export default function ReviewForm({
                             )
                         }
                         placeholder="Review title"
-                        disabled={loading}
+                        disabled={
+                            loading ||
+                            !user
+                        }
                     />
 
                 </div>
 
 
-                {/* Rating */}
+                {/* ==================================
+                    RATING
+                ================================== */}
 
                 <div>
 
@@ -195,7 +341,10 @@ export default function ReviewForm({
                                 )
                             )
                         }
-                        disabled={loading}
+                        disabled={
+                            loading ||
+                            !user
+                        }
                     >
 
                         <option value={1}>
@@ -223,7 +372,9 @@ export default function ReviewForm({
                 </div>
 
 
-                {/* Review */}
+                {/* ==================================
+                    REVIEW
+                ================================== */}
 
                 <div>
 
@@ -240,17 +391,25 @@ export default function ReviewForm({
                         }
                         placeholder="Write your review..."
                         rows={6}
-                        disabled={loading}
+                        disabled={
+                            loading ||
+                            !user
+                        }
                     />
 
                 </div>
 
 
-                {/* Submit */}
+                {/* ==================================
+                    SUBMIT
+                ================================== */}
 
                 <button
                     type="submit"
-                    disabled={loading}
+                    disabled={
+                        loading ||
+                        !user
+                    }
                 >
 
                     {loading
