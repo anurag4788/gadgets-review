@@ -29,6 +29,13 @@ const authService = {
         );
 
     },
+    refreshToken() {
+
+        return api.post(
+            "/auth/refresh-token"
+        );
+
+    },
 
 };
 

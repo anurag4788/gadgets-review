@@ -52,24 +52,27 @@ export async function GET(request) {
 
     } catch (error) {
 
-        if (error.message === "Unauthorized") {
-
-            return errorResponse(
-                "Unauthorized",
-                401
-            );
-
-        }
-
-        console.error(
-            "Get Current User Error:",
-            error
-        );
+    if (
+        error.message === "Unauthorized" ||
+        error.name === "TokenExpiredError" ||
+        error.name === "JsonWebTokenError"
+    ) {
 
         return errorResponse(
-            "Internal Server Error",
-            500
+            "Unauthorized",
+            401
         );
 
     }
+
+    console.error(
+        "Get Current User Error:",
+        error
+    );
+
+    return errorResponse(
+        "Internal Server Error",
+        500
+    );
+}
 }
