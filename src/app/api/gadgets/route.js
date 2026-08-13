@@ -53,30 +53,30 @@ export async function POST(request) {
             createSlug(name);
         // Check Duplicate Gadget
         const existingGadget = await prisma.gadget.findFirst({
-    where: {
-        OR: [
-            {
-                slug,
-            },
-            {
-                AND: [
+            where: {
+                OR: [
                     {
-                        name: {
-                            equals: name,
-                            mode: "insensitive",
-                        },
+                        slug,
                     },
                     {
-                        model: {
-                            equals: model,
-                            mode: "insensitive",
-                        },
+                        AND: [
+                            {
+                                name: {
+                                    equals: name,
+                                    mode: "insensitive",
+                                },
+                            },
+                            {
+                                model: {
+                                    equals: model,
+                                    mode: "insensitive",
+                                },
+                            },
+                        ],
                     },
                 ],
             },
-        ],
-    },
-});
+        });
         if (existingGadget) {
             return errorResponse(
                 "Gadget already exists",
@@ -212,43 +212,43 @@ export async function GET(request) {
         const where = {};
         if (search) {
 
-    where.OR = [
+            where.OR = [
 
-        {
-            name: {
-                contains: search,
-                mode: "insensitive",
-            },
-        },
-
-        {
-            model: {
-                contains: search,
-                mode: "insensitive",
-            },
-        },
-
-        {
-            brand: {
-                name: {
-                    contains: search,
-                    mode: "insensitive",
+                {
+                    name: {
+                        contains: search,
+                        mode: "insensitive",
+                    },
                 },
-            },
-        },
 
-        {
-            category: {
-                name: {
-                    contains: search,
-                    mode: "insensitive",
+                {
+                    model: {
+                        contains: search,
+                        mode: "insensitive",
+                    },
                 },
-            },
-        },
 
-    ];
+                {
+                    brand: {
+                        name: {
+                            contains: search,
+                            mode: "insensitive",
+                        },
+                    },
+                },
 
-}
+                {
+                    category: {
+                        name: {
+                            contains: search,
+                            mode: "insensitive",
+                        },
+                    },
+                },
+
+            ];
+
+        }
         if (brand) {
             where.brand = {
                 slug: brand,
