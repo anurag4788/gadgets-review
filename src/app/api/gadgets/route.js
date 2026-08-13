@@ -211,21 +211,44 @@ export async function GET(request) {
 
         const where = {};
         if (search) {
-            where.OR = [
-                {
-                    name: {
-                        contains: search,
-                        mode: "insensitive",
-                    },
+
+    where.OR = [
+
+        {
+            name: {
+                contains: search,
+                mode: "insensitive",
+            },
+        },
+
+        {
+            model: {
+                contains: search,
+                mode: "insensitive",
+            },
+        },
+
+        {
+            brand: {
+                name: {
+                    contains: search,
+                    mode: "insensitive",
                 },
-                {
-                    model: {
-                        contains: search,
-                        mode: "insensitive",
-                    },
+            },
+        },
+
+        {
+            category: {
+                name: {
+                    contains: search,
+                    mode: "insensitive",
                 },
-            ];
-        }
+            },
+        },
+
+    ];
+
+}
         if (brand) {
             where.brand = {
                 slug: brand,

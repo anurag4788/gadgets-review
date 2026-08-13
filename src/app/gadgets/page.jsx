@@ -321,12 +321,20 @@ export default function GadgetsPage() {
                             Oldest
                         </option>
 
-                        <option value="name">
-                            Name
+                        <option value="az">
+                            Name A-Z
                         </option>
 
-                        <option value="rating">
-                            Rating
+                        <option value="za">
+                            Name Z-A
+                        </option>
+
+                        <option value="highest">
+                            Highest Rating
+                        </option>
+
+                        <option value="lowest">
+                            Lowest Rating
                         </option>
 
                     </select>
@@ -401,45 +409,45 @@ export default function GadgetsPage() {
             {!loading &&
                 pagination.totalPages > 1 && (
 
-                <div
-                    className={styles.pagination}
-                >
-
-                    <button
-                        disabled={
-                            pagination.page <= 1
-                        }
-                        onClick={() =>
-                            loadGadgets(
-                                pagination.page - 1
-                            )
-                        }
+                    <div
+                        className={styles.pagination}
                     >
-                        Previous
-                    </button>
 
-                    <span>
-                        Page {pagination.page} of{" "}
-                        {pagination.totalPages}
-                    </span>
+                        <button
+                            disabled={
+                                pagination.page <= 1
+                            }
+                            onClick={() =>
+                                loadGadgets(
+                                    pagination.page - 1
+                                )
+                            }
+                        >
+                            Previous
+                        </button>
 
-                    <button
-                        disabled={
-                            pagination.page >=
-                            pagination.totalPages
-                        }
-                        onClick={() =>
-                            loadGadgets(
-                                pagination.page + 1
-                            )
-                        }
-                    >
-                        Next
-                    </button>
+                        <span>
+                            Page {pagination.page} of{" "}
+                            {pagination.totalPages}
+                        </span>
 
-                </div>
+                        <button
+                            disabled={
+                                pagination.page >=
+                                pagination.totalPages
+                            }
+                            onClick={() =>
+                                loadGadgets(
+                                    pagination.page + 1
+                                )
+                            }
+                        >
+                            Next
+                        </button>
 
-            )}
+                    </div>
+
+                )}
 
         </main>
 
