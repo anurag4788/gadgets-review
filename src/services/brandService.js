@@ -2,13 +2,17 @@ import api from "@/lib/api";
 
 const brandService = {
 
-    getAll() {
+    getAll(params = {}) {
 
         return api.get(
-            "/brands"
+            "/brands",
+            {
+                params,
+            }
         );
 
     },
+
 
     getBySlug(slug) {
 
@@ -17,6 +21,7 @@ const brandService = {
         );
 
     },
+
 
     create(data) {
 
@@ -27,6 +32,7 @@ const brandService = {
 
     },
 
+
     update(slug, data) {
 
         return api.put(
@@ -35,6 +41,7 @@ const brandService = {
         );
 
     },
+
 
     delete(slug) {
 
