@@ -12,8 +12,16 @@ const reviewService = {
         );
 
     },
+    getAdminAll(params = {}) {
 
+        return api.get(
+            "admin/reviews",
+            {
+                params,
+            }
+        );
 
+    },
     create(data) {
 
         return api.post(
@@ -22,8 +30,6 @@ const reviewService = {
         );
 
     },
-
-
     update(id, data) {
 
         return api.put(
@@ -32,8 +38,6 @@ const reviewService = {
         );
 
     },
-
-
     delete(id) {
 
         return api.delete(
@@ -41,8 +45,6 @@ const reviewService = {
         );
 
     },
-
-
     like(id) {
 
         return api.post(
@@ -50,7 +52,6 @@ const reviewService = {
         );
 
     },
-
     unlike(id) {
 
         return api.delete(
@@ -58,6 +59,14 @@ const reviewService = {
         );
 
     },
+
+    adminDelete(id) {
+
+    return api.delete(
+        `/admin/reviews/${id}`
+    );
+
+},
 
 };
 
