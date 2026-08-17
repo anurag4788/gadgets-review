@@ -24,10 +24,13 @@ export default function Navbar() {
 
             {/* Logo */}
             <div>
+
                 <Link href="/">
                     Gadgets Review
                 </Link>
+
             </div>
+
 
             {/* Navigation */}
             <div>
@@ -40,15 +43,25 @@ export default function Navbar() {
                     Gadgets
                 </Link>
 
+
                 {isAuthenticated ? (
+
                     <>
+
                         <span>
                             Hi, {user.name}
                         </span>
 
+
+                        <Link href="/wishlist">
+                            ❤️ Wishlist
+                        </Link>
+
+
                         <Link href="/profile">
                             Profile
                         </Link>
+
 
                         <button
                             type="button"
@@ -56,9 +69,13 @@ export default function Navbar() {
                         >
                             Logout
                         </button>
+
                     </>
+
                 ) : (
+
                     <>
+
                         <Link href="/login">
                             Login
                         </Link>
@@ -66,7 +83,9 @@ export default function Navbar() {
                         <Link href="/register">
                             Register
                         </Link>
+
                     </>
+
                 )}
 
             </div>

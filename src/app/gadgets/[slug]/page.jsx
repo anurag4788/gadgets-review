@@ -1,51 +1,88 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import {
+    useEffect,
+    useState,
+} from "react";
+
+import {
+    useParams,
+} from "next/navigation";
+
 import Link from "next/link";
+
 import gadgetService from "@/services/gadgetService";
 import reviewService from "@/services/reviewService";
+import wishlistService from "@/services/wishlistService";
+
 import ReviewForm from "@/components/reviews/ReviewForm";
 import ReviewItem from "@/components/reviews/ReviewItem";
+
+import {
+    useAuth,
+} from "@/context/AuthContext";
+
 import styles from "./page.module.css";
+
 
 export default function GadgetDetailPage() {
 
-    const params = useParams();
+    const params =
+        useParams();
 
-    const slug = params.slug;
+    const slug =
+        params.slug;
+
+    const { user } =
+        useAuth();
+
+
+    // ==========================================
+    // GADGET STATE
+    // ==========================================
 
     const [gadget, setGadget] =
         useState(null);
 
-    const [reviews, setReviews] =
-        useState([]);
-
     const [loading, setLoading] =
-        useState(true);
-
-    const [reviewsLoading, setReviewsLoading] =
         useState(true);
 
     const [error, setError] =
         useState("");
 
+
     // ==========================================
-    // REVIEW PAGINATION
+    // REVIEW STATE
     // ==========================================
 
-    const [reviewPage, setReviewPage] =
+    const [reviews, setReviews] =
+        useState([]);
+
+    const [reviewsLoading, setReviewsLoading] =
+        useState(false);
+
+    const [reviewsError, setReviewsError] =
+        useState("");
+
+    const [page, setPage] =
         useState(1);
 
-    const [reviewPagination, setReviewPagination] =
-        useState({
-            total: 0,
-            page: 1,
-            limit: 10,
-            totalPages: 0,
-            hasNextPage: false,
-            hasPreviousPage: false,
-        });
+    const [pagination, setPagination] =
+        useState(null);
+
+
+    // ==========================================
+    // WISHLIST STATE
+    // ==========================================
+
+    const [isWishlisted, setIsWishlisted] =
+        useState(false);
+
+    const [wishlistLoading, setWishlistLoading] =
+        useState(false);
+
+    const [wishlistError, setWishlistError] =
+        useState("");
 
 
     // ==========================================
@@ -57,7 +94,6 @@ export default function GadgetDetailPage() {
         try {
 
             setLoading(true);
-
             setError("");
 
             const response =
@@ -76,21 +112,10 @@ export default function GadgetDetailPage() {
                 error
             );
 
-            if (
-                error.response?.status === 404
-            ) {
-
-                setError(
-                    "Gadget not found."
-                );
-
-            } else {
-
-                setError(
-                    "Failed to load gadget."
-                );
-
-            }
+            setError(
+                error.response?.data?.message ||
+                "Failed to load gadget"
+            );
 
         } finally {
 
@@ -105,9 +130,7 @@ export default function GadgetDetailPage() {
     // LOAD REVIEWS
     // ==========================================
 
-    async function loadReviews(
-        page = reviewPage
-    ) {
+    async function loadReviews() {
 
         if (!gadget?.id) {
             return;
@@ -116,6 +139,7 @@ export default function GadgetDetailPage() {
         try {
 
             setReviewsLoading(true);
+            setReviewsError("");
 
             const response =
                 await reviewService.getAll({
@@ -125,26 +149,31 @@ export default function GadgetDetailPage() {
 
                     page,
 
-                    limit: 10,
+                    limit: 5,
 
                 });
 
+            const data =
+                response.data.data;
 
             setReviews(
-                response.data.data.reviews
+                data.reviews || []
             );
 
-
-            setReviewPagination(
-                response.data.data.pagination
+            setPagination(
+                data.pagination || null
             );
-
 
         } catch (error) {
 
             console.error(
                 "Get Reviews Error:",
                 error
+            );
+
+            setReviewsError(
+                error.response?.data?.message ||
+                "Failed to load reviews"
             );
 
         } finally {
@@ -157,20 +186,61 @@ export default function GadgetDetailPage() {
 
 
     // ==========================================
-    // CHANGE REVIEW PAGE
+    // LOAD WISHLIST STATUS
     // ==========================================
 
-    function handleReviewPageChange(
-        page
-    ) {
+    async function loadWishlistStatus() {
 
-        setReviewPage(page);
+        if (
+            !user ||
+            !gadget?.id
+        ) {
+
+            setIsWishlisted(false);
+
+            return;
+
+        }
+
+        try {
+
+            const response =
+                await wishlistService.getAll();
+
+            const wishlist =
+                response.data.data || [];
+
+            const exists =
+                wishlist.some(
+                    (item) =>
+                        item.gadget?.id ===
+                        gadget.id
+                );
+
+            setIsWishlisted(
+                exists
+            );
+
+        } catch (error) {
+
+            if (
+                error.response?.status !== 401
+            ) {
+
+                console.error(
+                    "Get Wishlist Error:",
+                    error
+                );
+
+            }
+
+        }
 
     }
 
 
     // ==========================================
-    // LOAD GADGET WHEN PAGE OPENS
+    // LOAD GADGET ON SLUG CHANGE
     // ==========================================
 
     useEffect(() => {
@@ -185,34 +255,195 @@ export default function GadgetDetailPage() {
 
 
     // ==========================================
-    // LOAD REVIEWS AFTER GADGET LOADS
+    // LOAD REVIEWS
     // ==========================================
 
     useEffect(() => {
 
         if (gadget?.id) {
 
-            loadReviews(
-                reviewPage
-            );
+            loadReviews();
 
         }
 
     }, [
         gadget?.id,
-        reviewPage
+        page,
     ]);
 
 
     // ==========================================
-    // RESET REVIEW PAGE WHEN GADGET CHANGES
+    // LOAD WISHLIST STATUS
     // ==========================================
 
     useEffect(() => {
 
-        setReviewPage(1);
+        if (
+            gadget?.id &&
+            user
+        ) {
 
-    }, [gadget?.id]);
+            loadWishlistStatus();
+
+        } else {
+
+            setIsWishlisted(false);
+
+        }
+
+    }, [
+        gadget?.id,
+        user,
+    ]);
+
+
+    // ==========================================
+    // WISHLIST TOGGLE
+    // ==========================================
+
+    async function handleWishlist() {
+
+        if (!user) {
+
+            setWishlistError(
+                "Please login to use your wishlist."
+            );
+
+            return;
+
+        }
+
+        if (!gadget?.id) {
+            return;
+        }
+
+        try {
+
+            setWishlistLoading(true);
+
+            setWishlistError("");
+
+
+            // ==========================================
+            // REMOVE
+            // ==========================================
+
+            if (isWishlisted) {
+
+                await wishlistService.remove(
+                    gadget.id
+                );
+
+                setIsWishlisted(
+                    false
+                );
+
+                return;
+
+            }
+
+
+            // ==========================================
+            // ADD
+            // ==========================================
+
+            await wishlistService.add(
+                gadget.id
+            );
+
+            setIsWishlisted(
+                true
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Wishlist Error:",
+                error
+            );
+
+
+            if (
+                error.response?.status === 401
+            ) {
+
+                setWishlistError(
+                    "Please login to use your wishlist."
+                );
+
+                return;
+
+            }
+
+
+            if (
+                error.response?.status === 409
+            ) {
+
+                setIsWishlisted(
+                    true
+                );
+
+                return;
+
+            }
+
+
+            setWishlistError(
+                error.response?.data?.message ||
+                "Failed to update wishlist."
+            );
+
+        } finally {
+
+            setWishlistLoading(
+                false
+            );
+
+        }
+
+    }
+
+
+    // ==========================================
+    // REVIEW CREATED
+    // ==========================================
+
+    async function handleReviewCreated() {
+
+        setPage(1);
+
+        await loadReviews();
+
+        await loadGadget();
+
+    }
+
+
+    // ==========================================
+    // REVIEW UPDATED
+    // ==========================================
+
+    async function handleReviewUpdated() {
+
+        await loadReviews();
+
+        await loadGadget();
+
+    }
+
+
+    // ==========================================
+    // REVIEW DELETED
+    // ==========================================
+
+    async function handleReviewDeleted() {
+
+        await loadReviews();
+
+        await loadGadget();
+
+    }
 
 
     // ==========================================
@@ -223,11 +454,11 @@ export default function GadgetDetailPage() {
 
         return (
 
-            <main className={styles.loading}>
+            <main>
 
-                <p>
+                <h1>
                     Loading gadget...
-                </p>
+                </h1>
 
             </main>
 
@@ -244,7 +475,11 @@ export default function GadgetDetailPage() {
 
         return (
 
-            <main className={styles.error}>
+            <main>
+
+                <h1>
+                    Gadget
+                </h1>
 
                 <p>
                     {error}
@@ -262,18 +497,18 @@ export default function GadgetDetailPage() {
 
 
     // ==========================================
-    // NOT FOUND
+    // GADGET NOT FOUND
     // ==========================================
 
     if (!gadget) {
 
         return (
 
-            <main className={styles.notFound}>
+            <main>
 
-                <p>
-                    Gadget not found.
-                </p>
+                <h1>
+                    Gadget not found
+                </h1>
 
                 <Link href="/gadgets">
                     Back to Gadgets
@@ -287,190 +522,185 @@ export default function GadgetDetailPage() {
 
 
     // ==========================================
-    // PAGE
+    // UI
     // ==========================================
 
     return (
 
-        <main className={styles.main}>
+        <main
+            className={styles.container}
+        >
 
-            {/* BACK */}
+            {/* ==================================
+                BACK
+            ================================== */}
 
             <Link
                 href="/gadgets"
-                className={styles.backLink}
             >
                 ← Back to Gadgets
             </Link>
 
 
             {/* ==================================
-                GADGET INFORMATION
+                GADGET DETAILS
             ================================== */}
 
             <section
-                className={styles.product}
+                className={styles.gadgetSection}
             >
 
-                <div
-                    className={
-                        styles.imageContainer
-                    }
-                >
+                {/* IMAGE */}
 
-                    {gadget.image ? (
+                {gadget.image && (
+
+                    <div>
 
                         <img
                             src={gadget.image}
                             alt={gadget.name}
-                            className={
-                                styles.image
-                            }
                         />
 
-                    ) : (
+                    </div>
 
-                        <p>
-                            No image available
-                        </p>
-
-                    )}
-
-                </div>
+                )}
 
 
-                <div
-                    className={styles.info}
-                >
+                {/* INFORMATION */}
 
-                    <span
-                        className={
-                            styles.brand
-                        }
-                    >
-                        {gadget.brand.name}
-                    </span>
+                <div>
 
-
-                    <h1
-                        className={
-                            styles.title
-                        }
-                    >
+                    <h1>
                         {gadget.name}
                     </h1>
 
 
-                    <p
-                        className={
-                            styles.rating
+                    {gadget.model && (
+
+                        <p>
+                            Model: {gadget.model}
+                        </p>
+
+                    )}
+
+
+                    {gadget.brand && (
+
+                        <p>
+
+                            Brand:{" "}
+
+                            <Link
+                                href={`/brands/${gadget.brand.slug}`}
+                            >
+                                {gadget.brand.name}
+                            </Link>
+
+                        </p>
+
+                    )}
+
+
+                    {gadget.category && (
+
+                        <p>
+
+                            Category:{" "}
+
+                            <Link
+                                href={`/categories/${gadget.category.slug}`}
+                            >
+                                {gadget.category.name}
+                            </Link>
+
+                        </p>
+
+                    )}
+
+
+                    {gadget.releaseYear && (
+
+                        <p>
+                            Released:{" "}
+                            {gadget.releaseYear}
+                        </p>
+
+                    )}
+
+
+                    {/* ==================================
+                        RATING
+                    ================================== */}
+
+                    <p>
+
+                        ⭐{" "}
+
+                        {gadget.avgRating
+                            ? Number(
+                                gadget.avgRating
+                            ).toFixed(1)
+                            : "No rating"
                         }
-                    >
-                        ⭐ {gadget.avgRating}
+
                     </p>
 
 
-                    <div
-                        className={
-                            styles.details
-                        }
-                    >
+                    {/* ==================================
+                        DESCRIPTION
+                    ================================== */}
 
-                        <div
-                            className={
-                                styles.detailItem
+                    {gadget.description && (
+
+                        <p>
+                            {gadget.description}
+                        </p>
+
+                    )}
+
+
+                    {/* ==================================
+                        WISHLIST
+                    ================================== */}
+
+                    <div>
+
+                        <button
+                            type="button"
+                            onClick={
+                                handleWishlist
+                            }
+                            disabled={
+                                wishlistLoading
                             }
                         >
 
-                            <span
-                                className={
-                                    styles.label
-                                }
-                            >
-                                Model:
-                            </span>
+                            {wishlistLoading
 
-                            <span>
-                                {gadget.model}
-                            </span>
+                                ? "Updating..."
 
-                        </div>
+                                : isWishlisted
 
+                                    ? "❤️ Remove from Wishlist"
 
-                        <div
-                            className={
-                                styles.detailItem
+                                    : "🤍 Add to Wishlist"
+
                             }
-                        >
 
-                            <span
-                                className={
-                                    styles.label
-                                }
-                            >
-                                Category:
-                            </span>
-
-                            <span>
-                                {gadget.category.name}
-                            </span>
-
-                        </div>
+                        </button>
 
 
-                        <div
-                            className={
-                                styles.detailItem
-                            }
-                        >
+                        {wishlistError && (
 
-                            <span
-                                className={
-                                    styles.label
-                                }
-                            >
-                                Released:
-                            </span>
+                            <p>
+                                {wishlistError}
+                            </p>
 
-                            <span>
-                                {gadget.releaseYear}
-                            </span>
-
-                        </div>
+                        )}
 
                     </div>
 
-
-                    <p>
-                        {gadget.category.description}
-                    </p>
-
                 </div>
-
-            </section>
-
-
-            {/* ==================================
-                DESCRIPTION
-            ================================== */}
-
-            <section
-                className={
-                    styles.descriptionSection
-                }
-            >
-
-                <h2>
-                    About {gadget.name}
-                </h2>
-
-                <p
-                    className={
-                        styles.description
-                    }
-                >
-                    {gadget.description}
-                </p>
 
             </section>
 
@@ -486,7 +716,36 @@ export default function GadgetDetailPage() {
                 </h2>
 
 
-                {/* Loading */}
+                {/* ==================================
+                    REVIEW FORM
+                ================================== */}
+
+                <ReviewForm
+                    gadgetId={
+                        gadget.id
+                    }
+                    onReviewCreated={
+                        handleReviewCreated
+                    }
+                />
+
+
+                {/* ==================================
+                    REVIEW ERROR
+                ================================== */}
+
+                {reviewsError && (
+
+                    <p>
+                        {reviewsError}
+                    </p>
+
+                )}
+
+
+                {/* ==================================
+                    REVIEW LOADING
+                ================================== */}
 
                 {reviewsLoading && (
 
@@ -497,19 +756,22 @@ export default function GadgetDetailPage() {
                 )}
 
 
-                {/* No Reviews */}
+                {/* ==================================
+                    REVIEWS LIST
+                ================================== */}
 
                 {!reviewsLoading &&
                     reviews.length === 0 && (
 
                         <p>
                             No reviews yet.
+                            Be the first to
+                            review this gadget.
                         </p>
 
-                    )}
+                    )
+                }
 
-
-                {/* Reviews */}
 
                 {!reviewsLoading &&
                     reviews.length > 0 && (
@@ -523,53 +785,14 @@ export default function GadgetDetailPage() {
                                         key={
                                             review.id
                                         }
-
                                         review={
                                             review
                                         }
-
                                         onReviewUpdated={
-                                            async () => {
-
-                                                await loadReviews(
-                                                    reviewPage
-                                                );
-
-                                                await loadGadget();
-
-                                            }
+                                            handleReviewUpdated
                                         }
-
                                         onReviewDeleted={
-                                            async () => {
-
-                                                /*
-                                                 * If the last review
-                                                 * on the current page
-                                                 * was deleted, go back
-                                                 * to the previous page.
-                                                 */
-
-                                                if (
-                                                    reviews.length === 1 &&
-                                                    reviewPagination.hasPreviousPage
-                                                ) {
-
-                                                    setReviewPage(
-                                                        reviewPage - 1
-                                                    );
-
-                                                } else {
-
-                                                    await loadReviews(
-                                                        reviewPage
-                                                    );
-
-                                                }
-
-                                                await loadGadget();
-
-                                            }
+                                            handleReviewDeleted
                                         }
                                     />
 
@@ -578,26 +801,29 @@ export default function GadgetDetailPage() {
 
                         </div>
 
-                    )}
+                    )
+                }
 
 
                 {/* ==================================
-                    REVIEW PAGINATION
+                    PAGINATION
                 ================================== */}
 
-                {!reviewsLoading &&
-                    reviewPagination.totalPages > 1 && (
+                {pagination &&
+                    pagination.totalPages > 1 && (
 
                         <div>
 
                             <button
                                 type="button"
                                 disabled={
-                                    !reviewPagination.hasPreviousPage
+                                    !pagination.hasPreviousPage ||
+                                    reviewsLoading
                                 }
                                 onClick={() =>
-                                    handleReviewPageChange(
-                                        reviewPage - 1
+                                    setPage(
+                                        (prev) =>
+                                            prev - 1
                                     )
                                 }
                             >
@@ -606,24 +832,30 @@ export default function GadgetDetailPage() {
 
 
                             <span>
+
                                 {" "}
+
                                 Page{" "}
-                                {reviewPagination.page}
+                                {pagination.currentPage}
                                 {" "}
                                 of{" "}
-                                {reviewPagination.totalPages}
+                                {pagination.totalPages}
+
                                 {" "}
+
                             </span>
 
 
                             <button
                                 type="button"
                                 disabled={
-                                    !reviewPagination.hasNextPage
+                                    !pagination.hasNextPage ||
+                                    reviewsLoading
                                 }
                                 onClick={() =>
-                                    handleReviewPageChange(
-                                        reviewPage + 1
+                                    setPage(
+                                        (prev) =>
+                                            prev + 1
                                     )
                                 }
                             >
@@ -632,38 +864,10 @@ export default function GadgetDetailPage() {
 
                         </div>
 
-                    )}
+                    )
+                }
 
             </section>
-
-
-            {/* ==================================
-                WRITE REVIEW
-            ================================== */}
-
-            <ReviewForm
-                gadgetId={
-                    gadget.id
-                }
-
-                onReviewCreated={
-                    async () => {
-
-                        /*
-                         * After creating a review,
-                         * return to the first page
-                         * so the newest review is visible.
-                         */
-
-                        setReviewPage(1);
-
-                        await loadReviews(1);
-
-                        await loadGadget();
-
-                    }
-                }
-            />
 
         </main>
 
