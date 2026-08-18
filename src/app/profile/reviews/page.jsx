@@ -5,11 +5,14 @@ import Link from "next/link";
 
 import useAuth from "@/hooks/useAuth";
 import userService from "@/services/userService";
+import ReviewItem from "@/components/reviews/ReviewItem";
 
 export default function MyReviewsPage() {
 
-    const { user, loading: authLoading } =
-        useAuth();
+    const {
+        user,
+        loading: authLoading,
+    } = useAuth();
 
     const [reviews, setReviews] =
         useState([]);
@@ -25,43 +28,52 @@ export default function MyReviewsPage() {
     // LOAD USER REVIEWS
     // ==========================================
 
-    useEffect(() => {
+    async function loadReviews() {
 
-        async function loadReviews() {
+        if (!user?.id) {
+            return;
+        }
 
-            try {
+        try {
 
-                setLoading(true);
-                setError("");
+            setLoading(true);
+            setError("");
 
-                const response =
-                    await userService.getReviews(
-                        user.id
-                    );
-
-                setReviews(
-                    response.data.data
+            const response =
+                await userService.getReviews(
+                    user.id
                 );
 
-            } catch (error) {
+            setReviews(
+                response.data.data
+            );
 
-                console.error(
-                    "Get My Reviews Error:",
-                    error
-                );
+        } catch (error) {
 
-                setError(
-                    error.response?.data?.message ||
-                    "Failed to load your reviews."
-                );
+            console.error(
+                "Get My Reviews Error:",
+                error
+            );
 
-            } finally {
+            setError(
+                error.response?.data?.message ||
+                "Failed to load your reviews."
+            );
 
-                setLoading(false);
+        } finally {
 
-            }
+            setLoading(false);
 
         }
+
+    }
+
+
+    // ==========================================
+    // LOAD REVIEWS WHEN USER IS AVAILABLE
+    // ==========================================
+
+    useEffect(() => {
 
         if (user?.id) {
 
@@ -84,7 +96,11 @@ export default function MyReviewsPage() {
 
         return (
             <main>
-                <p>Loading...</p>
+
+                <p>
+                    Loading...
+                </p>
+
             </main>
         );
 
@@ -158,6 +174,13 @@ export default function MyReviewsPage() {
                     {error}
                 </p>
 
+                <button
+                    type="button"
+                    onClick={loadReviews}
+                >
+                    Try Again
+                </button>
+
             </main>
         );
 
@@ -176,17 +199,18 @@ export default function MyReviewsPage() {
                 ← Back to Profile
             </Link>
 
+
             <h1>
                 My Reviews
             </h1>
+
 
             <p>
                 You have written{" "}
                 {reviews.length}{" "}
                 {reviews.length === 1
                     ? "review"
-                    : "reviews"}
-                .
+                    : "reviews"}.
             </p>
 
 
@@ -223,61 +247,30 @@ export default function MyReviewsPage() {
                     {reviews.map(
                         (review) => (
 
-                            <article
+                            <ReviewItem
                                 key={review.id}
-                            >
 
-                                <h2>
-                                    {review.title}
-                                </h2>
+                                review={{
+                                    ...review,
 
+                                    user: {
+                                        id: user.id,
+                                        name: user.name,
+                                    },
 
-                                <p>
-                                    Gadget:{" "}
-                                    <Link
-                                        href={`/gadgets/${review.gadget.slug}`}
-                                    >
-                                        {review.gadget.name}
-                                    </Link>
-                                </p>
+                                    isLiked:
+                                        review.isLiked ??
+                                        false,
+                                }}
 
+                                onReviewUpdated={
+                                    loadReviews
+                                }
 
-                                <p>
-                                    Brand:{" "}
-                                    {review.gadget.brand.name}
-                                </p>
-
-
-                                <p>
-                                    ⭐{" "}
-                                    {review.rating}
-                                    /5
-                                </p>
-
-
-                                <p>
-                                    {review.review}
-                                </p>
-
-
-                                <p>
-                                    👍{" "}
-                                    {review._count.likes}
-                                    {" "}
-                                    {review._count.likes === 1
-                                        ? "like"
-                                        : "likes"}
-                                </p>
-
-
-                                <p>
-                                    Reviewed on{" "}
-                                    {new Date(
-                                        review.createdAt
-                                    ).toLocaleDateString()}
-                                </p>
-
-                            </article>
+                                onReviewDeleted={
+                                    loadReviews
+                                }
+                            />
 
                         )
                     )}

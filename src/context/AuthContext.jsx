@@ -1,6 +1,7 @@
 "use client";
 
 import { getToken } from "@/lib/authClient";
+
 import {
     createContext,
     useContext,
@@ -9,14 +10,17 @@ import {
 } from "react";
 
 import authService from "@/services/authService";
+import userService from "@/services/userService";
 
 import {
     saveToken,
     removeToken,
 } from "@/lib/authClient";
 
+
 const AuthContext =
     createContext(null);
+
 
 export function AuthProvider({
     children,
@@ -27,6 +31,11 @@ export function AuthProvider({
 
     const [loading, setLoading] =
         useState(true);
+
+
+    // ==========================================
+    // LOAD CURRENT USER
+    // ==========================================
 
     useEffect(() => {
 
@@ -42,6 +51,7 @@ export function AuthProvider({
 
     }, []);
 
+
     async function loadUser() {
 
         try {
@@ -53,9 +63,12 @@ export function AuthProvider({
                 response.data.data
             );
 
-        } catch (error){
-            console.error(error);
+        } catch (error) {
 
+            console.error(
+                "Load User Error:",
+                error
+            );
 
             setUser(null);
 
@@ -66,6 +79,11 @@ export function AuthProvider({
         }
 
     }
+
+
+    // ==========================================
+    // LOGIN
+    // ==========================================
 
     async function login(data) {
 
@@ -80,11 +98,37 @@ export function AuthProvider({
 
     }
 
+
+    // ==========================================
+    // REGISTER
+    // ==========================================
+
     async function register(data) {
 
         return authService.register(data);
 
     }
+
+
+    // ==========================================
+    // UPDATE CURRENT USER
+    // ==========================================
+
+    async function updateUser(data) {
+
+        const response =
+            await userService.updateMe(data);
+
+        setUser(
+            response.data.data
+        );
+
+    }
+
+
+    // ==========================================
+    // LOGOUT
+    // ==========================================
 
     function logout() {
 
@@ -94,17 +138,31 @@ export function AuthProvider({
 
     }
 
+
+    // ==========================================
+    // CONTEXT
+    // ==========================================
+
     return (
 
         <AuthContext.Provider
             value={{
+
                 user,
+
                 loading,
+
                 login,
+
                 logout,
+
                 register,
+
+                updateUser,
+
                 isAuthenticated:
                     !!user,
+
             }}
         >
 
@@ -116,8 +174,15 @@ export function AuthProvider({
 
 }
 
+
+// ==========================================
+// useAuth HOOK
+// ==========================================
+
 export function useAuth() {
 
-    return useContext(AuthContext);
+    return useContext(
+        AuthContext
+    );
 
 }

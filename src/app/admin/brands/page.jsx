@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-
 import brandService from "@/services/brandService";
+
+import styles from "./AdminBrandsPage.module.css";
 
 export default function AdminBrandsPage() {
 
@@ -59,32 +60,23 @@ export default function AdminBrandsPage() {
             setLoading(true);
             setError("");
 
-
             const response =
                 await brandService.getAll({
-
                     page,
-
                     limit: 10,
-
                     search,
-
                 });
-
 
             const data =
                 response.data.data;
-
 
             setBrands(
                 data.brands
             );
 
-
             setPagination(
                 data.pagination
             );
-
 
         } catch (error) {
 
@@ -93,12 +85,10 @@ export default function AdminBrandsPage() {
                 error
             );
 
-
             setError(
                 error.response?.data?.message ||
                 "Failed to load brands."
             );
-
 
         } finally {
 
@@ -209,15 +199,21 @@ export default function AdminBrandsPage() {
 
         return (
 
-            <main>
+            <main className={styles.page}>
 
-                <h1>
-                    Manage Brands
-                </h1>
+                <div className={styles.stateCard}>
 
-                <p>
-                    Loading brands...
-                </p>
+                    <div className={styles.loader} />
+
+                    <h1>
+                        Manage Brands
+                    </h1>
+
+                    <p>
+                        Loading brands...
+                    </p>
+
+                </div>
 
             </main>
 
@@ -234,22 +230,31 @@ export default function AdminBrandsPage() {
 
         return (
 
-            <main>
+            <main className={styles.page}>
 
-                <h1>
-                    Manage Brands
-                </h1>
+                <div className={styles.stateCard}>
 
-                <p>
-                    {error}
-                </p>
+                    <div className={styles.errorIcon}>
+                        !
+                    </div>
 
+                    <h1>
+                        Manage Brands
+                    </h1>
 
-                <button
-                    onClick={loadBrands}
-                >
-                    Try Again
-                </button>
+                    <p>
+                        {error}
+                    </p>
+
+                    <button
+                        type="button"
+                        onClick={loadBrands}
+                        className={styles.retryButton}
+                    >
+                        Try Again
+                    </button>
+
+                </div>
 
             </main>
 
@@ -279,65 +284,118 @@ export default function AdminBrandsPage() {
 
     return (
 
-        <main>
+        <main className={styles.page}>
+
 
             {/* ==================================
                 HEADER
             ================================== */}
 
-            <div>
+            <header className={styles.header}>
 
-                <h1>
-                    Manage Brands
-                </h1>
+                <div className={styles.headerContent}>
+
+                    <div>
+
+                        <p className={styles.eyebrow}>
+                            Administration
+                        </p>
+
+                        <h1 className={styles.pageTitle}>
+                            Manage Brands
+                        </h1>
+
+                        <p className={styles.pageDescription}>
+                            Create, edit, search and manage
+                            all gadget brands.
+                        </p>
+
+                    </div>
 
 
-                <Link
-                    href="/admin/brands/create"
-                >
-                    Add Brand
-                </Link>
+                    <Link
+                        href="/admin/brands/create"
+                        className={styles.addButton}
+                    >
+                        <span className={styles.addIcon}>
+                            +
+                        </span>
 
-            </div>
+                        Add Brand
+                    </Link>
+
+                </div>
+
+            </header>
 
 
             {/* ==================================
                 SEARCH
             ================================== */}
 
-            <section>
+            <section className={styles.searchSection}>
 
-                <h2>
-                    Search Brands
-                </h2>
+                <div className={styles.searchHeader}>
+
+                    <div>
+
+                        <p className={styles.sectionEyebrow}>
+                            Brand Directory
+                        </p>
+
+                        <h2 className={styles.sectionTitle}>
+                            Search Brands
+                        </h2>
+
+                    </div>
+
+                    {pagination && (
+
+                        <span className={styles.resultCount}>
+                            {pagination.totalItems} brands
+                        </span>
+
+                    )}
+
+                </div>
 
 
-                <input
-                    type="text"
-                    placeholder="Search brand..."
-                    value={search}
-                    onChange={
-                        handleSearchChange
-                    }
-                />
+                <div className={styles.searchBox}>
+
+                    <span className={styles.searchIcon}>
+                        ⌕
+                    </span>
 
 
-                {search && (
+                    <input
+                        type="text"
+                        placeholder="Search brand..."
+                        value={search}
+                        onChange={
+                            handleSearchChange
+                        }
+                        className={styles.searchInput}
+                    />
 
-                    <button
-                        type="button"
-                        onClick={() => {
 
-                            setSearch("");
+                    {search && (
 
-                            setPage(1);
+                        <button
+                            type="button"
+                            onClick={() => {
 
-                        }}
-                    >
-                        Clear
-                    </button>
+                                setSearch("");
+                                setPage(1);
 
-                )}
+                            }}
+                            className={styles.clearButton}
+                        >
+                            Clear
+                        </button>
+
+                    )}
+
+                </div>
 
             </section>
 
@@ -348,9 +406,15 @@ export default function AdminBrandsPage() {
 
             {error && (
 
-                <p>
+                <div className={styles.inlineError}>
+
+                    <span>
+                        !
+                    </span>
+
                     {error}
-                </p>
+
+                </div>
 
             )}
 
@@ -361,9 +425,15 @@ export default function AdminBrandsPage() {
 
             {loading && (
 
-                <p>
-                    Loading...
-                </p>
+                <div className={styles.loadingBar}>
+
+                    <div className={styles.smallLoader} />
+
+                    <span>
+                        Loading brands...
+                    </span>
+
+                </div>
 
             )}
 
@@ -375,145 +445,208 @@ export default function AdminBrandsPage() {
             {!loading &&
             brands.length === 0 ? (
 
-                <p>
-                    No brands found.
-                </p>
+                <section className={styles.emptyState}>
+
+                    <div className={styles.emptyIcon}>
+                        ◇
+                    </div>
+
+                    <h2>
+                        No brands found
+                    </h2>
+
+                    <p>
+                        {search
+                            ? "Try a different search term."
+                            : "There are no brands available yet."}
+                    </p>
+
+                    {search && (
+
+                        <button
+                            type="button"
+                            onClick={() => {
+
+                                setSearch("");
+                                setPage(1);
+
+                            }}
+                            className={styles.emptyButton}
+                        >
+                            Clear Search
+                        </button>
+
+                    )}
+
+                </section>
 
             ) : (
 
-                <div>
+                <section className={styles.brandSection}>
 
-                    {brands.map(
-                        (brand) => (
+                    <div className={styles.brandGrid}>
 
-                            <article
-                                key={
-                                    brand.id
-                                }
-                            >
+                        {brands.map(
+                            (brand) => (
 
-                                {/* LOGO */}
+                                <article
+                                    key={brand.id}
+                                    className={styles.brandCard}
+                                >
 
-                                {brand.logo ? (
 
-                                    <img
-                                        src={
-                                            brand.logo
-                                        }
-                                        alt={
-                                            brand.name
-                                        }
-                                        width={100}
-                                        height={100}
-                                    />
+                                    {/* LOGO */}
 
-                                ) : (
+                                    <div className={styles.logoArea}>
 
-                                    <div>
-                                        No Logo
+                                        {brand.logo ? (
+
+                                            <img
+                                                src={brand.logo}
+                                                alt={brand.name}
+                                                width={100}
+                                                height={100}
+                                                className={styles.logo}
+                                            />
+
+                                        ) : (
+
+                                            <div className={styles.noLogo}>
+                                                <span>
+                                                    {brand.name
+                                                        .charAt(0)
+                                                        .toUpperCase()}
+                                                </span>
+                                            </div>
+
+                                        )}
+
                                     </div>
 
-                                )}
+
+                                    {/* BRAND INFO */}
+
+                                    <div className={styles.brandContent}>
+
+                                        <div className={styles.brandTop}>
+
+                                            <h2 className={styles.brandName}>
+                                                {brand.name}
+                                            </h2>
+
+                                            <span className={styles.brandStatus}>
+                                                Active
+                                            </span>
+
+                                        </div>
 
 
-                                {/* NAME */}
+                                        {/* DESCRIPTION */}
 
-                                <h2>
-                                    {brand.name}
-                                </h2>
+                                        {brand.description && (
 
+                                            <p className={styles.description}>
+                                                {
+                                                    brand.description
+                                                }
+                                            </p>
 
-                                {/* DESCRIPTION */}
-
-                                {brand.description && (
-
-                                    <p>
-                                        {
-                                            brand.description
-                                        }
-                                    </p>
-
-                                )}
+                                        )}
 
 
-                                {/* WEBSITE */}
+                                        {/* WEBSITE */}
 
-                                {brand.website && (
+                                        {brand.website && (
 
-                                    <p>
+                                            <div className={styles.website}>
 
-                                        Website:{" "}
+                                                <span className={styles.metaLabel}>
+                                                    Website
+                                                </span>
 
-                                        <a
+                                                <a
+                                                    href={
+                                                        brand.website
+                                                    }
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                >
+                                                    {
+                                                        brand.website
+                                                    }
+                                                </a>
+
+                                            </div>
+
+                                        )}
+
+
+                                        {/* CREATED DATE */}
+
+                                        <div className={styles.createdDate}>
+
+                                            <span>
+                                                Created
+                                            </span>
+
+                                            <strong>
+                                                {new Date(
+                                                    brand.createdAt
+                                                ).toLocaleDateString()}
+                                            </strong>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    {/* ACTIONS */}
+
+                                    <div className={styles.actions}>
+
+                                        <Link
                                             href={
-                                                brand.website
+                                                `/admin/brands/${brand.slug}/edit`
                                             }
-                                            target="_blank"
-                                            rel="noopener noreferrer"
+                                            className={styles.editButton}
                                         >
-                                            {
-                                                brand.website
+                                            Edit
+                                        </Link>
+
+
+                                        <button
+                                            type="button"
+                                            onClick={() =>
+                                                handleDelete(
+                                                    brand.slug
+                                                )
                                             }
-                                        </a>
+                                            disabled={
+                                                deleting ===
+                                                brand.slug
+                                            }
+                                            className={styles.deleteButton}
+                                        >
 
-                                    </p>
+                                            {
+                                                deleting ===
+                                                brand.slug
+                                                    ? "Deleting..."
+                                                    : "Delete"
+                                            }
 
-                                )}
+                                        </button>
 
+                                    </div>
 
-                                {/* CREATED DATE */}
+                                </article>
 
-                                <p>
+                            )
+                        )}
 
-                                    Created:{" "}
+                    </div>
 
-                                    {new Date(
-                                        brand.createdAt
-                                    ).toLocaleDateString()}
-
-                                </p>
-
-
-                                {/* EDIT */}
-
-                                <Link
-                                    href={
-                                        `/admin/brands/${brand.slug}/edit`
-                                    }
-                                >
-                                    Edit
-                                </Link>
-
-
-                                {/* DELETE */}
-
-                                <button
-                                    onClick={() =>
-                                        handleDelete(
-                                            brand.slug
-                                        )
-                                    }
-                                    disabled={
-                                        deleting ===
-                                        brand.slug
-                                    }
-                                >
-
-                                    {
-                                        deleting ===
-                                        brand.slug
-                                            ? "Deleting..."
-                                            : "Delete"
-                                    }
-
-                                </button>
-
-                            </article>
-
-                        )
-                    )}
-
-                </div>
+                </section>
 
             )}
 
@@ -524,9 +657,13 @@ export default function AdminBrandsPage() {
 
             {pagination && (
 
-                <div>
+                <nav
+                    className={styles.pagination}
+                    aria-label="Brand pagination"
+                >
 
                     <button
+                        type="button"
                         disabled={
                             !hasPreviousPage ||
                             loading
@@ -537,26 +674,35 @@ export default function AdminBrandsPage() {
                                     previous - 1
                             )
                         }
+                        className={styles.paginationButton}
                     >
-                        Previous
+                        ← Previous
                     </button>
 
 
-                    <span>
+                    <div className={styles.pageIndicator}>
 
-                        Page{" "}
-                        {
-                            pagination.currentPage
-                        }
-                        {" "}of{" "}
-                        {
-                            pagination.totalPages
-                        }
+                        <span>
+                            Page
+                        </span>
 
-                    </span>
+                        <strong>
+                            {pagination.currentPage}
+                        </strong>
+
+                        <span>
+                            of
+                        </span>
+
+                        <strong>
+                            {pagination.totalPages}
+                        </strong>
+
+                    </div>
 
 
                     <button
+                        type="button"
                         disabled={
                             !hasNextPage ||
                             loading
@@ -567,11 +713,12 @@ export default function AdminBrandsPage() {
                                     previous + 1
                             )
                         }
+                        className={styles.paginationButton}
                     >
-                        Next
+                        Next →
                     </button>
 
-                </div>
+                </nav>
 
             )}
 

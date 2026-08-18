@@ -1,0 +1,1290 @@
+/* =========================================================
+   ADMIN DASHBOARD
+   Bold / High Contrast Admin UI
+========================================================= */
+
+.dashboard {
+    --bg: #0b1120;
+    --surface: #111827;
+    --surface-light: #1e293b;
+    --border: #334155;
+
+    --text: #f8fafc;
+    --muted: #94a3b8;
+
+    width: 100%;
+    max-width: 1500px;
+
+    min-height: 100vh;
+
+    margin: 0 auto;
+
+    padding: 34px 32px 70px;
+
+    box-sizing: border-box;
+
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(37, 99, 235, 0.16),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at bottom left,
+            rgba(124, 58, 237, 0.12),
+            transparent 30%
+        ),
+        var(--bg);
+
+    color: var(--text);
+}
+
+
+/* =========================================================
+   PAGE TITLE
+========================================================= */
+
+.dashboard > h1 {
+    position: relative;
+
+    margin: 0 0 34px;
+
+    padding: 32px;
+
+    overflow: hidden;
+
+    border-radius: 22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #172554 0%,
+            #1e3a8a 45%,
+            #312e81 100%
+        );
+
+    border: 1px solid #3b82f6;
+
+    color: #ffffff;
+
+    font-size: clamp(30px, 4vw, 44px);
+
+    font-weight: 900;
+
+    line-height: 1.1;
+
+    letter-spacing: -1.5px;
+
+    box-shadow:
+        0 20px 45px rgba(0, 0, 0, 0.35);
+}
+
+
+.dashboard > h1::after {
+    content: "";
+
+    position: absolute;
+
+    width: 250px;
+    height: 250px;
+
+    right: -90px;
+    top: -140px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 255, 255, 0.08);
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   GENERAL SECTION
+========================================================= */
+
+.dashboard > section {
+    margin-bottom: 36px;
+
+    padding: 28px;
+
+    box-sizing: border-box;
+
+    background:
+        linear-gradient(
+            145deg,
+            #111827,
+            #0f172a
+        );
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.25);
+}
+
+
+.dashboard > section > h2 {
+    margin: 0 0 24px;
+
+    color: #ffffff;
+
+    font-size: 21px;
+
+    font-weight: 850;
+
+    letter-spacing: -0.3px;
+}
+
+
+/* =========================================================
+   STATISTICS SECTION
+========================================================= */
+
+.dashboard > section:first-of-type {
+    padding: 0;
+
+    background: transparent;
+
+    border: none;
+
+    box-shadow: none;
+}
+
+
+.dashboard
+> section:first-of-type
+> h2 {
+
+    margin: 0 0 18px;
+
+    color: #cbd5e1;
+
+    font-size: 13px;
+
+    font-weight: 850;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.14em;
+}
+
+
+/* =========================================================
+   STATISTICS GRID
+========================================================= */
+
+.dashboard
+> section:first-of-type
+> div {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(6, minmax(0, 1fr));
+
+    gap: 14px;
+}
+
+
+/* =========================================================
+   STAT CARD
+========================================================= */
+
+.dashboard
+> section:first-of-type
+> div
+> div {
+
+    position: relative;
+
+    min-width: 0;
+
+    min-height: 180px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+
+    padding: 23px;
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+
+    border-radius: 18px;
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    color: #ffffff;
+
+    box-shadow:
+        0 12px 25px rgba(0, 0, 0, 0.28);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+}
+
+
+.dashboard
+> section:first-of-type
+> div
+> div:hover {
+
+    transform:
+        translateY(-6px);
+
+    box-shadow:
+        0 20px 35px rgba(0, 0, 0, 0.4);
+
+    border-color:
+        rgba(255, 255, 255, 0.3);
+}
+
+
+/* =========================================================
+   STAT CARD BACKGROUNDS
+========================================================= */
+
+.dashboard
+> section:first-of-type
+> div
+> div:nth-child(1) {
+
+    background:
+        linear-gradient(
+            145deg,
+            #1d4ed8,
+            #1e3a8a
+        );
+}
+
+
+.dashboard
+> section:first-of-type
+> div
+> div:nth-child(2) {
+
+    background:
+        linear-gradient(
+            145deg,
+            #7c3aed,
+            #4c1d95
+        );
+}
+
+
+.dashboard
+> section:first-of-type
+> div
+> div:nth-child(3) {
+
+    background:
+        linear-gradient(
+            145deg,
+            #d97706,
+            #92400e
+        );
+}
+
+
+.dashboard
+> section:first-of-type
+> div
+> div:nth-child(4) {
+
+    background:
+        linear-gradient(
+            145deg,
+            #059669,
+            #065f46
+        );
+}
+
+
+.dashboard
+> section:first-of-type
+> div
+> div:nth-child(5) {
+
+    background:
+        linear-gradient(
+            145deg,
+            #db2777,
+            #831843
+        );
+}
+
+
+.dashboard
+> section:first-of-type
+> div
+> div:nth-child(6) {
+
+    background:
+        linear-gradient(
+            145deg,
+            #dc2626,
+            #7f1d1d
+        );
+}
+
+
+/* =========================================================
+   STAT CARD DECORATION
+========================================================= */
+
+.dashboard
+> section:first-of-type
+> div
+> div::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 120px;
+    height: 120px;
+
+    right: -50px;
+    bottom: -50px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 255, 255, 0.1);
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   STAT LABEL
+========================================================= */
+
+.dashboard
+> section:first-of-type
+> div
+> div
+> h3 {
+
+    position: relative;
+
+    z-index: 1;
+
+    margin: 0;
+
+    color:
+        rgba(255, 255, 255, 0.75);
+
+    font-size: 11px;
+
+    font-weight: 850;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.12em;
+}
+
+
+/* =========================================================
+   STAT NUMBER
+========================================================= */
+
+.dashboard
+> section:first-of-type
+> div
+> div
+> p {
+
+    position: relative;
+
+    z-index: 1;
+
+    margin: auto 0 0;
+
+    color: #ffffff;
+
+    font-size:
+        clamp(32px, 3vw, 44px);
+
+    font-weight: 950;
+
+    line-height: 1;
+
+    letter-spacing: -1.5px;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   RECENT USERS SECTION
+========================================================= */
+
+.dashboard
+> section:nth-of-type(2) {
+
+    background:
+        linear-gradient(
+            145deg,
+            #172554,
+            #0f172a
+        );
+
+    border-color:
+        #1e40af;
+}
+
+
+/* =========================================================
+   RECENT USERS GRID
+========================================================= */
+
+.dashboard
+> section:nth-of-type(2)
+> div {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 15px;
+}
+
+
+/* =========================================================
+   USER CARD
+========================================================= */
+
+.dashboard
+> section:nth-of-type(2)
+> div
+> article {
+
+    min-width: 0;
+
+    padding: 21px;
+
+    box-sizing: border-box;
+
+    background:
+        linear-gradient(
+            145deg,
+            #1e3a8a,
+            #172554
+        );
+
+    border:
+        1px solid #3b82f6;
+
+    border-radius: 15px;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        0 8px 20px rgba(0, 0, 0, 0.25);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+.dashboard
+> section:nth-of-type(2)
+> div
+> article:hover {
+
+    transform:
+        translateY(-4px);
+
+    border-color:
+        #60a5fa;
+
+    box-shadow:
+        0 16px 30px rgba(0, 0, 0, 0.35);
+}
+
+
+/* =========================================================
+   USER NAME
+========================================================= */
+
+.dashboard
+> section:nth-of-type(2)
+> div
+> article
+> h3 {
+
+    margin:
+        0 0 14px;
+
+    color:
+        #ffffff;
+
+    font-size:
+        18px;
+
+    font-weight:
+        850;
+
+    overflow:
+        hidden;
+
+    text-overflow:
+        ellipsis;
+
+    white-space:
+        nowrap;
+}
+
+
+/* =========================================================
+   USER INFORMATION
+========================================================= */
+
+.dashboard
+> section:nth-of-type(2)
+> div
+> article
+> p {
+
+    margin:
+        8px 0;
+
+    color:
+        #bfdbfe;
+
+    font-size:
+        13px;
+
+    font-weight:
+        500;
+
+    line-height:
+        1.5;
+
+    overflow:
+        hidden;
+
+    text-overflow:
+        ellipsis;
+
+    white-space:
+        nowrap;
+}
+
+
+/* =========================================================
+   USER ROLE
+========================================================= */
+
+.dashboard
+> section:nth-of-type(2)
+> div
+> article
+> p:nth-of-type(2) {
+
+    display:
+        inline-flex;
+
+    width:
+        fit-content;
+
+    margin-top:
+        12px;
+
+    padding:
+        6px 10px;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.2);
+
+    border-radius:
+        7px;
+
+    background:
+        rgba(255, 255, 255, 0.1);
+
+    color:
+        #ffffff;
+
+    font-size:
+        10px;
+
+    font-weight:
+        850;
+
+    text-transform:
+        uppercase;
+
+    letter-spacing:
+        0.06em;
+}
+
+
+/* =========================================================
+   RECENT REVIEWS SECTION
+========================================================= */
+
+.dashboard
+> section:nth-of-type(3) {
+
+    background:
+        linear-gradient(
+            145deg,
+            #451a03,
+            #1c1917
+        );
+
+    border-color:
+        #92400e;
+}
+
+
+/* =========================================================
+   REVIEW GRID
+========================================================= */
+
+.dashboard
+> section:nth-of-type(3)
+> div {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap:
+        15px;
+}
+
+
+/* =========================================================
+   REVIEW CARD
+========================================================= */
+
+.dashboard
+> section:nth-of-type(3)
+> div
+> article {
+
+    position:
+        relative;
+
+    min-width:
+        0;
+
+    padding:
+        22px 22px 22px 25px;
+
+    box-sizing:
+        border-box;
+
+    overflow:
+        hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            #78350f,
+            #451a03
+        );
+
+    border:
+        1px solid #d97706;
+
+    border-radius:
+        15px;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        0 8px 20px rgba(0, 0, 0, 0.28);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+.dashboard
+> section:nth-of-type(3)
+> div
+> article::before {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    left:
+        0;
+
+    top:
+        0;
+
+    width:
+        5px;
+
+    height:
+        100%;
+
+    background:
+        #fbbf24;
+}
+
+
+.dashboard
+> section:nth-of-type(3)
+> div
+> article:hover {
+
+    transform:
+        translateY(-4px);
+
+    border-color:
+        #fbbf24;
+
+    box-shadow:
+        0 16px 30px rgba(0, 0, 0, 0.38);
+}
+
+
+/* =========================================================
+   REVIEW TITLE
+========================================================= */
+
+.dashboard
+> section:nth-of-type(3)
+> div
+> article
+> h3 {
+
+    margin:
+        0 0 14px;
+
+    color:
+        #ffffff;
+
+    font-size:
+        18px;
+
+    font-weight:
+        850;
+
+    line-height:
+        1.4;
+
+    display:
+        -webkit-box;
+
+    overflow:
+        hidden;
+
+    -webkit-line-clamp:
+        2;
+
+    -webkit-box-orient:
+        vertical;
+}
+
+
+/* =========================================================
+   REVIEW INFORMATION
+========================================================= */
+
+.dashboard
+> section:nth-of-type(3)
+> div
+> article
+> p {
+
+    margin:
+        8px 0;
+
+    color:
+        #fed7aa;
+
+    font-size:
+        13px;
+
+    font-weight:
+        500;
+
+    line-height:
+        1.5;
+
+    overflow:
+        hidden;
+
+    text-overflow:
+        ellipsis;
+
+    white-space:
+        nowrap;
+}
+
+
+/* =========================================================
+   REVIEW RATING
+========================================================= */
+
+.dashboard
+> section:nth-of-type(3)
+> div
+> article
+> p:first-of-type {
+
+    display:
+        inline-flex;
+
+    width:
+        fit-content;
+
+    margin:
+        0 0 13px;
+
+    padding:
+        6px 10px;
+
+    border:
+        1px solid rgba(251, 191, 36, 0.45);
+
+    border-radius:
+        7px;
+
+    background:
+        rgba(251, 191, 36, 0.12);
+
+    color:
+        #fef3c7;
+
+    font-size:
+        12px;
+
+    font-weight:
+        850;
+}
+
+
+/* =========================================================
+   EMPTY STATES
+========================================================= */
+
+.dashboard
+> section
+> p {
+
+    margin:
+        0;
+
+    padding:
+        35px 20px;
+
+    background:
+        rgba(255, 255, 255, 0.04);
+
+    border:
+        1px dashed #475569;
+
+    border-radius:
+        12px;
+
+    color:
+        #94a3b8;
+
+    font-size:
+        14px;
+
+    font-weight:
+        600;
+
+    text-align:
+        center;
+}
+
+
+/* =========================================================
+   LOADING / ERROR
+========================================================= */
+
+.dashboard
+> h1
++ p {
+
+    margin:
+        0;
+
+    padding:
+        40px;
+
+    background:
+        #111827;
+
+    border:
+        1px solid #334155;
+
+    border-radius:
+        16px;
+
+    color:
+        #cbd5e1;
+
+    font-size:
+        15px;
+
+    font-weight:
+        600;
+
+    text-align:
+        center;
+}
+
+
+/* =========================================================
+   LARGE TABLET
+========================================================= */
+
+@media (max-width: 1200px) {
+
+    .dashboard {
+        padding:
+            30px 24px 60px;
+    }
+
+
+    .dashboard
+    > section:first-of-type
+    > div {
+
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 800px) {
+
+    .dashboard {
+        padding:
+            25px 20px 50px;
+    }
+
+
+    .dashboard > h1 {
+        padding:
+            27px;
+
+        margin-bottom:
+            28px;
+
+        font-size:
+            31px;
+    }
+
+
+    .dashboard > section {
+        padding:
+            22px;
+
+        border-radius:
+            17px;
+    }
+
+
+    .dashboard
+    > section:first-of-type
+    > div {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+
+    .dashboard
+    > section:nth-of-type(2)
+    > div,
+
+    .dashboard
+    > section:nth-of-type(3)
+    > div {
+
+        grid-template-columns:
+            1fr;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .dashboard {
+        padding:
+            18px 14px 40px;
+    }
+
+
+    .dashboard > h1 {
+        padding:
+            24px 20px;
+
+        margin-bottom:
+            24px;
+
+        border-radius:
+            16px;
+
+        font-size:
+            27px;
+    }
+
+
+    .dashboard > section {
+        margin-bottom:
+            24px;
+
+        padding:
+            18px;
+
+        border-radius:
+            15px;
+    }
+
+
+    .dashboard > section > h2 {
+        margin-bottom:
+            18px;
+
+        font-size:
+            18px;
+    }
+
+
+    .dashboard
+    > section:first-of-type
+    > h2 {
+
+        margin-bottom:
+            14px;
+
+        font-size:
+            11px;
+    }
+
+
+    .dashboard
+    > section:first-of-type
+    > div {
+
+        gap:
+            10px;
+    }
+
+
+    .dashboard
+    > section:first-of-type
+    > div
+    > div {
+
+        min-height:
+            130px;
+
+        padding:
+            17px;
+    }
+
+
+    .dashboard
+    > section:first-of-type
+    > div
+    > div
+    p {
+
+        font-size:
+            28px;
+    }
+
+
+    .dashboard
+    > section:first-of-type
+    > div
+    > div
+    h3 {
+
+        font-size:
+            9px;
+    }
+
+
+    .dashboard
+    > section:nth-of-type(2)
+    > div
+    > article,
+
+    .dashboard
+    > section:nth-of-type(3)
+    > div
+    > article {
+
+        padding:
+            18px;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .dashboard {
+        padding:
+            15px 11px 35px;
+    }
+
+
+    .dashboard > h1 {
+        padding:
+            21px 17px;
+
+        font-size:
+            24px;
+    }
+
+
+    .dashboard > section {
+        padding:
+            15px;
+    }
+
+
+    .dashboard
+    > section:first-of-type
+    > div {
+
+        gap:
+            8px;
+    }
+
+
+    .dashboard
+    > section:first-of-type
+    > div
+    > div {
+
+        min-height:
+            112px;
+
+        padding:
+            14px;
+    }
+
+
+    .dashboard
+    > section:first-of-type
+    > div
+    > div
+    p {
+
+        font-size:
+            23px;
+    }
+
+
+    .dashboard
+    > section:first-of-type
+    > div
+    > div
+    h3 {
+
+        font-size:
+            8px;
+    }
+
+
+    .dashboard
+    > section:nth-of-type(2)
+    > div
+    > article,
+
+    .dashboard
+    > section:nth-of-type(3)
+    > div
+    > article {
+
+        padding:
+            15px;
+    }
+
+
+    .dashboard
+    > section:nth-of-type(2)
+    > div
+    > article
+    > h3,
+
+    .dashboard
+    > section:nth-of-type(3)
+    > div
+    > article
+    > h3 {
+
+        font-size:
+            15px;
+    }
+
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .dashboard
+    > section:first-of-type
+    > div
+    > div,
+
+    .dashboard
+    > section:nth-of-type(2)
+    > div
+    > article,
+
+    .dashboard
+    > section:nth-of-type(3)
+    > div
+    > article {
+
+        transition:
+            none;
+    }
+
+}

@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 
 import api from "@/lib/api";
 
+import styles from "./AdminDashboard.module.css";
+
 export default function AdminDashboard() {
 
     const [dashboard, setDashboard] =
@@ -90,7 +92,7 @@ export default function AdminDashboard() {
     if (loading) {
 
         return (
-            <main>
+            <main className={styles.dashboard}>
 
                 <h1>
                     Admin Dashboard
@@ -113,7 +115,7 @@ export default function AdminDashboard() {
     if (error) {
 
         return (
-            <main>
+            <main className={styles.dashboard}>
 
                 <h1>
                     Admin Dashboard
@@ -129,10 +131,14 @@ export default function AdminDashboard() {
     }
 
 
+    // ==========================================
+    // NO DATA
+    // ==========================================
+
     if (!dashboard) {
 
         return (
-            <main>
+            <main className={styles.dashboard}>
 
                 <p>
                     No dashboard data available.
@@ -157,7 +163,7 @@ export default function AdminDashboard() {
 
     return (
 
-        <main>
+        <main className={styles.dashboard}>
 
             <h1>
                 Admin Dashboard
