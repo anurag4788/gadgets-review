@@ -1,560 +1,118 @@
-/* =========================================================
-   REVIEW CARD
-   ========================================================= */
+/* ==========================================
+   CARD SHELL
+========================================== */
 
 .card {
-    position: relative;
-
-    width: 100%;
-    min-width: 0;
-
-    min-height: 205px;
-
-    display: flex;
-    flex-direction: column;
-
-    box-sizing: border-box;
-
-    padding:
-        clamp(18px, 2vw, 22px);
-
-    overflow: hidden;
-
-    background:
-        #ffffff;
-
-    border:
-        1px solid #e2e8f0;
-
-    border-radius:
-        18px;
-
-    box-shadow:
-        0 4px 14px rgba(15, 23, 42, 0.045);
-
-    transition:
-        transform 0.25s ease,
-        border-color 0.25s ease,
-        box-shadow 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 22px;
+  background: #ffffff;
+  border: 1px solid #e4edfb;
+  border-radius: 18px;
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  box-shadow: 0 2px 8px rgba(30, 60, 110, 0.05);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
-
-
-/* =========================================================
-   DECORATIVE QUOTE
-========================================================= */
-
-.card::before {
-    content: "“";
-
-    position: absolute;
-
-    top: -10px;
-    right: 14px;
-
-    color:
-        rgba(37, 99, 235, 0.07);
-
-    font-family:
-        Georgia,
-        serif;
-
-    font-size:
-        100px;
-
-    font-weight:
-        700;
-
-    line-height:
-        1;
-
-    pointer-events:
-        none;
-
-    transition:
-        color 0.3s ease,
-        transform 0.3s ease;
-}
-
 
 .card:hover {
-    transform:
-        translateY(-6px);
-
-    border-color:
-        #bfdbfe;
-
-    box-shadow:
-        0 16px 35px rgba(15, 23, 42, 0.09);
+  transform: translateY(-6px);
+  border-color: #cfe2ff;
+  box-shadow: 0 16px 32px rgba(59, 130, 246, 0.15);
 }
 
 
-.card:hover::before {
-    color:
-        rgba(37, 99, 235, 0.11);
-
-    transform:
-        translateY(-3px);
-}
-
-
-/* =========================================================
+/* ==========================================
    HEADER
-========================================================= */
+========================================== */
 
 .header {
-    position: relative;
-
-    z-index: 1;
-
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-
-    gap:
-        14px;
-
-    margin-bottom:
-        18px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
 }
-
-
-/* =========================================================
-   USER
-========================================================= */
 
 .user {
-    max-width:
-        180px;
-
-    margin:
-        0 0 7px;
-
-    overflow:
-        hidden;
-
-    color:
-        #0f172a;
-
-    font-size:
-        14px;
-
-    font-weight:
-        750;
-
-    line-height:
-        1.3;
-
-    text-overflow:
-        ellipsis;
-
-    white-space:
-        nowrap;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #16233a;
 }
-
-
-/* =========================================================
-   RATING
-========================================================= */
 
 .rating {
-    margin:
-        0;
-
-    font-size:
-        13px;
-
-    line-height:
-        1;
-
-    letter-spacing:
-        1px;
-
-    white-space:
-        nowrap;
+  margin-top: 4px;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
 }
-
-
-/* =========================================================
-   DATE
-========================================================= */
 
 .date {
-    flex-shrink:
-        0;
-
-    padding:
-        5px 8px;
-
-    border:
-        1px solid #e2e8f0;
-
-    border-radius:
-        7px;
-
-    background:
-        #f8fafc;
-
-    color:
-        #64748b;
-
-    font-size:
-        10px;
-
-    font-weight:
-        600;
-
-    line-height:
-        1.2;
-
-    white-space:
-        nowrap;
+  flex-shrink: 0;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #8296b3;
+  white-space: nowrap;
 }
 
 
-/* =========================================================
-   REVIEW TITLE
-========================================================= */
+/* ==========================================
+   TITLE / GADGET LINK
+========================================== */
 
 .title {
-    position: relative;
-
-    z-index: 1;
-
-    min-width:
-        0;
-
-    margin:
-        0 0 18px;
-
-    display:
-        -webkit-box;
-
-    overflow:
-        hidden;
-
-    color:
-        #0f172a;
-
-    font-size:
-        clamp(16px, 1.6vw, 18px);
-
-    font-weight:
-        700;
-
-    line-height:
-        1.45;
-
-    letter-spacing:
-        -0.15px;
-
-    -webkit-line-clamp:
-        3;
-
-    -webkit-box-orient:
-        vertical;
-
-    overflow-wrap:
-        break-word;
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: #1e2a3a;
+  line-height: 1.4;
 }
-
-
-/* =========================================================
-   GADGET LINK
-========================================================= */
 
 .gadget {
-    position:
-        relative;
-
-    z-index:
-        1;
-
-    display:
-        inline-flex;
-
-    align-items:
-        center;
-
-    align-self:
-        flex-start;
-
-    max-width:
-        100%;
-
-    min-width:
-        0;
-
-    margin-top:
-        auto;
-
-    padding:
-        7px 10px;
-
-    box-sizing:
-        border-box;
-
-    overflow:
-        hidden;
-
-    border:
-        1px solid #dbeafe;
-
-    border-radius:
-        8px;
-
-    background:
-        #eff6ff;
-
-    color:
-        #2563eb;
-
-    font-size:
-        12px;
-
-    font-weight:
-        700;
-
-    line-height:
-        1.3;
-
-    text-decoration:
-        none;
-
-    text-overflow:
-        ellipsis;
-
-    white-space:
-        nowrap;
-
-    transition:
-        background-color 0.2s ease,
-        border-color 0.2s ease,
-        color 0.2s ease,
-        transform 0.2s ease;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 14px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #2f6fdb;
+  text-decoration: none;
+  background: #eef4ff;
+  border: 1px solid #dce8fb;
+  border-radius: 999px;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
-
 
 .gadget:hover {
-    background:
-        #dbeafe;
-
-    border-color:
-        #bfdbfe;
-
-    color:
-        #1d4ed8;
-
-    transform:
-        translateX(2px);
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: #ffffff;
 }
 
 
-.gadget:focus-visible {
-    outline:
-        3px solid rgba(37, 99, 235, 0.22);
+/* ==========================================
+   RESPONSIVE
+========================================== */
 
-    outline-offset:
-        3px;
+@media (max-width: 768px) {
+  .card {
+    padding: 18px;
+    gap: 12px;
+  }
+
+  .title {
+    font-size: 0.96rem;
+  }
 }
 
-
-/* =========================================================
-   TABLET
-========================================================= */
-
-@media (max-width: 800px) {
-
-    .card {
-        min-height:
-            195px;
-
-        padding:
-            18px;
-    }
-
-
-    .header {
-        margin-bottom:
-            16px;
-    }
-
-
-    .user {
-        font-size:
-            14px;
-    }
-
-
-    .title {
-        font-size:
-            16px;
-    }
-
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 600px) {
-
-    .card {
-        min-height:
-            190px;
-
-        padding:
-            17px;
-
-        border-radius:
-            16px;
-    }
-
-
-    .card::before {
-        font-size:
-            85px;
-
-        right:
-            10px;
-    }
-
-
-    .header {
-        gap:
-            10px;
-
-        margin-bottom:
-            16px;
-    }
-
-
-    .user {
-        max-width:
-            150px;
-
-        font-size:
-            13px;
-    }
-
-
-    .rating {
-        font-size:
-            12px;
-    }
-
-
-    .date {
-        padding:
-            5px 7px;
-
-        font-size:
-            9px;
-    }
-
-
-    .title {
-        margin-bottom:
-            16px;
-
-        font-size:
-            16px;
-
-        line-height:
-            1.4;
-    }
-
-
-    .gadget {
-        max-width:
-            100%;
-
-        font-size:
-            11px;
-    }
-
-}
-
-
-/* =========================================================
-   SMALL MOBILE
-========================================================= */
-
-@media (max-width: 380px) {
-
-    .card {
-        min-height:
-            180px;
-
-        padding:
-            15px;
-    }
-
-
-    .card::before {
-        font-size:
-            75px;
-    }
-
-
-    .header {
-        gap:
-            8px;
-    }
-
-
-    .user {
-        max-width:
-            125px;
-
-        font-size:
-            12px;
-    }
-
-
-    .rating {
-        font-size:
-            11px;
-
-        letter-spacing:
-            0.5px;
-    }
-
-
-    .date {
-        font-size:
-            8px;
-    }
-
-
-    .title {
-        font-size:
-            15px;
-    }
-
-
-    .gadget {
-        padding:
-            6px 8px;
-
-        font-size:
-            10px;
-    }
-
-}
-
-
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-
-    .card,
-    .card::before,
-    .gadget {
-        transition:
-            none;
-    }
-
+@media (max-width: 420px) {
+  .card {
+    padding: 16px;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .date {
+    align-self: flex-start;
+  }
 }

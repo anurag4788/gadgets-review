@@ -1,528 +1,139 @@
-/* =========================================================
-   BRAND CARD
-   ========================================================= */
+/* ==========================================
+   CARD SHELL
+========================================== */
 
 .card {
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-
-    min-height: 230px;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-
-    box-sizing: border-box;
-
-    padding:
-        clamp(18px, 2vw, 24px);
-
-    overflow: hidden;
-
-    background:
-        #ffffff;
-
-    border:
-        1px solid #e2e8f0;
-
-    border-radius:
-        18px;
-
-    box-shadow:
-        0 4px 14px rgba(15, 23, 42, 0.045);
-
-    transition:
-        transform 0.25s ease,
-        border-color 0.25s ease,
-        box-shadow 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+  padding: 24px 18px;
+  background: #ffffff;
+  border: 1px solid #e4edfb;
+  border-radius: 18px;
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  box-shadow: 0 2px 8px rgba(30, 60, 110, 0.05);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
-
 
 .card:hover {
-    transform:
-        translateY(-6px);
-
-    border-color:
-        #bfdbfe;
-
-    box-shadow:
-        0 16px 35px rgba(15, 23, 42, 0.09);
+  transform: translateY(-6px);
+  border-color: #cfe2ff;
+  box-shadow: 0 16px 32px rgba(59, 130, 246, 0.15);
 }
 
 
-/* =========================================================
-   LOGO AREA
-========================================================= */
+/* ==========================================
+   LOGO
+========================================== */
 
 .logoWrapper {
-    position: relative;
-
-    width: 100%;
-    height: 110px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    margin-bottom: 18px;
-
-    overflow: hidden;
-
-    border-radius:
-        14px;
-
-    background:
-        linear-gradient(
-            145deg,
-            #f8fafc 0%,
-            #f1f5f9 100%
-        );
-
-    border:
-        1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #eaf3ff, #f7fbff);
+  overflow: hidden;
+  padding: 12px;
+  box-sizing: border-box;
 }
-
-
-/*
-   Soft background glow
-*/
-
-.logoWrapper::before {
-    content: "";
-
-    position: absolute;
-
-    width: 130px;
-    height: 130px;
-
-    top: 50%;
-    left: 50%;
-
-    transform:
-        translate(-50%, -50%);
-
-    border-radius: 50%;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(37, 99, 235, 0.07) 0%,
-            rgba(37, 99, 235, 0) 70%
-        );
-
-    pointer-events: none;
-}
-
-
-/* =========================================================
-   LOGO IMAGE
-========================================================= */
 
 .logo {
-    position: relative;
-
-    z-index: 1;
-
-    display: block;
-
-    width: auto;
-    height: auto;
-
-    max-width:
-        min(150px, 75%);
-
-    max-height:
-        76px;
-
-    object-fit: contain;
-
-    transition:
-        transform 0.3s ease;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
 }
-
-
-.card:hover .logo {
-    transform:
-        scale(1.05);
-}
-
-
-/* =========================================================
-   FALLBACK LOGO
-========================================================= */
 
 .noLogo {
-    position: relative;
-
-    z-index: 1;
-
-    width: 64px;
-    height: 64px;
-
-    flex-shrink: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-
-    background:
-        linear-gradient(
-            135deg,
-            #2563eb,
-            #3b82f6
-        );
-
-    color:
-        #ffffff;
-
-    font-size:
-        24px;
-
-    font-weight:
-        800;
-
-    text-transform:
-        uppercase;
-
-    box-shadow:
-        0 8px 18px rgba(37, 99, 235, 0.2);
-
-    transition:
-        transform 0.3s ease;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(135deg, #3b82f6, #93c5fd);
+  border-radius: 50%;
 }
 
 
-.card:hover .noLogo {
-    transform:
-        scale(1.05);
-}
-
-
-/* =========================================================
-   BRAND NAME
-========================================================= */
+/* ==========================================
+   CONTENT
+========================================== */
 
 .name {
-    width: 100%;
-    max-width: 100%;
-
-    min-width: 0;
-
-    margin:
-        0 0 18px;
-
-    color:
-        #0f172a;
-
-    font-size:
-        clamp(16px, 1.7vw, 19px);
-
-    font-weight:
-        750;
-
-    line-height:
-        1.3;
-
-    letter-spacing:
-        -0.2px;
-
-    text-align:
-        center;
-
-    overflow:
-        hidden;
-
-    text-overflow:
-        ellipsis;
-
-    white-space:
-        nowrap;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #16233a;
+  line-height: 1.35;
 }
 
 
-/* =========================================================
+/* ==========================================
    BUTTON
-========================================================= */
+========================================== */
 
 .button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 100%;
-
-    min-height:
-        42px;
-
-    box-sizing: border-box;
-
-    padding:
-        10px 14px;
-
-    border:
-        1px solid #1d4ed8;
-
-    border-radius:
-        10px;
-
-    background:
-        #2563eb;
-
-    color:
-        #ffffff;
-
-    font-size:
-        13px;
-
-    font-weight:
-        700;
-
-    line-height:
-        1;
-
-    text-align:
-        center;
-
-    text-decoration:
-        none;
-
-    box-shadow:
-        0 5px 12px rgba(37, 99, 235, 0.18);
-
-    transition:
-        background-color 0.2s ease,
-        border-color 0.2s ease,
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 9px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #2f6fdb;
+  text-decoration: none;
+  background: #eef4ff;
+  border: 1px solid #dce8fb;
+  border-radius: 10px;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
-
 
 .button:hover {
-    background:
-        #1d4ed8;
-
-    border-color:
-        #1e40af;
-
-    color:
-        #ffffff;
-
-    transform:
-        translateY(-1px);
-
-    box-shadow:
-        0 7px 16px rgba(37, 99, 235, 0.25);
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: #ffffff;
 }
 
 
-.button:active {
-    background:
-        #1e40af;
+/* ==========================================
+   RESPONSIVE
+========================================== */
 
-    transform:
-        translateY(0);
+@media (max-width: 768px) {
+  .card {
+    padding: 20px 14px;
+    gap: 12px;
+  }
+
+  .logoWrapper {
+    width: 60px;
+    height: 60px;
+  }
+
+  .name {
+    font-size: 0.92rem;
+  }
 }
 
-
-.button:focus-visible {
-    outline:
-        3px solid rgba(37, 99, 235, 0.25);
-
-    outline-offset:
-        3px;
-}
-
-
-/* =========================================================
-   TABLET
-========================================================= */
-
-@media (max-width: 800px) {
-
-    .card {
-        min-height:
-            220px;
-
-        padding:
-            18px;
-    }
-
-
-    .logoWrapper {
-        height:
-            100px;
-    }
-
-
-    .logo {
-        max-width:
-            140px;
-
-        max-height:
-            70px;
-    }
-
-
-    .name {
-        font-size:
-            17px;
-    }
-
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 600px) {
-
-    .card {
-        min-height:
-            215px;
-
-        padding:
-            17px;
-
-        border-radius:
-            16px;
-    }
-
-
-    .logoWrapper {
-        height:
-            100px;
-
-        margin-bottom:
-            16px;
-
-        border-radius:
-            12px;
-    }
-
-
-    .logo {
-        max-width:
-            140px;
-
-        max-height:
-            68px;
-    }
-
-
-    .noLogo {
-        width:
-            58px;
-
-        height:
-            58px;
-
-        font-size:
-            22px;
-    }
-
-
-    .name {
-        margin-bottom:
-            16px;
-
-        font-size:
-            17px;
-    }
-
-
-    .button {
-        min-height:
-            43px;
-
-        font-size:
-            13px;
-    }
-
-}
-
-
-/* =========================================================
-   SMALL MOBILE
-========================================================= */
-
-@media (max-width: 380px) {
-
-    .card {
-        min-height:
-            205px;
-
-        padding:
-            15px;
-    }
-
-
-    .logoWrapper {
-        height:
-            90px;
-
-        margin-bottom:
-            14px;
-    }
-
-
-    .logo {
-        max-width:
-            125px;
-
-        max-height:
-            62px;
-    }
-
-
-    .noLogo {
-        width:
-            54px;
-
-        height:
-            54px;
-
-        font-size:
-            20px;
-    }
-
-
-    .name {
-        margin-bottom:
-            14px;
-
-        font-size:
-            16px;
-    }
-
-
-    .button {
-        min-height:
-            41px;
-
-        font-size:
-            12px;
-    }
-
-}
-
-
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-
-    .card,
-    .logo,
-    .noLogo,
-    .button {
-        transition:
-            none;
-    }
-
+@media (max-width: 420px) {
+  .card {
+    padding: 16px 12px;
+    gap: 10px;
+  }
+
+  .logoWrapper {
+    width: 52px;
+    height: 52px;
+  }
+
+  .button {
+    font-size: 0.8rem;
+    padding: 8px 12px;
+  }
 }
