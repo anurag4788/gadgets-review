@@ -6,8 +6,8 @@
   display: flex;
   flex-direction: column;
   gap: 96px;
-  background: linear-gradient(180deg, #f5f9ff 0%, #ffffff 25%);
-  color: #1e2a3a;
+  background: radial-gradient(circle at 15% 0%, #101b33 0%, #0b1120 45%, #0b1120 100%);
+  color: #eef3fb;
   font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
   padding-bottom: 96px;
   overflow-x: hidden;
@@ -21,21 +21,22 @@
   justify-content: center;
   gap: 16px;
   text-align: center;
-  color: #4a5b73;
+  color: #a9b8d6;
+  background: #0b1120;
   font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
 }
 
 .pageState h1 {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #1e2a3a;
+  color: #eef3fb;
 }
 
 .loader {
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  border: 3px solid #dce8fb;
+  border: 3px solid #1e293f;
   border-top-color: #4d8dee;
   animation: spin 0.8s linear infinite;
 }
@@ -63,6 +64,7 @@
     radial-gradient(circle at 80% 30%, rgba(160, 210, 255, 0.3), transparent 50%),
     linear-gradient(135deg, #eaf3ff 0%, #f7fbff 60%, #ffffff 100%);
   border-radius: 0 0 40px 40px;
+  filter: drop-shadow(0 30px 45px rgba(59, 130, 246, 0.3));
   overflow: hidden;
 }
 
@@ -179,7 +181,7 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 12px;
-  border-bottom: 1px solid #e4edfb;
+  border-bottom: 1px solid #1e293f;
   padding-bottom: 16px;
 }
 
@@ -195,14 +197,14 @@
 .sectionTitle {
   font-size: 1.6rem;
   font-weight: 700;
-  color: #182338;
+  color: #eef3fb;
 }
 
 .sectionCount {
   font-size: 0.85rem;
   font-weight: 500;
-  color: #4d8dee;
-  background: #eaf2ff;
+  color: #a7c8ff;
+  background: #16233f;
   padding: 6px 14px;
   border-radius: 999px;
 }

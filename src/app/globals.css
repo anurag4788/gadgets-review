@@ -12,17 +12,17 @@
   --color-danger: #dc2626;
   --color-warning: #f59e0b;
 
-  --color-background: #f5f9ff;
+  --color-background: #0b1120;
   --color-surface: #ffffff;
 
-  --color-text: #16233a;
-  --color-text-secondary: #52627a;
-  --color-text-muted: #9db4d6;
+  --color-text: #eef3fb;
+  --color-text-secondary: #a9b8d6;
+  --color-text-muted: #6f7f9e;
 
-  --color-border: #e4edfb;
-  --color-border-hover: #cfe2ff;
+  --color-border: #1e293f;
+  --color-border-hover: #2c3e63;
 
-  --color-accent-soft: #eef4ff;
+  --color-accent-soft: #16233f;
 
 
   /* ==========================================

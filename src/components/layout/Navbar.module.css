@@ -7,10 +7,10 @@
   top: 0;
   z-index: 50;
   width: 100%;
-  background: rgba(255, 255, 255, 0.75);
+  background: rgba(11, 17, 32, 0.75);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid #e4edfb;
+  border-bottom: 1px solid #1e293f;
   font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
 }
 
@@ -35,7 +35,7 @@
   gap: 10px;
   font-size: 1.15rem;
   font-weight: 700;
-  color: #16233a;
+  color: #eef3fb;
   text-decoration: none;
   letter-spacing: -0.01em;
   transition: opacity 0.2s ease;
@@ -77,15 +77,15 @@
   padding: 8px 14px;
   font-size: 0.92rem;
   font-weight: 500;
-  color: #4a5b73;
+  color: #a9b8d6;
   text-decoration: none;
   border-radius: 999px;
   transition: background 0.2s ease, color 0.2s ease;
 }
 
 .navLink:hover {
-  background: #eef4ff;
-  color: #2f6fdb;
+  background: #16233f;
+  color: #7fb0ff;
 }
 
 
@@ -100,17 +100,17 @@
   padding: 6px 14px 6px 6px;
   border-radius: 999px;
   text-decoration: none;
-  color: #16233a;
+  color: #eef3fb;
   font-size: 0.9rem;
   font-weight: 600;
-  background: #f2f7ff;
-  border: 1px solid #dce8fb;
+  background: #16233f;
+  border: 1px solid #2c3e63;
   transition: background 0.2s ease, border-color 0.2s ease;
 }
 
 .profileLink:hover {
-  background: #e6f0ff;
-  border-color: #c3daff;
+  background: #1c2c4e;
+  border-color: #3a4f7a;
 }
 
 .avatar {
