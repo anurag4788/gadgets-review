@@ -1,138 +1,21 @@
-// import axios from "axios";
-
-// const api = axios.create({
-//     baseURL: process.env.NEXT_PUBLIC_API_URL,
-//     withCredentials: true,
-
-// });
-
-
-// // ==========================================
-// // REQUEST INTERCEPTOR
-// // ==========================================
-
-// api.interceptors.request.use(
-//     (config) => {
-
-//         const token =
-//             localStorage.getItem("accessToken");
-
-//         if (token) {
-
-//             config.headers.Authorization =
-//                 `Bearer ${token}`;
-
-//         }
-
-//         return config;
-//     },
-
-//     (error) =>
-//         Promise.reject(error)
-// );
-
-
-// // ==========================================
-// // RESPONSE INTERCEPTOR
-// // ==========================================
-
-// api.interceptors.response.use(
-
-//     (response) => response,
-
-//     async (error) => {
-
-//         const originalRequest =
-//             error.config;
-
-
-//         if (
-//             error.response?.status === 401 &&
-//             originalRequest &&
-//             !originalRequest._retry &&
-//             !originalRequest.url?.includes(
-//                 "/auth/refresh-token"
-//             )
-//         ) {
-
-//             originalRequest._retry = true;
-
-//             try {
-
-//                 // IMPORTANT:
-//                 // Use a separate Axios request
-//                 // for refreshing the token.
-
-//                 const refreshResponse =
-//                     await axios.post(
-
-//                         `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh-token`,
-
-//                         {},
-
-//                         {
-//                             withCredentials: true,
-//                         }
-
-//                     );
-
-
-//                 const newAccessToken =
-//                     refreshResponse.data.data.accessToken;
-
-
-//                 // Save new access token
-
-//                 localStorage.setItem(
-//                     "accessToken",
-//                     newAccessToken
-//                 );
-
-
-//                 // Update original request
-
-//                 originalRequest.headers.Authorization =
-//                     `Bearer ${newAccessToken}`;
-
-
-//                 // Retry original request
-
-//                 return api(originalRequest);
-
-
-//             } catch (refreshError) {
-
-//                 console.error(
-//                     "Refresh Token Failed:",
-//                     refreshError
-//                 );
-
-//                 localStorage.removeItem(
-//                     "accessToken"
-//                 );
-
-//                 return Promise.reject(
-//                     refreshError
-//                 );
-
-//             }
-
-//         }
-
-
-//         return Promise.reject(error);
-
-//     }
-
-// );
-
-// export default api;
-
 import axios from "axios";
-import { saveToken, removeToken, getToken } from "@/lib/authClient";
+
+import {
+    saveToken,
+    removeToken,
+    getToken,
+} from "@/lib/authClient";
+
+
+// ==========================================
+// AXIOS INSTANCE
+// ==========================================
 
 const api = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL,
+
+    baseURL:
+        process.env.NEXT_PUBLIC_API_URL,
+
     withCredentials: true,
 
 });
@@ -143,10 +26,12 @@ const api = axios.create({
 // ==========================================
 
 api.interceptors.request.use(
+
     (config) => {
 
         const token =
             getToken();
+
 
         if (token) {
 
@@ -155,11 +40,14 @@ api.interceptors.request.use(
 
         }
 
+
         return config;
+
     },
 
     (error) =>
         Promise.reject(error)
+
 );
 
 
@@ -169,30 +57,46 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
 
-    (response) => response,
+    // Successful response
+    (response) =>
+        response,
 
+
+    // Error response
     async (error) => {
 
         const originalRequest =
             error.config;
 
 
+        // ==========================================
+        // ACCESS TOKEN EXPIRED
+        // ==========================================
+
         if (
+
             error.response?.status === 401 &&
+
             originalRequest &&
+
             !originalRequest._retry &&
+
             !originalRequest.url?.includes(
                 "/auth/refresh-token"
             )
+
         ) {
 
-            originalRequest._retry = true;
+            // Prevent infinite refresh loop
+            originalRequest._retry =
+                true;
+
 
             try {
 
-                // IMPORTANT:
-                // Use a separate Axios request
-                // for refreshing the token.
+                // ==========================================
+                // REFRESH ACCESS TOKEN
+                // ==========================================
 
                 const refreshResponse =
                     await axios.post(
@@ -208,27 +112,43 @@ api.interceptors.response.use(
                     );
 
 
+                // ==========================================
+                // GET NEW ACCESS TOKEN
+                // ==========================================
+
                 const newAccessToken =
-                    refreshResponse.data.data.accessToken;
+                    refreshResponse
+                        .data
+                        .data
+                        .accessToken;
 
 
-                // Save new access token
-                // (updates localStorage AND the cookie middleware reads)
+                // ==========================================
+                // SAVE NEW TOKEN
+                // ==========================================
 
                 saveToken(
                     newAccessToken
                 );
 
 
-                // Update original request
+                // ==========================================
+                // UPDATE ORIGINAL REQUEST
+                // ==========================================
 
-                originalRequest.headers.Authorization =
+                originalRequest
+                    .headers
+                    .Authorization =
                     `Bearer ${newAccessToken}`;
 
 
-                // Retry original request
+                // ==========================================
+                // RETRY ORIGINAL REQUEST
+                // ==========================================
 
-                return api(originalRequest);
+                return api(
+                    originalRequest
+                );
 
 
             } catch (refreshError) {
@@ -238,8 +158,13 @@ api.interceptors.response.use(
                     refreshError
                 );
 
-                // clears localStorage AND the cookie
+
+                // ==========================================
+                // LOGOUT LOCALLY
+                // ==========================================
+
                 removeToken();
+
 
                 return Promise.reject(
                     refreshError
@@ -250,10 +175,13 @@ api.interceptors.response.use(
         }
 
 
-        return Promise.reject(error);
+        return Promise.reject(
+            error
+        );
 
     }
 
 );
+
 
 export default api;

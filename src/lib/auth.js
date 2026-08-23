@@ -1,67 +1,50 @@
 import { prisma } from "@/lib/prisma";
 import { verifyAccessToken } from "@/lib/jwt";
 
-// export async function authenticate(request) {
-//     // Read Authorization header
-//     const authHeader =
-//         request.headers.get("Authorization");
 
-//     // Check header
-//     if (
-//         !authHeader ||
-//         !authHeader.startsWith("Bearer ")
-//     ) {
-//         throw new Error("Unauthorized");
-//     }
+// ==========================================
+// AUTHENTICATE USER
+// ==========================================
 
-//     // Extract token
-//     const token =
-//         authHeader.split(" ")[1];
-
-//     // Verify token
-//     const decoded =
-//         verifyAccessToken(token);
-
-//     // Find user
-//     const user =
-//         await prisma.user.findUnique({
-//             where: {
-//                 id: decoded.userId,
-//             },
-//         });
-
-//     // User not found
-//     if (!user) {
-//         throw new Error("Unauthorized");
-//     }
-
-//     return user;
-// }
 export async function authenticate(request) {
 
-    // Read Authorization header
+    // ==========================================
+    // READ AUTHORIZATION HEADER
+    // ==========================================
 
     const authHeader =
-        request.headers.get("Authorization");
+        request.headers.get(
+            "Authorization"
+        );
 
 
-    // Check header
+    // ==========================================
+    // CHECK HEADER
+    // ==========================================
 
     if (
         !authHeader ||
         !authHeader.startsWith("Bearer ")
     ) {
 
-        throw new Error("Unauthorized");
+        throw new Error(
+            "Unauthorized"
+        );
 
     }
 
 
-    // Extract token
+    // ==========================================
+    // EXTRACT TOKEN
+    // ==========================================
 
     const token =
         authHeader.split(" ")[1];
 
+
+    // ==========================================
+    // VERIFY TOKEN
+    // ==========================================
 
     let decoded;
 
@@ -73,11 +56,16 @@ export async function authenticate(request) {
     } catch (error) {
 
         if (
-            error.name === "TokenExpiredError" ||
-            error.name === "JsonWebTokenError"
+            error.name ===
+                "TokenExpiredError" ||
+
+            error.name ===
+                "JsonWebTokenError"
         ) {
 
-            throw new Error("Unauthorized");
+            throw new Error(
+                "Unauthorized"
+            );
 
         }
 
@@ -86,7 +74,9 @@ export async function authenticate(request) {
     }
 
 
-    // Find user
+    // ==========================================
+    // FIND USER
+    // ==========================================
 
     const user =
         await prisma.user.findUnique({
@@ -98,11 +88,15 @@ export async function authenticate(request) {
         });
 
 
-    // User not found
+    // ==========================================
+    // USER NOT FOUND
+    // ==========================================
 
     if (!user) {
 
-        throw new Error("Unauthorized");
+        throw new Error(
+            "Unauthorized"
+        );
 
     }
 
@@ -110,8 +104,22 @@ export async function authenticate(request) {
     return user;
 
 }
+
+
+// ==========================================
+// ADMIN AUTHORIZATION
+// ==========================================
+
 export function requireAdmin(user) {
-    if (user.role !== "ADMIN") {
-        throw new Error("Forbidden");
+
+    if (
+        user.role !== "ADMIN"
+    ) {
+
+        throw new Error(
+            "Forbidden"
+        );
+
     }
+
 }

@@ -1,55 +1,84 @@
 import { NextResponse } from "next/server";
 
+
 // ==========================================
 // PROTECTED ROUTES
 // ==========================================
-// Add any route prefixes here that should require login.
 
-const protectedPrefixes = ["/admin"];
+const protectedPrefixes = [
+    "/admin",
+];
 
+
+// ==========================================
+// MIDDLEWARE
+// ==========================================
 
 export function middleware(request) {
 
-    const { pathname } = request.nextUrl;
+    const {
+        pathname,
+    } = request.nextUrl;
 
-    const isProtected = protectedPrefixes.some(
-        (prefix) => pathname.startsWith(prefix)
-    );
 
+    // ==========================================
+    // CHECK PROTECTED ROUTE
+    // ==========================================
+
+    const isProtected =
+        protectedPrefixes.some(
+            (prefix) =>
+                pathname.startsWith(prefix)
+        );
+
+
+    // Public route
     if (!isProtected) {
+
         return NextResponse.next();
+
     }
 
-    // ==========================================
-    // READ TOKEN FROM COOKIE
-    // ==========================================
-    // This cookie is set in lib/authClient.js's saveToken() —
-    // middleware cannot read localStorage, so this mirrors it.
 
-    const token = request.cookies.get("accessToken")?.value;
+    // ==========================================
+    // READ ACCESS TOKEN COOKIE
+    // ==========================================
+
+    const token =
+        request.cookies.get(
+            "accessToken"
+        )?.value;
+
+
+    // ==========================================
+    // TOKEN NOT FOUND
+    // ==========================================
 
     if (!token) {
 
-        const loginUrl = new URL("/login", request.url);
+        const loginUrl =
+            new URL(
+                "/login",
+                request.url
+            );
 
-        // send the user back to where they were trying to go
-        loginUrl.searchParams.set("redirect", pathname);
 
-        return NextResponse.redirect(loginUrl);
+        loginUrl.searchParams.set(
+            "redirect",
+            pathname
+        );
+
+
+        return NextResponse.redirect(
+            loginUrl
+        );
 
     }
 
-    // ==========================================
-    // OPTIONAL: ROLE CHECK
-    // ==========================================
-    // If your login also sets a "role" cookie, uncomment this
-    // to block non-admins from /admin even if they're logged in.
 
-    // const role = request.cookies.get("role")?.value;
-    //
-    // if (role !== "admin") {
-    //     return NextResponse.redirect(new URL("/", request.url));
-    // }
+    // ==========================================
+    // ALLOW REQUEST
+    // ==========================================
 
     return NextResponse.next();
 
@@ -59,8 +88,11 @@ export function middleware(request) {
 // ==========================================
 // MATCHER
 // ==========================================
-// Only run this middleware for routes under /admin.
 
 export const config = {
-    matcher: ["/admin/:path*"],
+
+    matcher: [
+        "/admin/:path*",
+    ],
+
 };

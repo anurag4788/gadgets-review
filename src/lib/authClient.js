@@ -1,43 +1,60 @@
-// const TOKEN_KEY = "accessToken";
-
-// export function saveToken(token) {
-//     localStorage.setItem(TOKEN_KEY, token);
-// }
-
-// export function getToken() {
-//     return localStorage.getItem(TOKEN_KEY);
-// }
-
-// export function removeToken() {
-//     localStorage.removeItem(TOKEN_KEY);
-// }
-
-// export function isAuthenticated() {
-//     return !!getToken();
-// }
-
-
 const TOKEN_KEY = "accessToken";
 
-export function saveToken(token) {
-    localStorage.setItem(TOKEN_KEY, token);
+// ==========================================
+// SAVE TOKEN
+// ==========================================
 
-    // also set a cookie so Next.js middleware (server-side)
-    // can check login status — middleware cannot read localStorage.
-    document.cookie = `${TOKEN_KEY}=${token}; path=/; max-age=86400`;
+export function saveToken(token) {
+
+    // Save token in localStorage
+    localStorage.setItem(
+        TOKEN_KEY,
+        token
+    );
+
+    // Also save token in cookie
+    // so Next.js middleware can read it
+    document.cookie =
+        `${TOKEN_KEY}=${token}; path=/; max-age=86400`;
 }
+
+
+// ==========================================
+// GET TOKEN
+// ==========================================
 
 export function getToken() {
-    return localStorage.getItem(TOKEN_KEY);
+
+    return localStorage.getItem(
+        TOKEN_KEY
+    );
+
 }
+
+
+// ==========================================
+// REMOVE TOKEN
+// ==========================================
 
 export function removeToken() {
-    localStorage.removeItem(TOKEN_KEY);
 
-    // clear the matching cookie on logout
-    document.cookie = `${TOKEN_KEY}=; path=/; max-age=0`;
+    // Remove from localStorage
+    localStorage.removeItem(
+        TOKEN_KEY
+    );
+
+    // Remove from cookie
+    document.cookie =
+        `${TOKEN_KEY}=; path=/; max-age=0`;
 }
 
+
+// ==========================================
+// CHECK AUTHENTICATION
+// ==========================================
+
 export function isAuthenticated() {
+
     return !!getToken();
+
 }
