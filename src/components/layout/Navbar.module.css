@@ -1,27 +1,24 @@
-/* ==========================================
-   NAVBAR SHELL
-========================================== */
-
 .navbar {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  width: 100%;
-  background: rgba(11, 17, 32, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid #1e293f;
-  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    width: 100%;
+
+    background: #0b1120;
+    border-bottom: 1px solid #1e293f;
 }
 
 .container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 14px 32px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
+    max-width: var(--container-width);
+    min-height: 72px;
+
+    margin: 0 auto;
+    padding: 0 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 
@@ -30,62 +27,65 @@
 ========================================== */
 
 .logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: #eef3fb;
-  text-decoration: none;
-  letter-spacing: -0.01em;
-  transition: opacity 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    color: #eef3fb;
+
+    font-size: 19px;
+    font-weight: 800;
+
+    transition: color 0.2s ease;
 }
 
 .logo:hover {
-  opacity: 0.85;
+    color: #3b82f6;
 }
 
 .logoIcon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #3b82f6, #60a5fa);
-  color: #ffffff;
-  font-weight: 800;
-  font-size: 1rem;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.35);
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #ffffff;
+    background: #3b82f6;
+
+    border-radius: 10px;
+
+    font-size: 17px;
+    font-weight: 800;
 }
 
 
 /* ==========================================
-   NAV LINKS
+   NAVIGATION
 ========================================== */
 
 .nav {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+    display: flex;
+    align-items: center;
+    gap: 22px;
 }
 
 .navLink {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 14px;
-  font-size: 0.92rem;
-  font-weight: 500;
-  color: #a9b8d6;
-  text-decoration: none;
-  border-radius: 999px;
-  transition: background 0.2s ease, color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    color: #a9b8d6;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    transition: color 0.2s ease;
 }
 
 .navLink:hover {
-  background: #16233f;
-  color: #7fb0ff;
+    color: #3b82f6;
 }
 
 
@@ -94,90 +94,107 @@
 ========================================== */
 
 .profileLink {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 14px 6px 6px;
-  border-radius: 999px;
-  text-decoration: none;
-  color: #eef3fb;
-  font-size: 0.9rem;
-  font-weight: 600;
-  background: #16233f;
-  border: 1px solid #2c3e63;
-  transition: background 0.2s ease, border-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    color: #eef3fb;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    transition: color 0.2s ease;
 }
 
 .profileLink:hover {
-  background: #1c2c4e;
-  border-color: #3a4f7a;
+    color: #3b82f6;
 }
 
 .avatar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #3b82f6, #93c5fd);
-  color: #ffffff;
-  font-size: 0.8rem;
-  font-weight: 700;
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #ffffff;
+    background: #3b82f6;
+
+    border-radius: 50%;
+
+    font-size: 13px;
+    font-weight: 700;
 }
 
 
 /* ==========================================
-   BUTTONS / AUTH LINKS
+   LOGIN
 ========================================== */
 
-.logoutButton {
-  padding: 8px 16px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #d64545;
-  background: transparent;
-  border: 1px solid #f4d3d3;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease;
-}
-
-.logoutButton:hover {
-  background: #fdecec;
-  border-color: #f2b6b6;
-}
-
 .loginLink {
-  padding: 8px 16px;
-  font-size: 0.92rem;
-  font-weight: 500;
-  color: #4a5b73;
-  text-decoration: none;
-  border-radius: 999px;
-  transition: background 0.2s ease, color 0.2s ease;
+    color: #a9b8d6;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    transition: color 0.2s ease;
 }
 
 .loginLink:hover {
-  background: #eef4ff;
-  color: #2f6fdb;
+    color: #3b82f6;
 }
 
+
+/* ==========================================
+   REGISTER
+========================================== */
+
 .registerButton {
-  padding: 9px 20px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #ffffff;
-  text-decoration: none;
-  background: linear-gradient(135deg, #3b82f6, #4d8dee);
-  border-radius: 999px;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+    padding: 9px 16px;
+
+    color: #ffffff;
+    background: #3b82f6;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
 }
 
 .registerButton:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+    background: #2563eb;
+    transform: translateY(-1px);
+}
+
+
+/* ==========================================
+   LOGOUT
+========================================== */
+
+.logoutButton {
+    padding: 8px 14px;
+
+    color: #ffffff;
+    background: #dc2626;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.logoutButton:hover {
+    background: #b91c1c;
+    transform: translateY(-1px);
 }
 
 
@@ -185,52 +202,57 @@
    RESPONSIVE
 ========================================== */
 
-@media (max-width: 900px) {
-  .container {
-    padding: 12px 20px;
-  }
-
-  .nav {
-    gap: 2px;
-  }
-
-  .navLink {
-    padding: 8px 10px;
-    font-size: 0.85rem;
-  }
-
-  .registerButton,
-  .loginLink {
-    padding: 8px 14px;
-    font-size: 0.85rem;
-  }
-}
-
 @media (max-width: 768px) {
-  .container {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
 
-  .nav {
-    width: 100%;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 6px;
-  }
+    .container {
+        min-height: 64px;
+        padding: 0 16px;
+    }
 
-  .profileLink span:last-child {
-    display: none;
-  }
+    .logo {
+        font-size: 16px;
+    }
+
+    .logoIcon {
+        width: 30px;
+        height: 30px;
+        font-size: 15px;
+    }
+
+    .nav {
+        gap: 12px;
+    }
+
+    .navLink,
+    .profileLink,
+    .loginLink,
+    .registerButton,
+    .logoutButton {
+        font-size: 13px;
+    }
+
+    .profileLink span:last-child {
+        display: none;
+    }
 }
 
-@media (max-width: 420px) {
-  .logo span:last-child {
-    display: none;
-  }
 
-  .navLink {
-    padding: 6px 8px;
-    font-size: 0.8rem;
-  }
+@media (max-width: 500px) {
+
+    .container {
+        flex-direction: column;
+        justify-content: center;
+
+        gap: 10px;
+        padding: 12px 16px;
+    }
+
+    .nav {
+        width: 100%;
+
+        justify-content: center;
+        flex-wrap: wrap;
+
+        gap: 10px 14px;
+    }
 }
