@@ -320,7 +320,6 @@ export default function GadgetDetailPage() {
         try {
 
             setWishlistLoading(true);
-
             setWishlistError("");
 
 
@@ -454,7 +453,9 @@ export default function GadgetDetailPage() {
 
         return (
 
-            <main>
+            <main className={styles.pageState}>
+
+                <div className={styles.loader} />
 
                 <h1>
                     Loading gadget...
@@ -475,7 +476,7 @@ export default function GadgetDetailPage() {
 
         return (
 
-            <main>
+            <main className={styles.pageState}>
 
                 <h1>
                     Gadget
@@ -485,8 +486,11 @@ export default function GadgetDetailPage() {
                     {error}
                 </p>
 
-                <Link href="/gadgets">
-                    Back to Gadgets
+                <Link
+                    href="/gadgets"
+                    className={styles.backLink}
+                >
+                    ← Back to Gadgets
                 </Link>
 
             </main>
@@ -504,14 +508,17 @@ export default function GadgetDetailPage() {
 
         return (
 
-            <main>
+            <main className={styles.pageState}>
 
                 <h1>
                     Gadget not found
                 </h1>
 
-                <Link href="/gadgets">
-                    Back to Gadgets
+                <Link
+                    href="/gadgets"
+                    className={styles.backLink}
+                >
+                    ← Back to Gadgets
                 </Link>
 
             </main>
@@ -527,9 +534,8 @@ export default function GadgetDetailPage() {
 
     return (
 
-        <main
-            className={styles.container}
-        >
+        <main className={styles.container}>
+
 
             {/* ==================================
                 BACK
@@ -537,6 +543,7 @@ export default function GadgetDetailPage() {
 
             <Link
                 href="/gadgets"
+                className={styles.backLink}
             >
                 ← Back to Gadgets
             </Link>
@@ -546,39 +553,48 @@ export default function GadgetDetailPage() {
                 GADGET DETAILS
             ================================== */}
 
-            <section
-                className={styles.gadgetSection}
-            >
+            <section className={styles.gadgetSection}>
+
 
                 {/* IMAGE */}
 
-                {gadget.image && (
+                <div className={styles.imageWrapper}>
 
-                    <div>
+                    {gadget.image ? (
 
                         <img
                             src={gadget.image}
                             alt={gadget.name}
+                            className={styles.image}
                         />
 
-                    </div>
+                    ) : (
 
-                )}
+                        <div className={styles.noImage}>
+                            No Image Available
+                        </div>
+
+                    )}
+
+                </div>
 
 
                 {/* INFORMATION */}
 
-                <div>
+                <div className={styles.info}>
 
-                    <h1>
+                    <h1 className={styles.title}>
                         {gadget.name}
                     </h1>
 
 
                     {gadget.model && (
 
-                        <p>
-                            Model: {gadget.model}
+                        <p className={styles.detail}>
+                            <strong>
+                                Model:
+                            </strong>{" "}
+                            {gadget.model}
                         </p>
 
                     )}
@@ -586,12 +602,15 @@ export default function GadgetDetailPage() {
 
                     {gadget.brand && (
 
-                        <p>
+                        <p className={styles.detail}>
 
-                            Brand:{" "}
+                            <strong>
+                                Brand:
+                            </strong>{" "}
 
                             <Link
                                 href={`/brands/${gadget.brand.slug}`}
+                                className={styles.detailLink}
                             >
                                 {gadget.brand.name}
                             </Link>
@@ -603,12 +622,15 @@ export default function GadgetDetailPage() {
 
                     {gadget.category && (
 
-                        <p>
+                        <p className={styles.detail}>
 
-                            Category:{" "}
+                            <strong>
+                                Category:
+                            </strong>{" "}
 
                             <Link
                                 href={`/categories/${gadget.category.slug}`}
+                                className={styles.detailLink}
                             >
                                 {gadget.category.name}
                             </Link>
@@ -620,8 +642,10 @@ export default function GadgetDetailPage() {
 
                     {gadget.releaseYear && (
 
-                        <p>
-                            Released:{" "}
+                        <p className={styles.detail}>
+                            <strong>
+                                Released:
+                            </strong>{" "}
                             {gadget.releaseYear}
                         </p>
 
@@ -632,18 +656,21 @@ export default function GadgetDetailPage() {
                         RATING
                     ================================== */}
 
-                    <p>
+                    <div className={styles.rating}>
 
-                        ⭐{" "}
+                        <span>
+                            ⭐
+                        </span>
 
-                        {gadget.avgRating
-                            ? Number(
-                                gadget.avgRating
-                            ).toFixed(1)
-                            : "No rating"
-                        }
+                        <strong>
+                            {gadget.avgRating
+                                ? Number(
+                                    gadget.avgRating
+                                ).toFixed(1)
+                                : "No rating"}
+                        </strong>
 
-                    </p>
+                    </div>
 
 
                     {/* ==================================
@@ -652,7 +679,7 @@ export default function GadgetDetailPage() {
 
                     {gadget.description && (
 
-                        <p>
+                        <p className={styles.description}>
                             {gadget.description}
                         </p>
 
@@ -663,15 +690,16 @@ export default function GadgetDetailPage() {
                         WISHLIST
                     ================================== */}
 
-                    <div>
+                    <div className={styles.wishlist}>
 
                         <button
                             type="button"
-                            onClick={
-                                handleWishlist
-                            }
-                            disabled={
-                                wishlistLoading
+                            onClick={handleWishlist}
+                            disabled={wishlistLoading}
+                            className={
+                                isWishlisted
+                                    ? styles.wishlistActive
+                                    : styles.wishlistButton
                             }
                         >
 
@@ -692,7 +720,7 @@ export default function GadgetDetailPage() {
 
                         {wishlistError && (
 
-                            <p>
+                            <p className={styles.wishlistError}>
                                 {wishlistError}
                             </p>
 
@@ -709,65 +737,88 @@ export default function GadgetDetailPage() {
                 REVIEWS
             ================================== */}
 
-            <section>
+            <section className={styles.reviewsSection}>
 
-                <h2>
-                    Reviews
-                </h2>
+                <div className={styles.reviewsHeader}>
+
+                    <div>
+
+                        <p className={styles.eyebrow}>
+                            Community feedback
+                        </p>
+
+                        <h2 className={styles.reviewsTitle}>
+                            Reviews
+                        </h2>
+
+                    </div>
+
+                    {pagination && (
+
+                        <span className={styles.reviewCount}>
+                            {pagination.totalReviews || 0} reviews
+                        </span>
+
+                    )}
+
+                </div>
 
 
-                {/* ==================================
-                    REVIEW FORM
-                ================================== */}
+                {/* REVIEW FORM */}
 
                 <ReviewForm
-                    gadgetId={
-                        gadget.id
-                    }
+                    gadgetId={gadget.id}
                     onReviewCreated={
                         handleReviewCreated
                     }
                 />
 
 
-                {/* ==================================
-                    REVIEW ERROR
-                ================================== */}
+                {/* REVIEW ERROR */}
 
                 {reviewsError && (
 
-                    <p>
+                    <p className={styles.reviewsError}>
                         {reviewsError}
                     </p>
 
                 )}
 
 
-                {/* ==================================
-                    REVIEW LOADING
-                ================================== */}
+                {/* REVIEW LOADING */}
 
                 {reviewsLoading && (
 
-                    <p>
-                        Loading reviews...
-                    </p>
+                    <div className={styles.reviewsLoading}>
+
+                        <div className={styles.smallLoader} />
+
+                        <p>
+                            Loading reviews...
+                        </p>
+
+                    </div>
 
                 )}
 
 
-                {/* ==================================
-                    REVIEWS LIST
-                ================================== */}
+                {/* REVIEWS LIST */}
 
                 {!reviewsLoading &&
                     reviews.length === 0 && (
 
-                        <p>
-                            No reviews yet.
-                            Be the first to
-                            review this gadget.
-                        </p>
+                        <div className={styles.emptyReviews}>
+
+                            <p>
+                                No reviews yet.
+                            </p>
+
+                            <span>
+                                Be the first to review
+                                this gadget.
+                            </span>
+
+                        </div>
 
                     )
                 }
@@ -776,18 +827,14 @@ export default function GadgetDetailPage() {
                 {!reviewsLoading &&
                     reviews.length > 0 && (
 
-                        <div>
+                        <div className={styles.reviewsList}>
 
                             {reviews.map(
                                 (review) => (
 
                                     <ReviewItem
-                                        key={
-                                            review.id
-                                        }
-                                        review={
-                                            review
-                                        }
+                                        key={review.id}
+                                        review={review}
                                         onReviewUpdated={
                                             handleReviewUpdated
                                         }
@@ -812,7 +859,7 @@ export default function GadgetDetailPage() {
                 {pagination &&
                     pagination.totalPages > 1 && (
 
-                        <div>
+                        <div className={styles.pagination}>
 
                             <button
                                 type="button"
@@ -833,15 +880,11 @@ export default function GadgetDetailPage() {
 
                             <span>
 
-                                {" "}
-
                                 Page{" "}
                                 {pagination.currentPage}
                                 {" "}
                                 of{" "}
                                 {pagination.totalPages}
-
-                                {" "}
 
                             </span>
 

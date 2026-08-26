@@ -1,82 +1,175 @@
 /* ==========================================
-   BASE
+   PAGE
 ========================================== */
 
 .main {
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-  min-height: 100vh;
-  padding: 48px;
-  background: radial-gradient(circle at 15% 0%, #101b33 0%, #0b1120 45%, #0b1120 100%);
-  color: #eef3fb;
-  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
-}
+    display: flex;
+    flex-direction: column;
 
-.title {
-  font-size: 2rem;
-  font-weight: 800;
-  color: #eef3fb;
-  letter-spacing: -0.01em;
+    gap: 28px;
+
+    min-height: 100vh;
+
+    padding: 48px;
+
+    background:
+        radial-gradient(
+            circle at 15% 0%,
+            #101b33 0%,
+            #0b1120 45%,
+            #0b1120 100%
+        );
+
+    color: #eef3fb;
+
+    font-family:
+        "Inter",
+        "Segoe UI",
+        system-ui,
+        -apple-system,
+        sans-serif;
 }
 
 
 /* ==========================================
-   FILTERS PANEL
+   TITLE
+========================================== */
+
+.title {
+    font-size: 2rem;
+    font-weight: 800;
+
+    color: #eef3fb;
+
+    letter-spacing: -0.01em;
+
+    line-height: 1.2;
+}
+
+
+/* ==========================================
+   FILTER PANEL
 ========================================== */
 
 .filters {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 22px;
-  background: #ffffff;
-  border-radius: 18px;
-  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.12);
+    display: flex;
+    flex-direction: column;
+
+    gap: 16px;
+
+    padding: 22px;
+
+    background: #ffffff;
+
+    border: 1px solid #e4edfb;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 8px 20px rgba(59, 130, 246, 0.12);
 }
+
+
+/* ==========================================
+   SEARCH
+========================================== */
 
 .searchForm {
-  display: flex;
-  gap: 12px;
+    display: flex;
+
+    gap: 12px;
+
+    width: 100%;
 }
+
 
 .searchInput {
-  flex: 1;
-  padding: 12px 18px;
-  font-size: 0.95rem;
-  color: #16233a;
-  background: #f5f9ff;
-  border: 1px solid #e4edfb;
-  border-radius: 999px;
-  outline: none;
-  transition: border-color 0.2s ease, background 0.2s ease;
+    flex: 1;
+
+    min-width: 0;
+
+    padding: 12px 18px;
+
+    font-size: 0.95rem;
+
+    color: #16233a;
+
+    background: #f5f9ff;
+
+    border: 1px solid #e4edfb;
+
+    border-radius: 999px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
 }
+
 
 .searchInput::placeholder {
-  color: #9db4d6;
+    color: #9db4d6;
 }
+
 
 .searchInput:focus {
-  border-color: #3b82f6;
-  background: #ffffff;
+    border-color: #3b82f6;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 3px rgba(59, 130, 246, 0.1);
 }
+
+
+/* ==========================================
+   SEARCH BUTTON
+========================================== */
 
 .searchButton {
-  padding: 12px 26px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #ffffff;
-  background: linear-gradient(135deg, #3b82f6, #4d8dee);
-  border: none;
-  border-radius: 999px;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+    flex-shrink: 0;
+
+    padding: 12px 26px;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #3b82f6,
+            #4d8dee
+        );
+
+    border: none;
+
+    border-radius: 999px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 4px 12px rgba(59, 130, 246, 0.3);
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
 }
 
+
 .searchButton:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 6px 16px rgba(59, 130, 246, 0.4);
+}
+
+
+.searchButton:active {
+    transform: translateY(0);
 }
 
 
@@ -85,75 +178,138 @@
 ========================================== */
 
 .filterRow {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px;
-}
+    display: flex;
 
-.select {
-  padding: 10px 16px;
-  font-size: 0.88rem;
-  font-weight: 500;
-  color: #16233a;
-  background: #f5f9ff;
-  border: 1px solid #e4edfb;
-  border-radius: 999px;
-  outline: none;
-  cursor: pointer;
-  transition: border-color 0.2s ease, background 0.2s ease;
-}
+    flex-wrap: wrap;
 
-.select:hover:not(:disabled) {
-  border-color: #cfe2ff;
-}
+    align-items: center;
 
-.select:focus {
-  border-color: #3b82f6;
-}
-
-.select:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.clearButton {
-  padding: 10px 18px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #2f6fdb;
-  background: #eef4ff;
-  border: 1px solid #dce8fb;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease;
-}
-
-.clearButton:hover {
-  background: #3b82f6;
-  border-color: #3b82f6;
-  color: #ffffff;
+    gap: 12px;
 }
 
 
 /* ==========================================
-   RESULT COUNT / ERROR
+   SELECT
+========================================== */
+
+.select {
+    min-width: 150px;
+
+    padding: 10px 16px;
+
+    font-size: 0.88rem;
+    font-weight: 500;
+
+    color: #16233a;
+
+    background: #f5f9ff;
+
+    border: 1px solid #e4edfb;
+
+    border-radius: 999px;
+
+    outline: none;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.select:hover:not(:disabled) {
+    border-color: #cfe2ff;
+
+    background: #ffffff;
+}
+
+
+.select:focus {
+    border-color: #3b82f6;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+
+.select:disabled {
+    opacity: 0.6;
+
+    cursor: not-allowed;
+}
+
+
+/* ==========================================
+   CLEAR BUTTON
+========================================== */
+
+.clearButton {
+    padding: 10px 18px;
+
+    font-size: 0.85rem;
+    font-weight: 600;
+
+    color: #2f6fdb;
+
+    background: #eef4ff;
+
+    border: 1px solid #dce8fb;
+
+    border-radius: 999px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+.clearButton:hover {
+    background: #3b82f6;
+
+    border-color: #3b82f6;
+
+    color: #ffffff;
+}
+
+
+/* ==========================================
+   RESULT COUNT
 ========================================== */
 
 .resultCount {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #a9b8d6;
+    font-size: 0.9rem;
+    font-weight: 500;
+
+    color: #a9b8d6;
+
+    margin-top: 2px;
 }
 
+
+/* ==========================================
+   ERROR
+========================================== */
+
 .error {
-  padding: 14px 18px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #f28b8b;
-  background: #2a1418;
-  border: 1px solid #4a2830;
-  border-radius: 12px;
+    padding: 14px 18px;
+
+    font-size: 0.9rem;
+    font-weight: 500;
+
+    color: #f28b8b;
+
+    background: #2a1418;
+
+    border: 1px solid #4a2830;
+
+    border-radius: 12px;
 }
 
 
@@ -162,9 +318,47 @@
 ========================================== */
 
 .gadgetGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 24px;
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fill,
+            minmax(220px, 1fr)
+        );
+
+    gap: 24px;
+}
+
+
+/* ==========================================
+   EMPTY STATE
+========================================== */
+
+.gadgetGrid > p {
+    grid-column: 1 / -1;
+
+    padding: 48px 20px;
+
+    text-align: center;
+
+    font-size: 0.95rem;
+
+    color: #a9b8d6;
+
+    background: rgba(22, 35, 63, 0.5);
+
+    border: 1px dashed #2c3e63;
+
+    border-radius: 16px;
+}
+
+
+/* ==========================================
+   LOADING
+========================================== */
+
+.main > p {
+    color: #a9b8d6;
 }
 
 
@@ -173,97 +367,179 @@
 ========================================== */
 
 .pagination {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  margin-top: 12px;
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 16px;
+
+    margin-top: 12px;
 }
+
 
 .pagination span {
-  font-size: 0.88rem;
-  font-weight: 500;
-  color: #a9b8d6;
+    font-size: 0.88rem;
+
+    font-weight: 500;
+
+    color: #a9b8d6;
 }
+
 
 .pagination button {
-  padding: 9px 18px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #eef3fb;
-  background: #16233f;
-  border: 1px solid #2c3e63;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease;
+    padding: 9px 18px;
+
+    font-size: 0.85rem;
+
+    font-weight: 600;
+
+    color: #eef3fb;
+
+    background: #16233f;
+
+    border: 1px solid #2c3e63;
+
+    border-radius: 999px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.15s ease;
 }
+
 
 .pagination button:hover:not(:disabled) {
-  background: #1c2c4e;
-  border-color: #3b82f6;
+    background: #1c2c4e;
+
+    border-color: #3b82f6;
+
+    transform: translateY(-1px);
 }
 
+
 .pagination button:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
+    opacity: 0.4;
+
+    cursor: not-allowed;
 }
 
 
 /* ==========================================
-   RESPONSIVE
+   RESPONSIVE — TABLET
 ========================================== */
 
 @media (max-width: 1024px) {
-  .main {
-    padding: 36px 32px;
-  }
+
+    .main {
+        padding: 36px 32px;
+    }
+
 }
+
+
+/* ==========================================
+   RESPONSIVE — MOBILE
+========================================== */
 
 @media (max-width: 768px) {
-  .main {
-    padding: 28px 20px;
-    gap: 20px;
-  }
 
-  .title {
-    font-size: 1.6rem;
-  }
+    .main {
+        padding: 28px 20px;
 
-  .searchForm {
-    flex-direction: column;
-  }
+        gap: 20px;
+    }
 
-  .filterRow {
-    gap: 10px;
-  }
 
-  .select,
-  .clearButton {
-    flex: 1 1 calc(50% - 5px);
-  }
+    .title {
+        font-size: 1.6rem;
+    }
 
-  .gadgetGrid {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 16px;
-  }
+
+    .filters {
+        padding: 18px;
+    }
+
+
+    .searchForm {
+        flex-direction: column;
+    }
+
+
+    .searchButton {
+        width: 100%;
+    }
+
+
+    .filterRow {
+        gap: 10px;
+    }
+
+
+    .select,
+    .clearButton {
+        flex: 1 1 calc(50% - 5px);
+
+        min-width: 0;
+    }
+
+
+    .gadgetGrid {
+        grid-template-columns:
+            repeat(
+                auto-fill,
+                minmax(160px, 1fr)
+            );
+
+        gap: 16px;
+    }
+
 }
 
+
+/* ==========================================
+   RESPONSIVE — SMALL MOBILE
+========================================== */
+
 @media (max-width: 420px) {
-  .main {
-    padding: 20px 16px;
-  }
 
-  .filters {
-    padding: 16px;
-  }
+    .main {
+        padding: 20px 16px;
+    }
 
-  .select,
-  .clearButton {
-    flex: 1 1 100%;
-  }
 
-  .pagination {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
+    .title {
+        font-size: 1.45rem;
+    }
+
+
+    .filters {
+        padding: 16px;
+    }
+
+
+    .select,
+    .clearButton {
+        flex: 1 1 100%;
+
+        width: 100%;
+    }
+
+
+    .pagination {
+        flex-wrap: wrap;
+
+        gap: 10px;
+    }
+
+
+    .pagination button {
+        flex: 1;
+
+        min-width: 100px;
+    }
+
 }
