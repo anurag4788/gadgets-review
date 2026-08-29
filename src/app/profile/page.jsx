@@ -5,159 +5,92 @@ import Link from "next/link";
 
 import useAuth from "@/hooks/useAuth";
 
-export default function Profile() {
+import styles from "./page.module.css";
 
+export default function Profile() {
     const {
         user,
         loading,
         updateUser,
     } = useAuth();
 
-
-    // ==========================================
-    // EDIT MODE
-    // ==========================================
-
-    const [editing, setEditing] =
-        useState(false);
-
-    const [name, setName] =
-        useState("");
-
-    const [email, setEmail] =
-        useState("");
-
-    const [saving, setSaving] =
-        useState(false);
-
-    const [error, setError] =
-        useState("");
-
-    const [success, setSuccess] =
-        useState("");
-
-
-    // ==========================================
-    // LOADING
-    // ==========================================
+    const [editing, setEditing] = useState(false);
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [saving, setSaving] = useState(false);
+    const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
 
     if (loading) {
-
-        return <h1>Loading...</h1>;
-
+        return (
+            <main className={styles.pageState}>
+                <div className={styles.loader} />
+                <h1>Loading profile...</h1>
+            </main>
+        );
     }
-
-
-    // ==========================================
-    // NOT LOGGED IN
-    // ==========================================
 
     if (!user) {
+        return (
+            <main className={styles.pageState}>
+                <div className={styles.emptyIcon}>?</div>
+                <h1>Not Logged In</h1>
+                <p>Please login to view your profile.</p>
 
-        return <h1>Not Logged In</h1>;
-
+                <Link
+                    href="/login"
+                    className={styles.primaryButton}
+                >
+                    Login
+                </Link>
+            </main>
+        );
     }
-
-
-    // ==========================================
-    // START EDITING
-    // ==========================================
 
     function handleEdit() {
-
         setName(user.name);
         setEmail(user.email);
-
         setError("");
         setSuccess("");
-
         setEditing(true);
-
     }
-
-
-    // ==========================================
-    // CANCEL EDIT
-    // ==========================================
 
     function handleCancel() {
-
         setName(user.name);
         setEmail(user.email);
-
         setError("");
         setSuccess("");
-
         setEditing(false);
-
     }
 
-
-    // ==========================================
-    // UPDATE PROFILE
-    // ==========================================
-
     async function handleSubmit(event) {
-
         event.preventDefault();
 
         setError("");
         setSuccess("");
 
-
-        // ==========================================
-        // FRONTEND VALIDATION
-        // ==========================================
-
         if (name.trim().length < 2) {
-
-            setError(
-                "Name must be at least 2 characters."
-            );
-
+            setError("Name must be at least 2 characters.");
             return;
-
         }
-
 
         if (name.trim().length > 50) {
-
-            setError(
-                "Name cannot exceed 50 characters."
-            );
-
+            setError("Name cannot exceed 50 characters.");
             return;
-
         }
-
 
         if (!email.trim()) {
-
-            setError(
-                "Email is required."
-            );
-
+            setError("Email is required.");
             return;
-
         }
 
-
         try {
-
             setSaving(true);
 
-
             await updateUser({
-
-                name:
-                    name.trim(),
-
-                email:
-                    email.trim()
-                        .toLowerCase(),
-
+                name: name.trim(),
+                email: email.trim().toLowerCase(),
             });
-
 
             setSuccess(
                 "Profile updated successfully."
@@ -166,68 +99,30 @@ export default function Profile() {
             setEditing(false);
 
         } catch (error) {
-
             console.error(
                 "Update Profile Error:",
                 error
             );
 
-
-            // ==========================================
-            // DUPLICATE EMAIL
-            // ==========================================
-
-            if (
-                error.response?.status === 409
-            ) {
-
-                setError(
-                    "Email is already in use."
-                );
-
+            if (error.response?.status === 409) {
+                setError("Email is already in use.");
                 return;
-
             }
 
-
-            // ==========================================
-            // UNAUTHORIZED
-            // ==========================================
-
-            if (
-                error.response?.status === 401
-            ) {
-
+            if (error.response?.status === 401) {
                 setError(
                     "Your session has expired. Please login again."
                 );
-
                 return;
-
             }
 
-
-            // ==========================================
-            // VALIDATION ERROR
-            // ==========================================
-
-            if (
-                error.response?.status === 400
-            ) {
-
+            if (error.response?.status === 400) {
                 setError(
                     error.response?.data?.message ||
                     "Please check your profile details."
                 );
-
                 return;
-
             }
-
-
-            // ==========================================
-            // GENERAL ERROR
-            // ==========================================
 
             setError(
                 error.response?.data?.message ||
@@ -235,238 +130,339 @@ export default function Profile() {
             );
 
         } finally {
-
             setSaving(false);
-
         }
-
     }
 
-
-    // ==========================================
-    // UI
-    // ==========================================
-
     return (
+        <main className={styles.main}>
 
-        <main>
+            {/* HEADER */}
 
-            <h1>
-                My Profile
-            </h1>
+            <section className={styles.pageHeader}>
+
+                <div>
+                    <p className={styles.eyebrow}>
+                        Account
+                    </p>
+
+                    <h1 className={styles.title}>
+                        My Profile
+                    </h1>
+
+                    <p className={styles.subtitle}>
+                        Manage your personal information
+                        and account activity.
+                    </p>
+                </div>
+
+            </section>
 
 
-            {/* ======================================
-                SUCCESS MESSAGE
-            ====================================== */}
+            {/* MESSAGES */}
 
             {success && (
+                <div className={styles.success}>
+                    ✓ {success}
+                </div>
+            )}
 
-                <p>
-                    {success}
-                </p>
-
+            {error && !editing && (
+                <div className={styles.error}>
+                    {error}
+                </div>
             )}
 
 
-            {/* ======================================
-                PROFILE INFORMATION
-            ====================================== */}
+            {/* PROFILE CARD */}
 
-            <section>
+            <section className={styles.profileCard}>
 
-                <h2>
-                    {user.name}
-                </h2>
+                <div className={styles.profileHeader}>
 
-                <p>
-                    Email: {user.email}
-                </p>
+                    <div className={styles.avatar}>
+                        {user.name
+                            ?.charAt(0)
+                            ?.toUpperCase()}
+                    </div>
 
-                <p>
-                    Role: {user.role}
-                </p>
+                    <div className={styles.profileIdentity}>
+                        <h2>
+                            {user.name}
+                        </h2>
 
+                        <p>
+                            {user.email}
+                        </p>
+                    </div>
+
+                    {!editing && (
+                        <button
+                            type="button"
+                            onClick={handleEdit}
+                            className={styles.editButton}
+                        >
+                            Edit Profile
+                        </button>
+                    )}
+
+                </div>
+
+
+                {/* PROFILE DETAILS */}
 
                 {!editing && (
+                    <div className={styles.detailsGrid}>
 
-                    <button
-                        type="button"
-                        onClick={handleEdit}
-                    >
-                        Edit Profile
-                    </button>
+                        <div className={styles.detailItem}>
+                            <span>
+                                Email
+                            </span>
 
+                            <strong>
+                                {user.email}
+                            </strong>
+                        </div>
+
+                        <div className={styles.detailItem}>
+                            <span>
+                                Role
+                            </span>
+
+                            <strong className={styles.role}>
+                                {user.role}
+                            </strong>
+                        </div>
+
+                    </div>
+                )}
+
+
+                {/* EDIT FORM */}
+
+                {editing && (
+                    <div className={styles.editSection}>
+
+                        <div className={styles.editHeader}>
+                            <h2>
+                                Edit Profile
+                            </h2>
+
+                            <p>
+                                Update your account information.
+                            </p>
+                        </div>
+
+                        {error && (
+                            <div className={styles.error}>
+                                {error}
+                            </div>
+                        )}
+
+                        <form
+                            onSubmit={handleSubmit}
+                            className={styles.form}
+                        >
+
+                            <div className={styles.formGroup}>
+
+                                <label htmlFor="name">
+                                    Name
+                                </label>
+
+                                <input
+                                    id="name"
+                                    type="text"
+                                    value={name}
+                                    onChange={(event) =>
+                                        setName(
+                                            event.target.value
+                                        )
+                                    }
+                                    disabled={saving}
+                                    placeholder="Enter your name"
+                                />
+
+                            </div>
+
+
+                            <div className={styles.formGroup}>
+
+                                <label htmlFor="email">
+                                    Email
+                                </label>
+
+                                <input
+                                    id="email"
+                                    type="email"
+                                    value={email}
+                                    onChange={(event) =>
+                                        setEmail(
+                                            event.target.value
+                                        )
+                                    }
+                                    disabled={saving}
+                                    placeholder="Enter your email"
+                                />
+
+                            </div>
+
+
+                            <div className={styles.formActions}>
+
+                                <button
+                                    type="submit"
+                                    disabled={saving}
+                                    className={styles.primaryButton}
+                                >
+                                    {saving
+                                        ? "Saving..."
+                                        : "Save Changes"}
+                                </button>
+
+                                <button
+                                    type="button"
+                                    onClick={handleCancel}
+                                    disabled={saving}
+                                    className={styles.cancelButton}
+                                >
+                                    Cancel
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
                 )}
 
             </section>
 
 
-            {/* ======================================
-                EDIT PROFILE
-            ====================================== */}
+            {/* ACTIVITY */}
 
-            {editing && (
+            <section className={styles.activitySection}>
 
-                <section>
+                <div className={styles.sectionHeader}>
 
-                    <h2>
-                        Edit Profile
-                    </h2>
-
-
-                    {error && (
-
-                        <p>
-                            {error}
+                    <div>
+                        <p className={styles.eyebrow}>
+                            Your activity
                         </p>
 
-                    )}
+                        <h2>
+                            Activity
+                        </h2>
+                    </div>
+
+                </div>
 
 
-                    <form
-                        onSubmit={handleSubmit}
-                    >
+                <div className={styles.activityGrid}>
 
-                        {/* NAME */}
+                    <div className={styles.activityCard}>
 
-                        <div>
-
-                            <label>
-                                Name
-                            </label>
-
-                            <input
-                                type="text"
-                                value={name}
-                                onChange={(event) =>
-                                    setName(
-                                        event.target.value
-                                    )
-                                }
-                                disabled={saving}
-                            />
-
-                        </div>
-
-
-                        {/* EMAIL */}
+                        <span className={styles.activityIcon}>
+                            ★
+                        </span>
 
                         <div>
+                            <strong>
+                                {user._count?.reviews ?? 0}
+                            </strong>
 
-                            <label>
-                                Email
-                            </label>
-
-                            <input
-                                type="email"
-                                value={email}
-                                onChange={(event) =>
-                                    setEmail(
-                                        event.target.value
-                                    )
-                                }
-                                disabled={saving}
-                            />
-
+                            <p>
+                                Reviews
+                            </p>
                         </div>
 
-
-                        {/* SAVE */}
-
-                        <button
-                            type="submit"
-                            disabled={saving}
-                        >
-
-                            {saving
-                                ? "Saving..."
-                                : "Save Changes"
-                            }
-
-                        </button>
+                    </div>
 
 
-                        {/* CANCEL */}
+                    <div className={styles.activityCard}>
 
-                        <button
-                            type="button"
-                            onClick={handleCancel}
-                            disabled={saving}
-                        >
+                        <span className={styles.activityIcon}>
+                            ♥
+                        </span>
 
-                            Cancel
+                        <div>
+                            <strong>
+                                {user._count?.likes ?? 0}
+                            </strong>
 
-                        </button>
+                            <p>
+                                Likes
+                            </p>
+                        </div>
 
-                    </form>
+                    </div>
 
-                </section>
-
-            )}
-
-
-            {/* ======================================
-                ACTIVITY
-            ====================================== */}
-
-            <section>
-
-                <h2>
-                    Activity
-                </h2>
-
-                <p>
-                    Reviews:{" "}
-                    {user._count?.reviews ?? 0}
-                </p>
-
-                <p>
-                    Likes:{" "}
-                    {user._count?.likes ?? 0}
-                </p>
+                </div>
 
             </section>
 
 
-            {/* ======================================
-                MY REVIEWS
-            ====================================== */}
+            {/* MY REVIEWS */}
 
-            <section>
+            <section className={styles.linkCard}>
 
-                <h2>
-                    My Reviews
-                </h2>
+                <div>
+                    <p className={styles.eyebrow}>
+                        Contributions
+                    </p>
 
-                <Link href="/profile/reviews">
-                    View My Reviews
+                    <h2>
+                        My Reviews
+                    </h2>
+
+                    <p>
+                        View and manage all the reviews
+                        you have written.
+                    </p>
+                </div>
+
+                <Link
+                    href="/profile/reviews"
+                    className={styles.secondaryButton}
+                >
+                    View My Reviews →
                 </Link>
 
             </section>
 
 
-            {/* ======================================
-                ACCOUNT
-            ====================================== */}
+            {/* ACCOUNT */}
 
-            <section>
+            <section className={styles.accountCard}>
 
-                <h2>
-                    Account
-                </h2>
+                <div>
 
-                <p>
-                    Joined:{" "}
-                    {new Date(
-                        user.createdAt
-                    ).toLocaleDateString()}
-                </p>
+                    <p className={styles.eyebrow}>
+                        Account information
+                    </p>
+
+                    <h2>
+                        Account
+                    </h2>
+
+                </div>
+
+                <div className={styles.joined}>
+
+                    <span>
+                        Member since
+                    </span>
+
+                    <strong>
+                        {new Date(
+                            user.createdAt
+                        ).toLocaleDateString()}
+                    </strong>
+
+                </div>
 
             </section>
 
         </main>
-
     );
-
 }

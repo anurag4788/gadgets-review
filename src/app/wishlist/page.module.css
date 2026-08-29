@@ -1,0 +1,676 @@
+/* ==========================================
+   PAGE
+========================================== */
+
+.main {
+    min-height: 100vh;
+    padding: 48px;
+    background: radial-gradient(
+        circle at 15% 0%,
+        #101b33 0%,
+        #0b1120 45%,
+        #0b1120 100%
+    );
+    color: #eef3fb;
+    font-family:
+        "Inter",
+        "Segoe UI",
+        system-ui,
+        -apple-system,
+        sans-serif;
+}
+
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.header {
+    max-width: 1100px;
+    margin: 0 auto 30px;
+}
+
+.backLink {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 24px;
+
+    color: #9db4d6;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+
+    transition: color 0.2s ease;
+}
+
+.backLink:hover {
+    color: #60a5fa;
+}
+
+.eyebrow {
+    margin: 0 0 6px;
+
+    color: #6f9be0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.title {
+    margin: 0;
+
+    color: #eef3fb;
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.subtitle {
+    margin: 8px 0 0;
+
+    color: #a9b8d6;
+    font-size: 0.92rem;
+}
+
+
+/* ==========================================
+   ERROR BANNER
+========================================== */
+
+.errorBanner {
+    max-width: 1100px;
+    margin: 0 auto 20px;
+
+    padding: 14px 18px;
+
+    color: #f28b8b;
+    background: #2a1418;
+
+    border: 1px solid #4a2830;
+    border-radius: 12px;
+
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+
+/* ==========================================
+   WISHLIST LIST
+========================================== */
+
+.wishlistList {
+    max-width: 1100px;
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+
+/* ==========================================
+   WISHLIST CARD
+========================================== */
+
+.wishlistCard {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+
+    padding: 18px;
+
+    background: #ffffff;
+
+    border: 1px solid #e4edfb;
+    border-radius: 18px;
+
+    box-shadow:
+        0 2px 8px rgba(30, 60, 110, 0.06);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.wishlistCard:hover {
+    transform: translateY(-3px);
+
+    border-color: #cfe2ff;
+
+    box-shadow:
+        0 12px 28px rgba(59, 130, 246, 0.13);
+}
+
+
+/* ==========================================
+   IMAGE
+========================================== */
+
+.imageWrapper {
+    flex: 0 0 190px;
+
+    width: 190px;
+    height: 145px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 12px;
+
+    box-sizing: border-box;
+
+    background:
+        linear-gradient(
+            135deg,
+            #eaf3ff,
+            #f7fbff
+        );
+
+    border-radius: 14px;
+
+    overflow: hidden;
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+    object-position: center;
+}
+
+.noImage {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #9db4d6;
+
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+
+/* ==========================================
+   INFORMATION
+========================================== */
+
+.info {
+    flex: 1;
+    min-width: 0;
+}
+
+.brand {
+    margin: 0 0 5px;
+
+    color: #6f9be0;
+
+    font-size: 0.75rem;
+    font-weight: 700;
+
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.name {
+    margin: 0 0 10px;
+
+    color: #16233a;
+
+    font-size: 1.25rem;
+    font-weight: 750;
+    line-height: 1.3;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+
+    color: #52627a;
+
+    font-size: 0.84rem;
+    line-height: 1.5;
+}
+
+.details span {
+    display: inline-block;
+}
+
+.details strong {
+    color: #34445d;
+    font-weight: 650;
+}
+
+
+/* ==========================================
+   RATING
+========================================== */
+
+.rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    margin-top: 12px;
+
+    color: #34445d;
+
+    font-size: 0.9rem;
+}
+
+
+/* ==========================================
+   ACTIONS
+========================================== */
+
+.actions {
+    flex: 0 0 145px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.viewButton,
+.removeButton {
+    width: 100%;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+
+    padding: 10px 14px;
+
+    border-radius: 10px;
+
+    font-size: 0.85rem;
+    font-weight: 650;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.15s ease;
+}
+
+.viewButton {
+    color: #2f6fdb;
+
+    background: #eef4ff;
+
+    border: 1px solid #dce8fb;
+
+    text-decoration: none;
+}
+
+.viewButton:hover {
+    color: #ffffff;
+
+    background: #3b82f6;
+    border-color: #3b82f6;
+
+    transform: translateY(-1px);
+}
+
+.removeButton {
+    color: #c04b5a;
+
+    background: #fff4f5;
+
+    border: 1px solid #f3d5d9;
+}
+
+.removeButton:hover:not(:disabled) {
+    color: #ffffff;
+
+    background: #d45b68;
+    border-color: #d45b68;
+
+    transform: translateY(-1px);
+}
+
+.removeButton:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+
+/* ==========================================
+   STATE PAGES
+========================================== */
+
+.pageState {
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 14px;
+
+    padding: 30px;
+
+    box-sizing: border-box;
+
+    background: radial-gradient(
+        circle at 15% 0%,
+        #101b33 0%,
+        #0b1120 45%,
+        #0b1120 100%
+    );
+
+    color: #eef3fb;
+
+    font-family:
+        "Inter",
+        "Segoe UI",
+        system-ui,
+        -apple-system,
+        sans-serif;
+}
+
+.pageState > p {
+    margin: 0;
+
+    color: #a9b8d6;
+}
+
+
+/* ==========================================
+   STATE CARD
+========================================== */
+
+.stateCard {
+    width: min(100%, 430px);
+
+    padding: 36px 30px;
+
+    box-sizing: border-box;
+
+    text-align: center;
+
+    background: #ffffff;
+
+    border: 1px solid #e4edfb;
+    border-radius: 20px;
+
+    box-shadow:
+        0 16px 40px rgba(0, 0, 0, 0.2);
+}
+
+.stateCard h1 {
+    margin: 0 0 10px;
+
+    color: #16233a;
+
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.stateCard p {
+    margin: 0 0 22px;
+
+    color: #52627a;
+
+    font-size: 0.92rem;
+    line-height: 1.6;
+}
+
+.stateIcon {
+    width: 58px;
+    height: 58px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0 auto 18px;
+
+    background: #eef4ff;
+
+    border-radius: 50%;
+
+    font-size: 1.5rem;
+}
+
+
+/* ==========================================
+   PRIMARY BUTTON
+========================================== */
+
+.primaryButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 11px 22px;
+
+    color: #ffffff;
+
+    background: linear-gradient(
+        135deg,
+        #3b82f6,
+        #4d8dee
+    );
+
+    border: none;
+    border-radius: 10px;
+
+    font-size: 0.88rem;
+    font-weight: 650;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 5px 14px rgba(59, 130, 246, 0.25);
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.primaryButton:hover {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 7px 18px rgba(59, 130, 246, 0.32);
+}
+
+
+/* ==========================================
+   ERROR
+========================================== */
+
+.error {
+    color: #c04b5a !important;
+}
+
+
+/* ==========================================
+   LOADER
+========================================== */
+
+.loader {
+    width: 34px;
+    height: 34px;
+
+    border: 3px solid #263858;
+    border-top-color: #60a5fa;
+
+    border-radius: 50%;
+
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* ==========================================
+   TABLET
+========================================== */
+
+@media (max-width: 900px) {
+
+    .main {
+        padding: 36px 28px;
+    }
+
+    .wishlistCard {
+        gap: 18px;
+    }
+
+    .imageWrapper {
+        flex-basis: 160px;
+
+        width: 160px;
+        height: 125px;
+    }
+
+    .actions {
+        flex-basis: 125px;
+    }
+
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 700px) {
+
+    .main {
+        padding: 28px 18px;
+    }
+
+    .title {
+        font-size: 1.65rem;
+    }
+
+    .wishlistCard {
+        align-items: stretch;
+        flex-wrap: wrap;
+
+        padding: 14px;
+
+        gap: 16px;
+    }
+
+    .imageWrapper {
+        flex: 0 0 120px;
+
+        width: 120px;
+        height: 105px;
+    }
+
+    .info {
+        flex: 1;
+    }
+
+    .name {
+        font-size: 1.05rem;
+        white-space: normal;
+    }
+
+    .details {
+        flex-direction: column;
+        gap: 3px;
+    }
+
+    .actions {
+        flex: 1 1 100%;
+
+        flex-direction: row;
+    }
+
+    .viewButton,
+    .removeButton {
+        flex: 1;
+    }
+
+}
+
+
+/* ==========================================
+   SMALL MOBILE
+========================================== */
+
+@media (max-width: 430px) {
+
+    .main {
+        padding: 22px 14px;
+    }
+
+    .header {
+        margin-bottom: 22px;
+    }
+
+    .backLink {
+        margin-bottom: 18px;
+    }
+
+    .title {
+        font-size: 1.45rem;
+    }
+
+    .wishlistCard {
+        gap: 12px;
+    }
+
+    .imageWrapper {
+        flex: 0 0 95px;
+
+        width: 95px;
+        height: 90px;
+
+        padding: 8px;
+    }
+
+    .brand {
+        font-size: 0.68rem;
+    }
+
+    .name {
+        font-size: 0.98rem;
+    }
+
+    .details {
+        font-size: 0.76rem;
+    }
+
+    .rating {
+        margin-top: 8px;
+        font-size: 0.82rem;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+
+    .stateCard {
+        padding: 30px 20px;
+    }
+
+}

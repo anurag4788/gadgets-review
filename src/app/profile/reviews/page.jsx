@@ -7,6 +7,8 @@ import useAuth from "@/hooks/useAuth";
 import userService from "@/services/userService";
 import ReviewItem from "@/components/reviews/ReviewItem";
 
+import styles from "./page.module.css";
+
 export default function MyReviewsPage() {
 
     const {
@@ -14,14 +16,9 @@ export default function MyReviewsPage() {
         loading: authLoading,
     } = useAuth();
 
-    const [reviews, setReviews] =
-        useState([]);
-
-    const [loading, setLoading] =
-        useState(true);
-
-    const [error, setError] =
-        useState("");
+    const [reviews, setReviews] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
 
 
     // ==========================================
@@ -40,12 +37,10 @@ export default function MyReviewsPage() {
             setError("");
 
             const response =
-                await userService.getReviews(
-                    user.id
-                );
+                await userService.getReviews(user.id);
 
             setReviews(
-                response.data.data
+                response.data.data || []
             );
 
         } catch (error) {
@@ -70,22 +65,20 @@ export default function MyReviewsPage() {
 
 
     // ==========================================
-    // LOAD REVIEWS WHEN USER IS AVAILABLE
+    // LOAD REVIEWS
     // ==========================================
 
     useEffect(() => {
 
-        if (user?.id) {
-
+        if (!authLoading && user?.id) {
             loadReviews();
-
-        } else if (!authLoading) {
-
-            setLoading(false);
-
         }
 
-    }, [user?.id, authLoading]);
+        if (!authLoading && !user) {
+            setLoading(false);
+        }
+
+    }, [authLoading, user?.id]);
 
 
     // ==========================================
@@ -95,7 +88,9 @@ export default function MyReviewsPage() {
     if (authLoading) {
 
         return (
-            <main>
+            <main className={styles.pageState}>
+
+                <div className={styles.loader} />
 
                 <p>
                     Loading...
@@ -114,19 +109,26 @@ export default function MyReviewsPage() {
     if (!user) {
 
         return (
-            <main>
+            <main className={styles.pageState}>
 
-                <h1>
-                    My Reviews
-                </h1>
+                <div className={styles.stateCard}>
 
-                <p>
-                    Please login to view your reviews.
-                </p>
+                    <h1>
+                        My Reviews
+                    </h1>
 
-                <Link href="/login">
-                    Login
-                </Link>
+                    <p>
+                        Please login to view your reviews.
+                    </p>
+
+                    <Link
+                        href="/login"
+                        className={styles.primaryButton}
+                    >
+                        Login
+                    </Link>
+
+                </div>
 
             </main>
         );
@@ -141,11 +143,9 @@ export default function MyReviewsPage() {
     if (loading) {
 
         return (
-            <main>
+            <main className={styles.pageState}>
 
-                <h1>
-                    My Reviews
-                </h1>
+                <div className={styles.loader} />
 
                 <p>
                     Loading your reviews...
@@ -164,22 +164,27 @@ export default function MyReviewsPage() {
     if (error) {
 
         return (
-            <main>
+            <main className={styles.pageState}>
 
-                <h1>
-                    My Reviews
-                </h1>
+                <div className={styles.stateCard}>
 
-                <p>
-                    {error}
-                </p>
+                    <h1>
+                        My Reviews
+                    </h1>
 
-                <button
-                    type="button"
-                    onClick={loadReviews}
-                >
-                    Try Again
-                </button>
+                    <p className={styles.error}>
+                        {error}
+                    </p>
+
+                    <button
+                        type="button"
+                        onClick={loadReviews}
+                        className={styles.primaryButton}
+                    >
+                        Try Again
+                    </button>
+
+                </div>
 
             </main>
         );
@@ -193,41 +198,75 @@ export default function MyReviewsPage() {
 
     return (
 
-        <main>
+        <main className={styles.main}>
 
-            <Link href="/profile">
-                ← Back to Profile
-            </Link>
+            {/* ==================================
+                HEADER
+            ================================== */}
 
+            <div className={styles.header}>
 
-            <h1>
-                My Reviews
-            </h1>
+                <Link
+                    href="/profile"
+                    className={styles.backLink}
+                >
+                    ← Back to Profile
+                </Link>
 
+                <div>
 
-            <p>
-                You have written{" "}
-                {reviews.length}{" "}
-                {reviews.length === 1
-                    ? "review"
-                    : "reviews"}.
-            </p>
+                    <p className={styles.eyebrow}>
+                        Your activity
+                    </p>
+
+                    <h1 className={styles.title}>
+                        My Reviews
+                    </h1>
+
+                    <p className={styles.subtitle}>
+
+                        You have written{" "}
+
+                        <strong>
+                            {reviews.length}
+                        </strong>{" "}
+
+                        {reviews.length === 1
+                            ? "review"
+                            : "reviews"}.
+
+                    </p>
+
+                </div>
+
+            </div>
 
 
             {/* ==================================
-                NO REVIEWS
+                EMPTY STATE
             ================================== */}
 
             {reviews.length === 0 && (
 
-                <section>
+                <section className={styles.emptyState}>
+
+                    <div className={styles.emptyIcon}>
+                        ★
+                    </div>
+
+                    <h2>
+                        No reviews yet
+                    </h2>
 
                     <p>
-                        You haven't written
-                        any reviews yet.
+                        You haven't written any reviews yet.
+                        Find a gadget and share your experience.
                     </p>
 
-                    <Link href="/gadgets">
+                    <Link
+                        href="/gadgets"
+                        className={styles.primaryButton}
+                    >
                         Browse Gadgets
                     </Link>
 
@@ -242,38 +281,45 @@ export default function MyReviewsPage() {
 
             {reviews.length > 0 && (
 
-                <section>
+                <section className={styles.reviewsList}>
 
-                    {reviews.map(
-                        (review) => (
+                    {reviews.map((review) => (
 
-                            <ReviewItem
-                                key={review.id}
+                        <article
+                            key={review.id}
+                            className={styles.reviewCard}
+                        >
 
-                                review={{
-                                    ...review,
+                            <div className={styles.reviewContent}>
 
-                                    user: {
-                                        id: user.id,
-                                        name: user.name,
-                                    },
+                                <ReviewItem
+                                    review={{
+                                        ...review,
 
-                                    isLiked:
-                                        review.isLiked ??
-                                        false,
-                                }}
+                                        user: {
+                                            id: user.id,
+                                            name: user.name,
+                                        },
 
-                                onReviewUpdated={
-                                    loadReviews
-                                }
+                                        isLiked:
+                                            review.isLiked ??
+                                            false,
+                                    }}
 
-                                onReviewDeleted={
-                                    loadReviews
-                                }
-                            />
+                                    onReviewUpdated={
+                                        loadReviews
+                                    }
 
-                        )
-                    )}
+                                    onReviewDeleted={
+                                        loadReviews
+                                    }
+                                />
+
+                            </div>
+
+                        </article>
+
+                    ))}
 
                 </section>
 

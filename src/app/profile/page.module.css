@@ -1,0 +1,848 @@
+/* ==========================================
+   MAIN
+========================================== */
+
+.main {
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 28px;
+
+    padding: 48px;
+
+    background:
+        radial-gradient(
+            circle at 15% 0%,
+            #101b33 0%,
+            #0b1120 45%,
+            #0b1120 100%
+        );
+
+    color: #eef3fb;
+
+    font-family:
+        "Inter",
+        "Segoe UI",
+        system-ui,
+        -apple-system,
+        sans-serif;
+}
+
+
+/* ==========================================
+   PAGE HEADER
+========================================== */
+
+.pageHeader {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.eyebrow {
+    margin-bottom: 6px;
+
+    font-size: 0.78rem;
+    font-weight: 700;
+
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+
+    color: #6f9be0;
+}
+
+.title {
+    font-size: 2.2rem;
+    font-weight: 800;
+
+    letter-spacing: -0.02em;
+
+    color: #eef3fb;
+}
+
+.subtitle {
+    margin-top: 8px;
+
+    color: #a9b8d6;
+
+    font-size: 0.95rem;
+}
+
+
+/* ==========================================
+   PROFILE CARD
+========================================== */
+
+.profileCard {
+    width: 100%;
+    max-width: 1200px;
+
+    margin: 0 auto;
+
+    background: #ffffff;
+
+    border: 1px solid #e4edfb;
+
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 8px 20px rgba(59, 130, 246, 0.12);
+}
+
+
+/* ==========================================
+   PROFILE HEADER
+========================================== */
+
+.profileHeader {
+    display: flex;
+    align-items: center;
+
+    gap: 18px;
+
+    padding: 28px;
+
+    border-bottom: 1px solid #e4edfb;
+}
+
+.avatar {
+    width: 68px;
+    height: 68px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #3b82f6,
+            #60a5fa
+        );
+
+    color: #ffffff;
+
+    font-size: 1.6rem;
+    font-weight: 800;
+
+    box-shadow:
+        0 8px 18px rgba(59, 130, 246, 0.25);
+}
+
+.profileIdentity {
+    flex: 1;
+}
+
+.profileIdentity h2 {
+    color: #16233a;
+
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.profileIdentity p {
+    margin-top: 3px;
+
+    color: #6b7b95;
+
+    font-size: 0.9rem;
+}
+
+.editButton {
+    padding: 10px 18px;
+
+    color: #2f6fdb;
+
+    background: #eef4ff;
+
+    border: 1px solid #dce8fb;
+
+    border-radius: 10px;
+
+    font-size: 0.85rem;
+    font-weight: 600;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.editButton:hover {
+    color: #ffffff;
+
+    background: #3b82f6;
+
+    border-color: #3b82f6;
+}
+
+
+/* ==========================================
+   PROFILE DETAILS
+========================================== */
+
+.detailsGrid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 18px;
+
+    padding: 28px;
+}
+
+.detailItem {
+    display: flex;
+    flex-direction: column;
+
+    gap: 6px;
+
+    padding: 18px;
+
+    background: #f7faff;
+
+    border: 1px solid #e4edfb;
+
+    border-radius: 12px;
+}
+
+.detailItem span {
+    color: #7b8ba5;
+
+    font-size: 0.78rem;
+    font-weight: 600;
+
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.detailItem strong {
+    color: #16233a;
+
+    font-size: 0.95rem;
+
+    word-break: break-word;
+}
+
+.role {
+    display: inline-flex;
+
+    width: fit-content;
+
+    padding: 4px 10px;
+
+    color: #2f6fdb !important;
+
+    background: #eaf3ff;
+
+    border-radius: 999px;
+
+    font-size: 0.8rem !important;
+}
+
+
+/* ==========================================
+   EDIT SECTION
+========================================== */
+
+.editSection {
+    padding: 28px;
+}
+
+.editHeader {
+    margin-bottom: 22px;
+}
+
+.editHeader h2 {
+    color: #16233a;
+
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.editHeader p {
+    margin-top: 5px;
+
+    color: #71819b;
+
+    font-size: 0.88rem;
+}
+
+
+/* ==========================================
+   FORM
+========================================== */
+
+.form {
+    display: flex;
+    flex-direction: column;
+
+    gap: 18px;
+
+    max-width: 650px;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+.formGroup label {
+    color: #334155;
+
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.formGroup input {
+    width: 100%;
+
+    padding: 12px 14px;
+
+    color: #16233a;
+
+    background: #f7faff;
+
+    border: 1px solid #dce8fb;
+
+    border-radius: 10px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.formGroup input::placeholder {
+    color: #9db4d6;
+}
+
+.formGroup input:focus {
+    background: #ffffff;
+
+    border-color: #3b82f6;
+
+    box-shadow:
+        0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.formGroup input:disabled {
+    opacity: 0.6;
+
+    cursor: not-allowed;
+}
+
+.formActions {
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 4px;
+}
+
+
+/* ==========================================
+   BUTTONS
+========================================== */
+
+.primaryButton,
+.secondaryButton,
+.cancelButton {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 11px 18px;
+
+    border-radius: 10px;
+
+    font-size: 0.85rem;
+    font-weight: 600;
+
+    transition:
+        transform 0.15s ease,
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.primaryButton {
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #3b82f6,
+            #4d8dee
+        );
+
+    box-shadow:
+        0 4px 12px rgba(59, 130, 246, 0.25);
+}
+
+.primaryButton:hover {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 6px 16px rgba(59, 130, 246, 0.3);
+}
+
+.secondaryButton {
+    color: #2f6fdb;
+
+    background: #eef4ff;
+
+    border: 1px solid #dce8fb;
+}
+
+.secondaryButton:hover {
+    color: #ffffff;
+
+    background: #3b82f6;
+
+    border-color: #3b82f6;
+}
+
+.cancelButton {
+    color: #52627a;
+
+    background: #f5f7fa;
+
+    border: 1px solid #dce2ea;
+}
+
+.cancelButton:hover {
+    background: #e9edf3;
+
+    border-color: #cbd5e1;
+}
+
+.primaryButton:disabled,
+.cancelButton:disabled {
+    opacity: 0.55;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+
+/* ==========================================
+   ACTIVITY
+========================================== */
+
+.activitySection {
+    width: 100%;
+    max-width: 1200px;
+
+    margin: 0 auto;
+}
+
+.sectionHeader {
+    margin-bottom: 16px;
+}
+
+.sectionHeader h2 {
+    color: #eef3fb;
+
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.activityGrid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 18px;
+}
+
+.activityCard {
+    display: flex;
+    align-items: center;
+
+    gap: 16px;
+
+    padding: 22px;
+
+    background: #ffffff;
+
+    border: 1px solid #e4edfb;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 2px 8px rgba(30, 60, 110, 0.05);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.activityCard:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 10px 24px rgba(59, 130, 246, 0.12);
+}
+
+.activityIcon {
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    color: #2f6fdb;
+
+    background: #eef4ff;
+
+    font-size: 1.1rem;
+}
+
+.activityCard strong {
+    display: block;
+
+    color: #16233a;
+
+    font-size: 1.3rem;
+}
+
+.activityCard p {
+    margin-top: 2px;
+
+    color: #71819b;
+
+    font-size: 0.82rem;
+}
+
+
+/* ==========================================
+   LINK CARD
+========================================== */
+
+.linkCard,
+.accountCard {
+    width: 100%;
+    max-width: 1200px;
+
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 24px;
+
+    padding: 26px 28px;
+
+    background: #ffffff;
+
+    border: 1px solid #e4edfb;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 2px 8px rgba(30, 60, 110, 0.05);
+}
+
+.linkCard h2,
+.accountCard h2 {
+    color: #16233a;
+
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.linkCard > div > p:last-child {
+    margin-top: 5px;
+
+    color: #71819b;
+
+    font-size: 0.88rem;
+}
+
+
+/* ==========================================
+   ACCOUNT
+========================================== */
+
+.joined {
+    display: flex;
+    flex-direction: column;
+
+    align-items: flex-end;
+
+    gap: 5px;
+}
+
+.joined span {
+    color: #7b8ba5;
+
+    font-size: 0.78rem;
+}
+
+.joined strong {
+    color: #16233a;
+
+    font-size: 0.9rem;
+}
+
+
+/* ==========================================
+   MESSAGES
+========================================== */
+
+.success {
+    width: 100%;
+    max-width: 1200px;
+
+    margin: 0 auto;
+
+    padding: 12px 16px;
+
+    color: #15803d;
+
+    background: #f0fdf4;
+
+    border: 1px solid #bbf7d0;
+
+    border-radius: 10px;
+
+    font-size: 0.88rem;
+    font-weight: 500;
+}
+
+.error {
+    padding: 12px 16px;
+
+    color: #b91c1c;
+
+    background: #fef2f2;
+
+    border: 1px solid #fecaca;
+
+    border-radius: 10px;
+
+    font-size: 0.88rem;
+    font-weight: 500;
+}
+
+
+/* ==========================================
+   PAGE STATE
+========================================== */
+
+.pageState {
+    min-height: 70vh;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+
+    text-align: center;
+
+    padding: 30px;
+
+    background:
+        radial-gradient(
+            circle at 15% 0%,
+            #101b33 0%,
+            #0b1120 45%,
+            #0b1120 100%
+        );
+
+    color: #eef3fb;
+}
+
+.pageState h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.pageState p {
+    color: #a9b8d6;
+}
+
+.emptyIcon {
+    width: 58px;
+    height: 58px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #3b82f6,
+            #60a5fa
+        );
+
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.loader {
+    width: 42px;
+    height: 42px;
+
+    border: 3px solid #1e293f;
+
+    border-top-color: #3b82f6;
+
+    border-radius: 50%;
+
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 1024px) {
+
+    .main {
+        padding: 36px 32px;
+    }
+
+}
+
+
+@media (max-width: 768px) {
+
+    .main {
+        padding: 28px 20px;
+
+        gap: 22px;
+    }
+
+    .title {
+        font-size: 1.8rem;
+    }
+
+    .profileHeader {
+        padding: 22px;
+
+        align-items: flex-start;
+
+        flex-wrap: wrap;
+    }
+
+    .editButton {
+        width: 100%;
+    }
+
+    .detailsGrid {
+        grid-template-columns: 1fr;
+
+        padding: 22px;
+    }
+
+    .editSection {
+        padding: 22px;
+    }
+
+    .activityGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .linkCard,
+    .accountCard {
+        padding: 22px;
+
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .secondaryButton {
+        width: 100%;
+    }
+
+    .joined {
+        align-items: flex-start;
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .main {
+        padding: 22px 16px;
+    }
+
+    .title {
+        font-size: 1.6rem;
+    }
+
+    .subtitle {
+        font-size: 0.88rem;
+    }
+
+    .profileHeader {
+        gap: 14px;
+    }
+
+    .avatar {
+        width: 56px;
+        height: 56px;
+
+        font-size: 1.3rem;
+    }
+
+    .profileIdentity h2 {
+        font-size: 1.05rem;
+    }
+
+    .profileIdentity p {
+        font-size: 0.8rem;
+    }
+
+    .formActions {
+        flex-direction: column;
+    }
+
+    .formActions button {
+        width: 100%;
+    }
+
+    .activityCard {
+        padding: 18px;
+    }
+
+}

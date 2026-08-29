@@ -1,23 +1,18 @@
 "use client";
 
-import {
-    useEffect,
-    useState,
-} from "react";
-
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 import wishlistService from "@/services/wishlistService";
 
-import {
-    useAuth,
-} from "@/context/AuthContext";
+import { useAuth } from "@/context/AuthContext";
+
+import styles from "./page.module.css";
 
 
 export default function WishlistPage() {
 
-    const { user } =
-        useAuth();
+    const { user } = useAuth();
 
 
     // ==========================================
@@ -43,10 +38,13 @@ export default function WishlistPage() {
 
     async function loadWishlist() {
 
+        if (!user) {
+            return;
+        }
+
         try {
 
             setLoading(true);
-
             setError("");
 
             const response =
@@ -90,7 +88,7 @@ export default function WishlistPage() {
 
 
     // ==========================================
-    // LOAD ON USER CHANGE
+    // LOAD WHEN USER CHANGES
     // ==========================================
 
     useEffect(() => {
@@ -102,28 +100,22 @@ export default function WishlistPage() {
         } else {
 
             setWishlist([]);
-
             setLoading(false);
 
         }
 
-    }, [user]);
+    }, [user?.id]);
 
 
     // ==========================================
     // REMOVE FROM WISHLIST
     // ==========================================
 
-    async function handleRemove(
-        gadgetId
-    ) {
+    async function handleRemove(gadgetId) {
 
         try {
 
-            setRemovingId(
-                gadgetId
-            );
-
+            setRemovingId(gadgetId);
             setError("");
 
             await wishlistService.remove(
@@ -172,20 +164,31 @@ export default function WishlistPage() {
 
         return (
 
-            <main>
+            <main className={styles.pageState}>
 
-                <h1>
-                    My Wishlist ❤️
-                </h1>
+                <div className={styles.stateCard}>
 
-                <p>
-                    Please login to view your
-                    wishlist.
-                </p>
+                    <div className={styles.stateIcon}>
+                        ❤️
+                    </div>
 
-                <Link href="/login">
-                    Login
-                </Link>
+                    <h1>
+                        My Wishlist
+                    </h1>
+
+                    <p>
+                        Please login to view your
+                        wishlist.
+                    </p>
+
+                    <Link
+                        href="/login"
+                        className={styles.primaryButton}
+                    >
+                        Login
+                    </Link>
+
+                </div>
 
             </main>
 
@@ -202,14 +205,12 @@ export default function WishlistPage() {
 
         return (
 
-            <main>
+            <main className={styles.pageState}>
 
-                <h1>
-                    My Wishlist ❤️
-                </h1>
+                <div className={styles.loader} />
 
                 <p>
-                    Loading wishlist...
+                    Loading your wishlist...
                 </p>
 
             </main>
@@ -223,26 +224,38 @@ export default function WishlistPage() {
     // ERROR
     // ==========================================
 
-    if (error && wishlist.length === 0) {
+    if (
+        error &&
+        wishlist.length === 0
+    ) {
 
         return (
 
-            <main>
+            <main className={styles.pageState}>
 
-                <h1>
-                    My Wishlist ❤️
-                </h1>
+                <div className={styles.stateCard}>
 
-                <p>
-                    {error}
-                </p>
+                    <div className={styles.stateIcon}>
+                        ⚠️
+                    </div>
 
-                <button
-                    type="button"
-                    onClick={loadWishlist}
-                >
-                    Try Again
-                </button>
+                    <h1>
+                        My Wishlist
+                    </h1>
+
+                    <p className={styles.error}>
+                        {error}
+                    </p>
+
+                    <button
+                        type="button"
+                        onClick={loadWishlist}
+                        className={styles.primaryButton}
+                    >
+                        Try Again
+                    </button>
+
+                </div>
 
             </main>
 
@@ -259,19 +272,32 @@ export default function WishlistPage() {
 
         return (
 
-            <main>
+            <main className={styles.pageState}>
 
-                <h1>
-                    My Wishlist ❤️
-                </h1>
+                <div className={styles.stateCard}>
 
-                <p>
-                    Your wishlist is empty.
-                </p>
+                    <div className={styles.stateIcon}>
+                        ❤️
+                    </div>
 
-                <Link href="/gadgets">
-                    Browse Gadgets
-                </Link>
+                    <h1>
+                        Your Wishlist is Empty
+                    </h1>
+
+                    <p>
+                        Save your favorite gadgets
+                        here so you can easily find
+                        them later.
+                    </p>
+
+                    <Link
+                        href="/gadgets"
+                        className={styles.primaryButton}
+                    >
+                        Browse Gadgets
+                    </Link>
+
+                </div>
 
             </main>
 
@@ -281,179 +307,268 @@ export default function WishlistPage() {
 
 
     // ==========================================
-    // UI
+    // PAGE
     // ==========================================
 
     return (
 
-        <main>
+        <main className={styles.main}>
 
-            <h1>
-                My Wishlist ❤️
-            </h1>
+            {/* ==================================
+                HEADER
+            ================================== */}
 
-            <p>
-                {wishlist.length}{" "}
-                {wishlist.length === 1
-                    ? "gadget"
-                    : "gadgets"
-                }{" "}
-                saved
-            </p>
+            <header className={styles.header}>
 
+                <Link
+                    href="/gadgets"
+                    className={styles.backLink}
+                >
+                    ← Back to Gadgets
+                </Link>
+
+                <div>
+
+                    <p className={styles.eyebrow}>
+                        Your saved gadgets
+                    </p>
+
+                    <h1 className={styles.title}>
+                        My Wishlist ❤️
+                    </h1>
+
+                    <p className={styles.subtitle}>
+
+                        {wishlist.length}{" "}
+
+                        {wishlist.length === 1
+                            ? "gadget"
+                            : "gadgets"}
+
+                        {" "}saved
+
+                    </p>
+
+                </div>
+
+            </header>
+
+
+            {/* ==================================
+                ERROR
+            ================================== */}
 
             {error && (
 
-                <p>
+                <div className={styles.errorBanner}>
                     {error}
-                </p>
+                </div>
 
             )}
 
 
             {/* ==================================
-                WISHLIST GRID
+                WISHLIST
             ================================== */}
 
-            <section>
+            <section className={styles.wishlistList}>
 
-                {wishlist.map(
-                    (item) => {
+                {wishlist.map((item) => {
 
-                        const gadget =
-                            item.gadget;
+                    const gadget =
+                        item.gadget;
 
-                        return (
+                    if (!gadget) {
+                        return null;
+                    }
 
-                            <article
-                                key={item.id}
+
+                    return (
+
+                        <article
+                            key={item.id}
+                            className={styles.wishlistCard}
+                        >
+
+                            {/* IMAGE */}
+
+                            <div
+                                className={
+                                    styles.imageWrapper
+                                }
                             >
 
-                                {/* IMAGE */}
-
-                                {gadget.image && (
+                                {gadget.image ? (
 
                                     <img
-                                        src={
-                                            gadget.image
-                                        }
-                                        alt={
-                                            gadget.name
+                                        src={gadget.image}
+                                        alt={gadget.name}
+                                        className={
+                                            styles.image
                                         }
                                     />
 
+                                ) : (
+
+                                    <div
+                                        className={
+                                            styles.noImage
+                                        }
+                                    >
+                                        No Image
+                                    </div>
+
                                 )}
 
+                            </div>
 
-                                {/* NAME */}
 
-                                <h2>
+                            {/* INFORMATION */}
+
+                            <div className={styles.info}>
+
+                                {gadget.brand && (
+
+                                    <p
+                                        className={
+                                            styles.brand
+                                        }
+                                    >
+                                        {gadget.brand.name}
+                                    </p>
+
+                                )}
+
+                                <h2
+                                    className={
+                                        styles.name
+                                    }
+                                >
                                     {gadget.name}
                                 </h2>
 
 
-                                {/* MODEL */}
+                                <div
+                                    className={
+                                        styles.details
+                                    }
+                                >
 
-                                {gadget.model && (
+                                    {gadget.model && (
 
-                                    <p>
-                                        Model:{" "}
-                                        {gadget.model}
-                                    </p>
+                                        <span>
+                                            <strong>
+                                                Model:
+                                            </strong>{" "}
+                                            {gadget.model}
+                                        </span>
 
-                                )}
+                                    )}
 
+                                    {gadget.category && (
 
-                                {/* BRAND */}
+                                        <span>
+                                            <strong>
+                                                Category:
+                                            </strong>{" "}
+                                            {
+                                                gadget
+                                                    .category
+                                                    .name
+                                            }
+                                        </span>
 
-                                {gadget.brand && (
+                                    )}
 
-                                    <p>
-                                        Brand:{" "}
+                                    {gadget.releaseYear && (
 
-                                        {gadget.brand.name}
+                                        <span>
+                                            <strong>
+                                                Released:
+                                            </strong>{" "}
+                                            {
+                                                gadget
+                                                    .releaseYear
+                                            }
+                                        </span>
 
-                                    </p>
+                                    )}
 
-                                )}
-
-
-                                {/* CATEGORY */}
-
-                                {gadget.category && (
-
-                                    <p>
-                                        Category:{" "}
-
-                                        {
-                                            gadget
-                                                .category
-                                                .name
-                                        }
-
-                                    </p>
-
-                                )}
+                                </div>
 
 
                                 {/* RATING */}
 
-                                <p>
-
-                                    ⭐{" "}
-
-                                    {gadget.avgRating
-                                        ? Number(
-                                            gadget.avgRating
-                                        ).toFixed(1)
-                                        : "No rating"
+                                <div
+                                    className={
+                                        styles.rating
                                     }
+                                >
 
-                                </p>
+                                    <span>
+                                        ⭐
+                                    </span>
 
-
-                                {/* ACTIONS */}
-
-                                <div>
-
-                                    <Link
-                                        href={`/gadgets/${gadget.slug}`}
-                                    >
-                                        View Gadget
-                                    </Link>
-
-
-                                    <button
-                                        type="button"
-                                        onClick={() =>
-                                            handleRemove(
-                                                gadget.id
-                                            )
-                                        }
-                                        disabled={
-                                            removingId ===
-                                            gadget.id
-                                        }
-                                    >
-
-                                        {removingId ===
-                                        gadget.id
-
-                                            ? "Removing..."
-
-                                            : "Remove"
-                                        }
-
-                                    </button>
+                                    <strong>
+                                        {gadget.avgRating
+                                            ? Number(
+                                                gadget.avgRating
+                                            ).toFixed(1)
+                                            : "No rating"}
+                                    </strong>
 
                                 </div>
 
-                            </article>
+                            </div>
 
-                        );
 
-                    }
-                )}
+                            {/* ACTIONS */}
+
+                            <div
+                                className={
+                                    styles.actions
+                                }
+                            >
+
+                                <Link
+                                    href={`/gadgets/${gadget.slug}`}
+                                    className={
+                                        styles.viewButton
+                                    }
+                                >
+                                    View Gadget
+                                </Link>
+
+                                <button
+                                    type="button"
+                                    onClick={() =>
+                                        handleRemove(
+                                            gadget.id
+                                        )
+                                    }
+                                    disabled={
+                                        removingId ===
+                                        gadget.id
+                                    }
+                                    className={
+                                        styles.removeButton
+                                    }
+                                >
+
+                                    {removingId ===
+                                    gadget.id
+                                        ? "Removing..."
+                                        : "Remove"}
+
+                                </button>
+
+                            </div>
+
+                        </article>
+
+                    );
+
+                })}
 
             </section>
 

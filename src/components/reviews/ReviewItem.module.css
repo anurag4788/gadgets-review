@@ -1,0 +1,348 @@
+/* ==========================================
+   PAGE
+========================================== */
+
+.main {
+    min-height: 100vh;
+    padding: 48px;
+    background: radial-gradient(
+        circle at 15% 0%,
+        #eaf3ff 0%,
+        #f7fbff 45%,
+        #ffffff 100%
+    );
+
+    font-family:
+        "Inter",
+        "Segoe UI",
+        system-ui,
+        -apple-system,
+        sans-serif;
+
+    color: #16233a;
+}
+
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.header {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    max-width: 1000px;
+    margin: 0 auto 32px;
+}
+
+.backLink {
+    width: fit-content;
+
+    color: #2f6fdb;
+    text-decoration: none;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.backLink:hover {
+    color: #1d5fc4;
+    text-decoration: underline;
+}
+
+.eyebrow {
+    margin: 0 0 6px;
+
+    font-size: 0.75rem;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+
+    color: #6f9be0;
+}
+
+.title {
+    margin: 0;
+
+    font-size: 2rem;
+    font-weight: 800;
+
+    color: #16233a;
+}
+
+.subtitle {
+    margin-top: 8px;
+
+    font-size: 0.95rem;
+    color: #52627a;
+}
+
+
+/* ==========================================
+   REVIEWS LIST
+========================================== */
+
+.reviewsList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+
+/* ==========================================
+   HORIZONTAL REVIEW CARD
+========================================== */
+
+.reviewCard {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 20px 24px;
+
+    background: #ffffff;
+
+    border: 1px solid #e4edfb;
+    border-radius: 16px;
+
+    box-shadow:
+        0 3px 10px rgba(30, 60, 110, 0.06);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.reviewCard:hover {
+    transform: translateY(-2px);
+
+    border-color: #cfe2ff;
+
+    box-shadow:
+        0 10px 24px rgba(59, 130, 246, 0.12);
+}
+
+
+/* ==========================================
+   EMPTY STATE
+========================================== */
+
+.emptyState {
+    max-width: 600px;
+    margin: 60px auto;
+
+    padding: 40px 30px;
+
+    text-align: center;
+
+    background: #ffffff;
+
+    border: 1px solid #e4edfb;
+    border-radius: 18px;
+
+    box-shadow:
+        0 6px 20px rgba(30, 60, 110, 0.07);
+}
+
+.emptyIcon {
+    width: 52px;
+    height: 52px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0 auto 16px;
+
+    border-radius: 50%;
+
+    background: #eef4ff;
+
+    color: #3b82f6;
+
+    font-size: 1.4rem;
+}
+
+.emptyState h2 {
+    margin: 0 0 8px;
+
+    font-size: 1.3rem;
+    color: #16233a;
+}
+
+.emptyState p {
+    margin: 0 0 22px;
+
+    color: #66758c;
+    line-height: 1.6;
+}
+
+
+/* ==========================================
+   BUTTON
+========================================== */
+
+.primaryButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 10px 18px;
+
+    color: #ffffff;
+    background: #3b82f6;
+
+    border: none;
+    border-radius: 10px;
+
+    text-decoration: none;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.primaryButton:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+}
+
+
+/* ==========================================
+   ERROR
+========================================== */
+
+.error {
+    padding: 12px 16px;
+
+    color: #b42318;
+    background: #fff1f0;
+
+    border: 1px solid #ffd5d2;
+    border-radius: 10px;
+}
+
+
+/* ==========================================
+   PAGE STATES
+========================================== */
+
+.pageState {
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 16px;
+
+    padding: 30px;
+
+    background: radial-gradient(
+        circle at 15% 0%,
+        #eaf3ff 0%,
+        #f7fbff 45%,
+        #ffffff 100%
+    );
+
+    color: #16233a;
+}
+
+.stateCard {
+    width: min(500px, 100%);
+    box-sizing: border-box;
+
+    padding: 32px;
+
+    text-align: center;
+
+    background: #ffffff;
+
+    border: 1px solid #e4edfb;
+    border-radius: 18px;
+
+    box-shadow:
+        0 8px 24px rgba(30, 60, 110, 0.08);
+}
+
+.stateCard h1 {
+    margin-top: 0;
+}
+
+
+/* ==========================================
+   LOADER
+========================================== */
+
+.loader {
+    width: 32px;
+    height: 32px;
+
+    border: 3px solid #dce8fb;
+    border-top-color: #3b82f6;
+
+    border-radius: 50%;
+
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 768px) {
+
+    .main {
+        padding: 32px 20px;
+    }
+
+    .header {
+        margin-bottom: 24px;
+    }
+
+    .title {
+        font-size: 1.6rem;
+    }
+
+    .reviewCard {
+        padding: 18px;
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .main {
+        padding: 24px 16px;
+    }
+
+    .title {
+        font-size: 1.4rem;
+    }
+
+    .reviewCard {
+        padding: 16px;
+        border-radius: 14px;
+    }
+
+}

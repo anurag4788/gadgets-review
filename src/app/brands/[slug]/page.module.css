@@ -1,0 +1,656 @@
+/* ==========================================
+   PAGE
+========================================== */
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    padding: 48px;
+
+    background:
+        radial-gradient(
+            circle at 15% 0%,
+            #101b33 0%,
+            #0b1120 45%,
+            #0b1120 100%
+        );
+
+    color: #eef3fb;
+
+    font-family:
+        "Inter",
+        "Segoe UI",
+        system-ui,
+        -apple-system,
+        sans-serif;
+
+    padding-bottom: 96px;
+}
+
+
+/* ==========================================
+   PAGE STATES
+========================================== */
+
+.pageState {
+    min-height: 70vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 14px;
+
+    padding: 32px;
+
+    text-align: center;
+
+    background:
+        radial-gradient(
+            circle at 15% 0%,
+            #101b33 0%,
+            #0b1120 45%,
+            #0b1120 100%
+        );
+
+    color: #a9b8d6;
+
+    font-family:
+        "Inter",
+        "Segoe UI",
+        system-ui,
+        sans-serif;
+}
+
+.pageState h1 {
+    color: #eef3fb;
+
+    font-size: 1.7rem;
+    font-weight: 700;
+}
+
+.pageState p {
+    color: #a9b8d6;
+}
+
+
+/* ==========================================
+   LOADER
+========================================== */
+
+.loader {
+    width: 42px;
+    height: 42px;
+
+    border-radius: 50%;
+
+    border: 3px solid #1e293f;
+    border-top-color: #3b82f6;
+
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+
+/* ==========================================
+   BACK LINK
+========================================== */
+
+.backLink {
+    width: fit-content;
+
+    display: inline-flex;
+    align-items: center;
+
+    padding: 8px 14px;
+
+    color: #9fc2ff;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    border-radius: 999px;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.backLink:hover {
+    background: #16233f;
+    color: #ffffff;
+}
+
+
+/* ==========================================
+   BRAND INFORMATION
+========================================== */
+
+.brandSection {
+    display: flex;
+    align-items: center;
+
+    gap: 40px;
+
+    padding: 40px;
+
+    background: #ffffff;
+
+    border: 1px solid #e4edfb;
+    border-radius: 22px;
+
+    box-shadow:
+        0 12px 30px rgba(59, 130, 246, 0.12);
+}
+
+
+/* ==========================================
+   LOGO
+========================================== */
+
+.logoWrapper {
+    width: 150px;
+    height: 150px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    border-radius: 24px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #eaf3ff,
+            #f7fbff
+        );
+
+    border: 1px solid #dce8fb;
+}
+
+.logo {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+}
+
+.noLogo {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #3b82f6,
+            #93c5fd
+        );
+
+    color: #ffffff;
+
+    font-size: 3rem;
+    font-weight: 800;
+}
+
+
+/* ==========================================
+   BRAND CONTENT
+========================================== */
+
+.brandInfo {
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+
+    max-width: 720px;
+}
+
+.eyebrow {
+    margin: 0;
+
+    color: #6f9be0;
+
+    font-size: 0.78rem;
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+}
+
+.title {
+    margin: 0;
+
+    color: #16233a;
+
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+
+    line-height: 1.15;
+
+    letter-spacing: -0.02em;
+}
+
+.description {
+    max-width: 650px;
+
+    color: #52627a;
+
+    font-size: 1rem;
+
+    line-height: 1.7;
+}
+
+
+/* ==========================================
+   WEBSITE BUTTON
+========================================== */
+
+.websiteButton {
+    width: fit-content;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 8px;
+
+    padding: 11px 18px;
+
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #3b82f6,
+            #2563eb
+        );
+
+    border-radius: 10px;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    box-shadow:
+        0 5px 14px rgba(59, 130, 246, 0.25);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.websiteButton:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(59, 130, 246, 0.35);
+}
+
+
+/* ==========================================
+   GADGETS SECTION
+========================================== */
+
+.gadgetsSection {
+    display: flex;
+    flex-direction: column;
+
+    gap: 28px;
+}
+
+.sectionHeader {
+    display: flex;
+
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 16px;
+
+    padding-bottom: 16px;
+
+    border-bottom: 1px solid #1e293f;
+}
+
+.sectionTitle {
+    margin-top: 5px;
+
+    color: #eef3fb;
+
+    font-size: 1.7rem;
+    font-weight: 750;
+}
+
+.count {
+    flex-shrink: 0;
+
+    padding: 6px 14px;
+
+    color: #a7c8ff;
+
+    background: #16233f;
+
+    border: 1px solid #263a61;
+
+    border-radius: 999px;
+
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+
+/* ==========================================
+   GADGET GRID
+========================================== */
+
+.gadgetGrid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fill,
+            minmax(220px, 1fr)
+        );
+
+    gap: 24px;
+}
+
+
+/* ==========================================
+   GADGET CARD
+========================================== */
+
+.gadgetCard {
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+
+    background: #ffffff;
+
+    border: 1px solid #e4edfb;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 2px 8px rgba(30, 60, 110, 0.05);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.gadgetCard:hover {
+    transform: translateY(-6px);
+
+    border-color: #cfe2ff;
+
+    box-shadow:
+        0 16px 32px rgba(59, 130, 246, 0.15);
+}
+
+
+/* ==========================================
+   GADGET IMAGE
+========================================== */
+
+.imageWrapper {
+    width: 100%;
+
+    aspect-ratio: 4 / 3;
+
+    padding: 14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #eaf3ff,
+            #f7fbff
+        );
+
+    overflow: hidden;
+}
+
+.gadgetImage {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+}
+
+.noImage {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #9db4d6;
+
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+
+/* ==========================================
+   GADGET CONTENT
+========================================== */
+
+.gadgetContent {
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+
+    padding: 18px;
+}
+
+.gadgetName {
+    margin: 0;
+
+    color: #16233a;
+
+    font-size: 1.05rem;
+    font-weight: 700;
+
+    line-height: 1.35;
+}
+
+.gadgetDetail {
+    margin: 0;
+
+    color: #52627a;
+
+    font-size: 0.86rem;
+}
+
+.gadgetDetail strong {
+    color: #334155;
+}
+
+
+/* ==========================================
+   VIEW BUTTON
+========================================== */
+
+.viewButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 10px;
+
+    padding: 10px 14px;
+
+    color: #2f6fdb;
+
+    background: #eef4ff;
+
+    border: 1px solid #dce8fb;
+
+    border-radius: 10px;
+
+    font-size: 0.88rem;
+    font-weight: 600;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.viewButton:hover {
+    background: #3b82f6;
+
+    border-color: #3b82f6;
+
+    color: #ffffff;
+}
+
+
+/* ==========================================
+   EMPTY STATE
+========================================== */
+
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 60px 24px;
+
+    text-align: center;
+
+    background: #ffffff;
+
+    border: 1px solid #e4edfb;
+
+    border-radius: 18px;
+}
+
+.emptyState h3 {
+    color: #16233a;
+
+    font-size: 1.1rem;
+}
+
+.emptyState p {
+    color: #64748b;
+
+    font-size: 0.9rem;
+}
+
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 768px) {
+
+    .container {
+        padding: 28px 20px 64px;
+        gap: 24px;
+    }
+
+    .brandSection {
+        flex-direction: column;
+
+        align-items: center;
+
+        padding: 28px 20px;
+
+        text-align: center;
+
+        gap: 24px;
+    }
+
+    .brandInfo {
+        align-items: center;
+    }
+
+    .logoWrapper {
+        width: 120px;
+        height: 120px;
+    }
+
+    .title {
+        font-size: 2rem;
+    }
+
+    .sectionHeader {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .gadgetGrid {
+        grid-template-columns:
+            repeat(
+                auto-fill,
+                minmax(160px, 1fr)
+            );
+
+        gap: 16px;
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .container {
+        padding: 20px 16px 48px;
+    }
+
+    .brandSection {
+        padding: 24px 16px;
+    }
+
+    .logoWrapper {
+        width: 96px;
+        height: 96px;
+
+        padding: 14px;
+    }
+
+    .noLogo {
+        font-size: 2rem;
+    }
+
+    .title {
+        font-size: 1.7rem;
+    }
+
+    .description {
+        font-size: 0.92rem;
+    }
+
+    .gadgetGrid {
+        grid-template-columns: 1fr;
+    }
+
+}

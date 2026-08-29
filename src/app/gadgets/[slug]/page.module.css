@@ -1,15 +1,14 @@
 /* ==========================================
-   BASE
+   PAGE
 ========================================== */
 
-.main {
+.container {
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    gap: 28px;
+    gap: 32px;
 
-    min-height: 100vh;
-
-    padding: 48px;
+    padding: 40px 48px 80px;
 
     background:
         radial-gradient(
@@ -31,197 +30,519 @@
 
 
 /* ==========================================
-   TITLE
+   LOADING / ERROR / NOT FOUND
 ========================================== */
 
-.title {
-    font-size: 2rem;
-    font-weight: 800;
+.pageState {
+    min-height: 70vh;
 
-    color: #eef3fb;
-
-    letter-spacing: -0.01em;
-}
-
-
-/* ==========================================
-   FILTERS PANEL
-========================================== */
-
-.filters {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    align-items: center;
+    justify-content: center;
 
-    padding: 22px;
+    gap: 14px;
 
-    background: #ffffff;
+    padding: 24px;
 
-    border: 1px solid #e4edfb;
-    border-radius: 18px;
+    text-align: center;
 
-    box-shadow:
-        0 8px 20px rgba(59, 130, 246, 0.12);
+    background:
+        radial-gradient(
+            circle at 15% 0%,
+            #101b33 0%,
+            #0b1120 45%,
+            #0b1120 100%
+        );
+
+    color: #a9b8d6;
+}
+
+.pageState h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #eef3fb;
+}
+
+.pageState p {
+    max-width: 500px;
+    color: #a9b8d6;
+}
+
+.loader,
+.smallLoader {
+    border-radius: 50%;
+    border-style: solid;
+    animation: spin 0.8s linear infinite;
+}
+
+.loader {
+    width: 42px;
+    height: 42px;
+
+    border-width: 3px;
+    border-color: #1e293f;
+    border-top-color: #3b82f6;
+}
+
+.smallLoader {
+    width: 28px;
+    height: 28px;
+
+    border-width: 3px;
+    border-color: #dce8fb;
+    border-top-color: #3b82f6;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 
 /* ==========================================
-   SEARCH
+   BACK LINK
 ========================================== */
 
-.searchForm {
-    display: flex;
-    gap: 12px;
-}
-
-.searchInput {
-    flex: 1;
-
-    padding: 12px 18px;
-
-    font-size: 0.95rem;
-
-    color: #16233a;
-
-    background: #f5f9ff;
-
-    border: 1px solid #e4edfb;
-    border-radius: 999px;
-
-    outline: none;
-
-    transition:
-        border-color 0.2s ease,
-        background 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-.searchInput::placeholder {
-    color: #9db4d6;
-}
-
-.searchInput:focus {
-    border-color: #3b82f6;
-
-    background: #ffffff;
-
-    box-shadow:
-        0 0 0 3px rgba(59, 130, 246, 0.1);
-}
-
-
-/* ==========================================
-   SEARCH BUTTON
-========================================== */
-
-.searchButton {
-    padding: 12px 26px;
+.backLink {
+    width: fit-content;
 
     font-size: 0.9rem;
     font-weight: 600;
 
-    color: #ffffff;
+    color: #8db8ff;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.backLink:hover {
+    color: #60a5fa;
+    transform: translateX(-3px);
+}
+
+
+/* ==========================================
+   GADGET SECTION
+========================================== */
+
+.gadgetSection {
+    display: grid;
+    grid-template-columns: minmax(320px, 0.9fr) minmax(360px, 1.1fr);
+
+    gap: 48px;
+
+    padding: 32px;
+
+    background: #ffffff;
+
+    border: 1px solid #e4edfb;
+    border-radius: 22px;
+
+    box-shadow:
+        0 12px 30px rgba(59, 130, 246, 0.12);
+}
+
+
+/* ==========================================
+   IMAGE
+========================================== */
+
+.imageWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 380px;
+
+    padding: 28px;
 
     background:
         linear-gradient(
             135deg,
-            #3b82f6,
-            #4d8dee
+            #eaf3ff,
+            #f7fbff
         );
 
-    border: none;
-    border-radius: 999px;
+    border-radius: 18px;
 
-    cursor: pointer;
-
-    box-shadow:
-        0 4px 12px rgba(59, 130, 246, 0.3);
-
-    transition:
-        transform 0.15s ease,
-        box-shadow 0.15s ease;
+    overflow: hidden;
 }
 
-.searchButton:hover {
-    transform: translateY(-1px);
+.image {
+    width: 100%;
+    height: 100%;
 
-    box-shadow:
-        0 6px 16px rgba(59, 130, 246, 0.4);
+    max-height: 420px;
+
+    object-fit: contain;
 }
 
-.searchButton:active {
-    transform: translateY(0);
+.noImage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    min-height: 320px;
+
+    color: #9db4d6;
+
+    font-size: 0.95rem;
+    font-weight: 500;
 }
 
 
 /* ==========================================
-   FILTER ROW
+   INFORMATION
 ========================================== */
 
-.filterRow {
+.info {
     display: flex;
+    flex-direction: column;
 
-    flex-wrap: wrap;
+    justify-content: center;
 
+    gap: 14px;
+
+    color: #52627a;
+}
+
+.title {
+    margin-bottom: 8px;
+
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.15;
+
+    font-weight: 800;
+
+    color: #16233a;
+}
+
+.detail {
+    font-size: 0.95rem;
+    line-height: 1.6;
+
+    color: #52627a;
+}
+
+.detail strong {
+    color: #16233a;
+}
+
+.detailLink {
+    color: #2f6fdb;
+    font-weight: 600;
+
+    transition: color 0.2s ease;
+}
+
+.detailLink:hover {
+    color: #2563eb;
+    text-decoration: underline;
+}
+
+
+/* ==========================================
+   RATING
+========================================== */
+
+.rating {
+    display: inline-flex;
     align-items: center;
 
-    gap: 12px;
-}
+    width: fit-content;
 
+    gap: 8px;
 
-/* ==========================================
-   SELECT
-========================================== */
-
-.select {
-    padding: 10px 16px;
-
-    font-size: 0.88rem;
-    font-weight: 500;
+    margin-top: 6px;
+    padding: 8px 14px;
 
     color: #16233a;
 
-    background: #f5f9ff;
+    background: #eef4ff;
 
-    border: 1px solid #e4edfb;
+    border: 1px solid #dce8fb;
     border-radius: 999px;
 
-    outline: none;
-
-    cursor: pointer;
-
-    transition:
-        border-color 0.2s ease,
-        background 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-.select:hover:not(:disabled) {
-    border-color: #cfe2ff;
-
-    background: #ffffff;
-}
-
-.select:focus {
-    border-color: #3b82f6;
-
-    box-shadow:
-        0 0 0 3px rgba(59, 130, 246, 0.1);
-}
-
-.select:disabled {
-    opacity: 0.6;
-
-    cursor: not-allowed;
+    font-size: 0.95rem;
 }
 
 
 /* ==========================================
-   CLEAR BUTTON
+   DESCRIPTION
 ========================================== */
 
-.clearButton {
-    padding: 10px 18px;
+.description {
+    margin-top: 8px;
+
+    max-width: 650px;
+
+    font-size: 0.98rem;
+    line-height: 1.75;
+
+    color: #52627a;
+}
+
+
+/* ==========================================
+   WISHLIST
+========================================== */
+
+.wishlist {
+    display: flex;
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 8px;
+
+    margin-top: 12px;
+}
+
+.wishlistButton,
+.wishlistActive {
+    padding: 11px 18px;
+
+    border-radius: 10px;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.15s ease;
+}
+
+.wishlistButton {
+    color: #2f6fdb;
+
+    background: #eef4ff;
+
+    border: 1px solid #dce8fb;
+}
+
+.wishlistButton:hover {
+    color: #ffffff;
+
+    background: #3b82f6;
+    border-color: #3b82f6;
+
+    transform: translateY(-1px);
+}
+
+.wishlistActive {
+    color: #ffffff;
+
+    background: #dc2626;
+
+    border: 1px solid #dc2626;
+}
+
+.wishlistActive:hover {
+    background: #b91c1c;
+    border-color: #b91c1c;
+}
+
+.wishlistButton:disabled,
+.wishlistActive:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.wishlistError {
+    font-size: 0.82rem;
+    color: #dc2626;
+}
+
+
+/* ==========================================
+   REVIEWS SECTION
+========================================== */
+
+.reviewsSection {
+    display: flex;
+    flex-direction: column;
+
+    gap: 24px;
+
+    padding: 32px;
+
+    background: #ffffff;
+
+    border: 1px solid #e4edfb;
+    border-radius: 22px;
+
+    box-shadow:
+        0 8px 24px rgba(59, 130, 246, 0.08);
+}
+
+
+/* ==========================================
+   REVIEWS HEADER
+========================================== */
+
+.reviewsHeader {
+    display: flex;
+
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 16px;
+
+    padding-bottom: 16px;
+
+    border-bottom: 1px solid #e4edfb;
+}
+
+.eyebrow {
+    margin-bottom: 5px;
+
+    font-size: 0.78rem;
+    font-weight: 600;
+
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+
+    color: #6f9be0;
+}
+
+.reviewsTitle {
+    font-size: 1.7rem;
+    font-weight: 750;
+
+    color: #16233a;
+}
+
+.reviewCount {
+    padding: 6px 13px;
+
+    font-size: 0.82rem;
+    font-weight: 600;
+
+    color: #2f6fdb;
+
+    background: #eef4ff;
+
+    border: 1px solid #dce8fb;
+    border-radius: 999px;
+}
+
+
+/* ==========================================
+   REVIEW ERRORS
+========================================== */
+
+.reviewsError {
+    padding: 12px 16px;
+
+    color: #b91c1c;
+
+    background: #fff1f2;
+
+    border: 1px solid #fecdd3;
+    border-radius: 10px;
+
+    font-size: 0.9rem;
+}
+
+
+/* ==========================================
+   REVIEW LOADING
+========================================== */
+
+.reviewsLoading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+
+    padding: 32px;
+
+    color: #64748b;
+}
+
+
+/* ==========================================
+   EMPTY REVIEWS
+========================================== */
+
+.emptyReviews {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    padding: 48px 20px;
+
+    text-align: center;
+
+    background: #f7fbff;
+
+    border: 1px dashed #cfe2ff;
+    border-radius: 14px;
+}
+
+.emptyReviews p {
+    font-size: 1rem;
+    font-weight: 600;
+
+    color: #16233a;
+}
+
+.emptyReviews span {
+    font-size: 0.88rem;
+
+    color: #64748b;
+}
+
+
+/* ==========================================
+   REVIEWS LIST
+========================================== */
+
+.reviewsList {
+    display: flex;
+    flex-direction: column;
+
+    gap: 16px;
+}
+
+
+/* ==========================================
+   PAGINATION
+========================================== */
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 16px;
+
+    padding-top: 8px;
+}
+
+.pagination span {
+    font-size: 0.88rem;
+    font-weight: 500;
+
+    color: #64748b;
+}
+
+.pagination button {
+    padding: 9px 18px;
 
     font-size: 0.85rem;
     font-weight: 600;
@@ -241,126 +562,15 @@
         border-color 0.2s ease;
 }
 
-.clearButton:hover {
-    background: #3b82f6;
-
-    border-color: #3b82f6;
-
-    color: #ffffff;
-}
-
-
-/* ==========================================
-   RESULT COUNT
-========================================== */
-
-.resultCount {
-    font-size: 0.9rem;
-
-    font-weight: 500;
-
-    color: #a9b8d6;
-}
-
-
-/* ==========================================
-   ERROR
-========================================== */
-
-.error {
-    padding: 14px 18px;
-
-    font-size: 0.9rem;
-    font-weight: 500;
-
-    color: #f28b8b;
-
-    background: #2a1418;
-
-    border: 1px solid #4a2830;
-
-    border-radius: 12px;
-}
-
-
-/* ==========================================
-   GADGET GRID
-========================================== */
-
-.gadgetGrid {
-    display: grid;
-
-    grid-template-columns:
-        repeat(
-            auto-fill,
-            minmax(220px, 1fr)
-        );
-
-    gap: 24px;
-}
-
-
-/* ==========================================
-   PAGINATION
-========================================== */
-
-.pagination {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 16px;
-
-    margin-top: 12px;
-}
-
-.pagination span {
-    font-size: 0.88rem;
-
-    font-weight: 500;
-
-    color: #a9b8d6;
-}
-
-.pagination button {
-    padding: 9px 18px;
-
-    font-size: 0.85rem;
-    font-weight: 600;
-
-    color: #eef3fb;
-
-    background: #16233f;
-
-    border: 1px solid #2c3e63;
-
-    border-radius: 999px;
-
-    cursor: pointer;
-
-    transition:
-        background 0.2s ease,
-        border-color 0.2s ease,
-        transform 0.15s ease;
-}
-
 .pagination button:hover:not(:disabled) {
-    background: #1c2c4e;
+    color: #ffffff;
 
+    background: #3b82f6;
     border-color: #3b82f6;
-
-    transform: translateY(-1px);
-}
-
-.pagination button:active:not(:disabled) {
-    transform: translateY(0);
 }
 
 .pagination button:disabled {
     opacity: 0.4;
-
     cursor: not-allowed;
 }
 
@@ -369,106 +579,83 @@
    RESPONSIVE
 ========================================== */
 
-@media (max-width: 1024px) {
+@media (max-width: 900px) {
 
-    .main {
-        padding: 36px 32px;
+    .container {
+        padding: 32px 24px 64px;
+    }
+
+    .gadgetSection {
+        grid-template-columns: 1fr;
+
+        gap: 32px;
+
+        padding: 24px;
+    }
+
+    .imageWrapper {
+        min-height: 320px;
     }
 
 }
 
-
-/* ==========================================
-   TABLET / MOBILE
-========================================== */
 
 @media (max-width: 768px) {
 
-    .main {
-        padding: 28px 20px;
+    .container {
+        gap: 24px;
+        padding: 28px 20px 56px;
+    }
 
-        gap: 20px;
+    .gadgetSection,
+    .reviewsSection {
+        padding: 20px;
+        border-radius: 18px;
     }
 
     .title {
-        font-size: 1.6rem;
+        font-size: 2rem;
     }
 
-    .searchForm {
+    .reviewsHeader {
+        align-items: flex-start;
         flex-direction: column;
-    }
-
-    .searchButton {
-        width: 100%;
-    }
-
-    .filterRow {
-        gap: 10px;
-    }
-
-    .select,
-    .clearButton {
-        flex: 1 1 calc(50% - 5px);
-    }
-
-    .gadgetGrid {
-        grid-template-columns:
-            repeat(
-                auto-fill,
-                minmax(160px, 1fr)
-            );
-
-        gap: 16px;
     }
 
 }
 
 
-/* ==========================================
-   SMALL MOBILE
-========================================== */
+@media (max-width: 480px) {
 
-@media (max-width: 420px) {
-
-    .main {
-        padding: 20px 16px;
+    .container {
+        padding: 22px 16px 48px;
     }
 
-    .title {
-        font-size: 1.4rem;
-    }
-
-    .filters {
+    .gadgetSection,
+    .reviewsSection {
         padding: 16px;
     }
 
-    .searchInput {
-        padding: 11px 15px;
+    .imageWrapper {
+        min-height: 240px;
+        padding: 18px;
     }
 
-    .searchButton {
-        padding: 11px 20px;
+    .title {
+        font-size: 1.7rem;
     }
 
-    .select,
-    .clearButton {
-        flex: 1 1 100%;
+    .description {
+        font-size: 0.92rem;
     }
 
-    .gadgetGrid {
-        grid-template-columns:
-            repeat(
-                2,
-                minmax(0, 1fr)
-            );
-
-        gap: 12px;
+    .wishlistButton,
+    .wishlistActive {
+        width: 100%;
     }
 
     .pagination {
         flex-wrap: wrap;
-
-        gap: 10px;
     }
 
 }

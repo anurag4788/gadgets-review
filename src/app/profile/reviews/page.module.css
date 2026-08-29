@@ -1,0 +1,299 @@
+.main {
+    min-height: 100vh;
+    padding: 48px;
+    background:
+        radial-gradient(
+            circle at 15% 0%,
+            #101b33 0%,
+            #0b1120 45%,
+            #0b1120 100%
+        );
+    color: #eef3fb;
+    font-family:
+        "Inter",
+        "Segoe UI",
+        system-ui,
+        -apple-system,
+        sans-serif;
+}
+
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.backLink {
+    display: inline-flex;
+    margin-bottom: 28px;
+
+    color: #8db8ff;
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    transition: color 0.2s ease;
+}
+
+.backLink:hover {
+    color: #ffffff;
+}
+
+.title {
+    margin-bottom: 8px;
+
+    font-size: 2rem;
+    font-weight: 800;
+    color: #eef3fb;
+}
+
+.subtitle {
+    margin-bottom: 32px;
+
+    color: #a9b8d6;
+    font-size: 0.95rem;
+}
+
+
+/* ==========================================
+   REVIEWS LIST
+========================================== */
+
+.reviewsSection {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    width: 100%;
+    max-width: 1000px;
+}
+
+
+/* ==========================================
+   REVIEW ROW
+
+   ReviewItem itself becomes the rectangular
+   white review card.
+========================================== */
+
+.reviewsSection > * {
+    width: 100%;
+
+    background: #ffffff;
+    border: 1px solid #e4edfb;
+    border-radius: 16px;
+
+    box-shadow:
+        0 3px 12px rgba(30, 60, 110, 0.06);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.reviewsSection > *:hover {
+    transform: translateY(-2px);
+
+    border-color: #cfe2ff;
+
+    box-shadow:
+        0 10px 24px rgba(59, 130, 246, 0.10);
+}
+
+
+/* ==========================================
+   EMPTY STATE
+========================================== */
+
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 240px;
+    padding: 40px;
+
+    text-align: center;
+
+    background: #ffffff;
+    border: 1px solid #e4edfb;
+    border-radius: 18px;
+
+    box-shadow:
+        0 6px 20px rgba(30, 60, 110, 0.07);
+}
+
+.emptyState p {
+    margin-bottom: 16px;
+
+    color: #52627a;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.browseLink {
+    padding: 10px 20px;
+
+    color: #ffffff;
+    background: #3b82f6;
+
+    border-radius: 10px;
+
+    font-size: 0.88rem;
+    font-weight: 600;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.browseLink:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+}
+
+
+/* ==========================================
+   ERROR
+========================================== */
+
+.errorState {
+    max-width: 900px;
+
+    padding: 18px 20px;
+
+    color: #f28b8b;
+    background: #2a1418;
+
+    border: 1px solid #4a2830;
+    border-radius: 12px;
+}
+
+.retryButton {
+    margin-top: 12px;
+    padding: 9px 18px;
+
+    color: #ffffff;
+    background: #dc2626;
+
+    border-radius: 9px;
+
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+
+/* ==========================================
+   LOADING
+========================================== */
+
+.loadingState {
+    min-height: 60vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 14px;
+
+    color: #a9b8d6;
+}
+
+.loader {
+    width: 40px;
+    height: 40px;
+
+    border: 3px solid #1e293f;
+    border-top-color: #3b82f6;
+
+    border-radius: 50%;
+
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* ==========================================
+   AUTH STATE
+========================================== */
+
+.authState {
+    min-height: 70vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+}
+
+.authState h1 {
+    margin-bottom: 10px;
+}
+
+.authState p {
+    margin-bottom: 20px;
+    color: #a9b8d6;
+}
+
+.loginLink {
+    padding: 10px 22px;
+
+    color: #ffffff;
+    background: #3b82f6;
+
+    border-radius: 10px;
+
+    font-weight: 600;
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 768px) {
+
+    .main {
+        padding: 30px 20px;
+    }
+
+    .title {
+        font-size: 1.65rem;
+    }
+
+    .reviewsSection {
+        gap: 12px;
+    }
+
+    .reviewsSection > * {
+        border-radius: 14px;
+    }
+}
+
+
+@media (max-width: 480px) {
+
+    .main {
+        padding: 24px 16px;
+    }
+
+    .title {
+        font-size: 1.45rem;
+    }
+
+    .subtitle {
+        font-size: 0.88rem;
+    }
+
+    .emptyState {
+        padding: 28px 20px;
+    }
+}
